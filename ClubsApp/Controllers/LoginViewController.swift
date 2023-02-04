@@ -207,7 +207,7 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.8) {
+        UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .white
             textField.layer.borderWidth = 1
             textField.layer.borderColor = UIColor.systemGray2.cgColor
@@ -215,7 +215,7 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        UIView.animate(withDuration: 0.8) {
+        UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .systemGray6
             textField.layer.borderWidth = 0
         }
@@ -224,5 +224,4 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
-    
 }
