@@ -6,5 +6,6 @@ target 'ClubsApp' do
   use_frameworks!
 
   # Pods for ClubsApp
+pod 'SnapKit' 
 
 end
