@@ -83,6 +83,8 @@ class LoginViewController: UIViewController {
         textField.leftViewMode = .always
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
+        textField.keyboardType = .emailAddress
+        textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
 
         return textField
@@ -98,6 +100,7 @@ class LoginViewController: UIViewController {
         doLayout()
         addTargetToLabels()
         setDelegates()
+        dismissKeyboardByTapOnView()
     }
     
     
@@ -192,14 +195,19 @@ class LoginViewController: UIViewController {
                 self.signInLabel.textColor = .systemGray2
                 self.signUpLabel.textColor = .black
             }
-            
         }
     }
+    
+    private func dismissKeyboardByTapOnView() {
+        let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        self.view.addGestureRecognizer(gestureRecogn)
+    }
+    
 }
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 1.0) {
+        UIView.animate(withDuration: 0.8) {
             textField.backgroundColor = .white
             textField.layer.borderWidth = 1
             textField.layer.borderColor = UIColor.systemGray2.cgColor
@@ -207,9 +215,14 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        UIView.animate(withDuration: 1.0) {
+        UIView.animate(withDuration: 0.8) {
             textField.backgroundColor = .systemGray6
             textField.layer.borderWidth = 0
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
 }
