@@ -207,8 +207,9 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        textField.backgroundColor = .systemGray6
-        textField.layer.borderWidth = 0
+        UIView.animate(withDuration: 1.0) {
+            textField.backgroundColor = .systemGray6
+            textField.layer.borderWidth = 0
+        }
     }
-    
 }
