@@ -74,11 +74,15 @@ class LoginViewController: UIViewController {
     
     var signInEmailTextField: UITextField = {
         let textField = UITextField()
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.attributedPlaceholder = NSAttributedString(
             string: "howareyou@good.com",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
         )
-        textField.backgroundColor = .systemGray2
+        textField.leftView = leftView
+        textField.leftViewMode = .always
+        textField.backgroundColor = .systemGray6
+        textField.tintColor = .black
         textField.layer.cornerRadius = 8
 
         return textField
@@ -93,12 +97,17 @@ class LoginViewController: UIViewController {
         addSubViews()
         doLayout()
         addTargetToLabels()
+        setDelegates()
     }
     
     
     private func titleSettings() {
         navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "Добро пожаловать"
+    }
+    
+    private func setDelegates() {
+        signInEmailTextField.delegate = self
     }
     
     private func addSubViews() {
@@ -186,4 +195,20 @@ class LoginViewController: UIViewController {
             
         }
     }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 1.0) {
+            textField.backgroundColor = .white
+            textField.layer.borderWidth = 1
+            textField.layer.borderColor = UIColor.systemGray2.cgColor
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        textField.backgroundColor = .systemGray6
+        textField.layer.borderWidth = 0
+    }
+    
 }

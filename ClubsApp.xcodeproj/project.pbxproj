@@ -99,7 +99,6 @@
 				41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */,
 				9CCCA3A98D74A8756CABA274 /* Pods-ClubsApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
