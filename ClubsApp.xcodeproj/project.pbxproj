@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593799DA298D4AAA007845F5 /* LoginViewController.swift */; };
+		595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */; };
 		598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E6298D1B1000EFCA0C /* AppDelegate.swift */; };
 		598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */; };
 		598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77EA298D1B1000EFCA0C /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		593799DA298D4AAA007845F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubLoginViewController.swift; sourceTree = "<group>"; };
 		598A77E3298D1B1000EFCA0C /* ClubsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClubsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598A77E6298D1B1000EFCA0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,9 +49,18 @@
 		593799D9298D4A5C007845F5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				593799DA298D4AAA007845F5 /* LoginViewController.swift */,
+				595B5BC5298FCEBF00122B78 /* LoginRegisterViewControllers */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		595B5BC5298FCEBF00122B78 /* LoginRegisterViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				593799DA298D4AAA007845F5 /* LoginViewController.swift */,
+				595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */,
+			);
+			path = LoginRegisterViewControllers;
 			sourceTree = "<group>";
 		};
 		598A77DA298D1B1000EFCA0C = {
@@ -221,6 +232,7 @@
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
 				598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */,
 				598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */,
+				595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

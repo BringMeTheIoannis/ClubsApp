@@ -202,7 +202,6 @@ class LoginViewController: UIViewController {
         let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         self.view.addGestureRecognizer(gestureRecogn)
     }
-    
 }
 
 extension LoginViewController: UITextFieldDelegate {
