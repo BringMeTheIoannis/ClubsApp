@@ -10,14 +10,14 @@ import SnapKit
 
 class SubLoginViewController: UIViewController {
     
-    var emailTextField: UITextField = {
+    lazy var emailTextField: UITextField = {
         let textField = UITextField()
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.attributedPlaceholder = NSAttributedString(
             string: "howareyou@good.com",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
         )
-        textField.leftView = leftView
+        textField.leftView = leftViewForEmailField
         textField.leftViewMode = .always
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
@@ -27,24 +27,15 @@ class SubLoginViewController: UIViewController {
         return textField
     }()
     
-    var passTextField: UITextField = {
-        let rightViewWidth = 40
-        let rightViewHight = 40
-        let imageHeight = 24
-        let imageWidth = 24
+    lazy var passTextField: UITextField = {
         let textField = UITextField()
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: rightViewWidth, height: rightViewHight))
-        let rightViewImage = UIImageView(frame: CGRect(x: 0, y: (rightViewHight - imageHeight) / 2, width: imageWidth, height: imageHeight))
-        rightViewImage.image = UIImage(named: "hidePassImage")
         textField.attributedPlaceholder = NSAttributedString(
             string: "Пароль",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
         )
-        textField.leftView = leftView
+        textField.leftView = leftViewForPassField
         textField.leftViewMode = .always
-        textField.rightView = rightView
-        textField.rightView?.addSubview(rightViewImage)
+        textField.rightView = rightViewForPassword
         textField.rightViewMode = .always
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
@@ -52,6 +43,28 @@ class SubLoginViewController: UIViewController {
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
+    }()
+    
+    var leftViewForPassField: UIView = {
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        return leftView
+    }()
+    
+    var leftViewForEmailField: UIView = {
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        return leftView
+    }()
+    
+    var rightViewForPassword: UIView = {
+        let rightViewWidth = 40
+        let rightViewHight = 40
+        let imageHeight = 24
+        let imageWidth = 24
+        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: rightViewHight, height: rightViewHight))
+        let rightImageView = UIImageView(frame: CGRect(x: 0, y: (rightViewHight - imageHeight) / 2, width: imageWidth, height: imageHeight))
+        rightImageView.image = UIImage(named: "hidePassImage")
+        rightView.addSubview(rightImageView)
+        return rightView
     }()
     
     var forgetPassLabel: UILabel = {
