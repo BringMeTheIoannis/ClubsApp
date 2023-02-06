@@ -10,6 +10,7 @@ import SnapKit
 
 class LoginViewController: UIViewController {
     
+    var isSignInSelected: Bool = true
     
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -72,25 +73,12 @@ class LoginViewController: UIViewController {
         return stack
     }()
     
-    var signInEmailTextField: UITextField = {
-        let textField = UITextField()
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.attributedPlaceholder = NSAttributedString(
-            string: "howareyou@good.com",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
-        )
-        textField.leftView = leftView
-        textField.leftViewMode = .always
-        textField.backgroundColor = .systemGray6
-        textField.tintColor = .black
-        textField.keyboardType = .emailAddress
-        textField.returnKeyType = .done
-        textField.layer.cornerRadius = 8
-
-        return textField
+    lazy var subLoginViewController: UIViewController = {
+        let vc = SubLoginViewController()
+        addChild(vc)
+        vc.didMove(toParent: self)
+        return vc
     }()
-    
-    var isSignInSelected: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +87,6 @@ class LoginViewController: UIViewController {
         addSubViews()
         doLayout()
         addTargetToLabels()
-        setDelegates()
         dismissKeyboardByTapOnView()
     }
     
@@ -108,10 +95,7 @@ class LoginViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "Добро пожаловать"
     }
-    
-    private func setDelegates() {
-        signInEmailTextField.delegate = self
-    }
+
     
     private func addSubViews() {
         view.addSubview(scrollView)
@@ -122,9 +106,8 @@ class LoginViewController: UIViewController {
         signInStackView.addArrangedSubview(signInUnderscore)
         signUpStackView.addArrangedSubview(signUpLabel)
         signUpStackView.addArrangedSubview(signUpUnderscore)
-        //signInContents addSubview
-        scrollView.addSubview(signInContentStackView)
-        signInContentStackView.addArrangedSubview(signInEmailTextField)
+        scrollView.addSubview(subLoginViewController.view)
+//        signInContentStackView.addArrangedSubview(subLoginViewController.view)
     }
     
     private func doLayout() {
@@ -159,15 +142,17 @@ class LoginViewController: UIViewController {
             make.width.equalTo((width / 2) - leadingAndTrailingOffset)
         }
         
-        signInContentStackView.snp.makeConstraints { make in
+//        signInContentStackView.snp.makeConstraints { make in
+//            make.leading.equalToSuperview().offset(leadingAndTrailingOffset)
+//            make.trailing.equalToSuperview().offset(-leadingAndTrailingOffset)
+//            make.top.equalTo(signInOrUpStackView.snp.bottom).offset(24)
+//        }
+        
+        subLoginViewController.view.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(leadingAndTrailingOffset)
             make.trailing.equalToSuperview().offset(-leadingAndTrailingOffset)
             make.top.equalTo(signInOrUpStackView.snp.bottom).offset(24)
-        }
-        
-        signInEmailTextField.snp.makeConstraints { make in
-            make.width.equalTo(width - (leadingAndTrailingOffset * 2))
-            make.height.equalTo(50)
+            make.bottom.greaterThanOrEqualTo(view.snp.bottom)
         }
         
     }
@@ -201,26 +186,5 @@ class LoginViewController: UIViewController {
     private func dismissKeyboardByTapOnView() {
         let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         self.view.addGestureRecognizer(gestureRecogn)
-    }
-}
-
-extension LoginViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.6) {
-            textField.backgroundColor = .white
-            textField.layer.borderWidth = 1
-            textField.layer.borderColor = UIColor.systemGray2.cgColor
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        UIView.animate(withDuration: 0.6) {
-            textField.backgroundColor = .systemGray6
-            textField.layer.borderWidth = 0
-        }
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
     }
 }
