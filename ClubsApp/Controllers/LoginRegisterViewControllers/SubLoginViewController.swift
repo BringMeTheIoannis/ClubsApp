@@ -91,6 +91,25 @@ class SubLoginViewController: UIViewController {
         button.layer.cornerRadius = 8
         return button
     }()
+    
+    var confidencialLabelTop: UILabel = {
+        var label = UILabel()
+        label.text = "Нажимая кнопку «Войти», вы принимаете условия"
+        label.numberOfLines = 2
+        label.font = label.font.withSize(13)
+        label.textAlignment = .center
+        label.textColor = .systemGray2
+        return label
+    }()
+    
+    var confidencialLabelBottom: UILabel = {
+        var label = UILabel()
+        label.text = "Политики конфиденциальности"
+        label.font = label.font.withSize(13)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,6 +134,8 @@ class SubLoginViewController: UIViewController {
         view.addSubview(passTextField)
         view.addSubview(forgetPassLabel)
         view.addSubview(signInButton)
+        view.addSubview(confidencialLabelTop)
+        view.addSubview(confidencialLabelBottom)
     }
     
     private func doLayout() {
@@ -140,6 +161,16 @@ class SubLoginViewController: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(forgetPassLabel.snp.bottom).offset(28)
             make.height.equalTo(52)
+        }
+        
+        confidencialLabelTop.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(signInButton.snp.bottom).offset(16)
+        }
+        
+        confidencialLabelBottom.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(confidencialLabelTop.snp.bottom)
         }
         
     }

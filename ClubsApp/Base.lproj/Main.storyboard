@@ -18,22 +18,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Bul-Ae-eAG">
-                                <rect key="frame" x="0.0" y="59" width="393" height="34"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="kklmk" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Ez-7z-4cc">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="kcj-v2-uH4"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsjbfjkds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q33-xd-0OW">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="759"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="0Ez-7z-4cc" firstAttribute="leading" secondItem="Bul-Ae-eAG" secondAttribute="leading" id="VmS-bV-Cbl"/>
-                                    <constraint firstItem="0Ez-7z-4cc" firstAttribute="top" secondItem="Bul-Ae-eAG" secondAttribute="top" id="boi-fh-Q5o"/>
-                                    <constraint firstAttribute="trailing" secondItem="0Ez-7z-4cc" secondAttribute="trailing" id="rnT-ly-LmQ"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
