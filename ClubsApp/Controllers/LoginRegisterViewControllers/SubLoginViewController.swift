@@ -10,6 +10,12 @@ import SnapKit
 
 class SubLoginViewController: UIViewController {
     
+    let passRightViewWidth = 40
+    let passRightViewHight = 40
+    let passRightViewImageHeight = 24
+    let passRightViewImageWidth = 24
+    var isPassHide: Bool = true
+    
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
@@ -26,7 +32,7 @@ class SubLoginViewController: UIViewController {
         textField.layer.cornerRadius = 8
         return textField
     }()
-    
+
     lazy var passTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
@@ -34,11 +40,12 @@ class SubLoginViewController: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
         )
         textField.leftView = leftViewForPassField
-        textField.leftViewMode = .always
         textField.rightView = rightViewForPassword
+        textField.leftViewMode = .always
         textField.rightViewMode = .always
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
+        textField.isSecureTextEntry = true
         textField.keyboardType = .emailAddress
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
@@ -55,16 +62,16 @@ class SubLoginViewController: UIViewController {
         return leftView
     }()
     
-    var rightViewForPassword: UIView = {
-        let rightViewWidth = 40
-        let rightViewHight = 40
-        let imageHeight = 24
-        let imageWidth = 24
-        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: rightViewHight, height: rightViewHight))
-        let rightImageView = UIImageView(frame: CGRect(x: 0, y: (rightViewHight - imageHeight) / 2, width: imageWidth, height: imageHeight))
-        rightImageView.image = UIImage(named: "hidePassImage")
-        rightView.addSubview(rightImageView)
+    lazy var rightViewForPassword: UIView = {
+        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: passRightViewWidth, height: passRightViewHight))
+        rightView.addSubview(passRightViewImageView)
         return rightView
+    }()
+    
+    lazy var passRightViewImageView: UIImageView = {
+        let rightImageView = UIImageView(frame: CGRect(x: 0, y: (passRightViewHight - passRightViewImageHeight) / 2, width: passRightViewImageWidth, height: passRightViewImageHeight))
+        rightImageView.image = UIImage(named: "hidePassImage")
+        return rightImageView
     }()
     
     var forgetPassLabel: UILabel = {
@@ -86,6 +93,7 @@ class SubLoginViewController: UIViewController {
         addSubViews()
         doLayout()
         setDelegates()
+        addTargetToPassRightView()
     }
     
     private func viewAppearanceSetup() {
@@ -120,7 +128,34 @@ class SubLoginViewController: UIViewController {
             make.top.equalTo(emailTextField.snp.bottom).offset(16)
             make.height.equalTo(50)
         }
-        
+    }
+    
+    private func addTargetToPassRightView() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(showHidePass))
+        rightViewForPassword.isUserInteractionEnabled = true
+        rightViewForPassword.addGestureRecognizer(gesture)
+    }
+    
+    @objc private func showHidePass () {
+        isPassHide.toggle()
+        if isPassHide {
+            self.passRightViewImageView.alpha = 0.0
+            passTextField.isSecureTextEntry = true
+            self.passRightViewImageView.image = UIImage(named: "hidePassImage")
+            UIView.animate(withDuration: 0.5) {
+                self.passRightViewImageView.alpha = 1.0
+            }
+            
+        } else {
+            passTextField.isSecureTextEntry = false
+            self.passRightViewImageView.alpha = 0.0
+            self.passRightViewImageView.image = UIImage(systemName: "eye.slash")
+            self.passRightViewImageView.tintColor = .systemGray
+            passRightViewImageView.contentMode = .scaleAspectFit
+            UIView.animate(withDuration: 0.5) {
+                self.passRightViewImageView.alpha = 1.0
+            }
+        }
     }
 }
 
