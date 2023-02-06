@@ -75,7 +75,11 @@ class SubLoginViewController: UIViewController {
     }()
     
     var forgetPassLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
+        label.text = "Забыли пароль?"
+        label.textColor = .systemGray3
+        label.textAlignment = .right
+        label.font = label.font.withSize(13)
         return label
     }()
     
@@ -109,6 +113,7 @@ class SubLoginViewController: UIViewController {
         view.addSubview(mainVerticalStackView)
         mainVerticalStackView.addArrangedSubview(emailTextField)
         mainVerticalStackView.addArrangedSubview(passTextField)
+        mainVerticalStackView.addArrangedSubview(forgetPassLabel)
     }
     
     private func doLayout() {
@@ -128,6 +133,12 @@ class SubLoginViewController: UIViewController {
             make.top.equalTo(emailTextField.snp.bottom).offset(16)
             make.height.equalTo(50)
         }
+        
+        forgetPassLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(passTextField.snp.bottom).offset(8)
+        }
+        
     }
     
     private func addTargetToPassRightView() {
