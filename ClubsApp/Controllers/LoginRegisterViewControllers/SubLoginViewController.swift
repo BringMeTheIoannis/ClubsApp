@@ -83,12 +83,13 @@ class SubLoginViewController: UIViewController {
         return label
     }()
     
-    var mainVerticalStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 12
-        stack.isUserInteractionEnabled = true
-        return stack
+    var signInButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(red: 127/255, green: 5/255, blue: 249/255, alpha: 1.0)
+        button.tintColor = .white
+        button.setTitle("Войти", for: .normal)
+        button.layer.cornerRadius = 8
+        return button
     }()
 
     override func viewDidLoad() {
@@ -110,21 +111,17 @@ class SubLoginViewController: UIViewController {
     }
     
     private func addSubViews() {
-        view.addSubview(mainVerticalStackView)
-        mainVerticalStackView.addArrangedSubview(emailTextField)
-        mainVerticalStackView.addArrangedSubview(passTextField)
-        mainVerticalStackView.addArrangedSubview(forgetPassLabel)
+        view.addSubview(emailTextField)
+        view.addSubview(passTextField)
+        view.addSubview(forgetPassLabel)
+        view.addSubview(signInButton)
     }
     
     private func doLayout() {
-        mainVerticalStackView.snp.makeConstraints { make in
-            // TODO: добавить top к superview!
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide)
-        }
         
         emailTextField.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
+            // TODO: добавить top к superview!
+            make.leading.trailing.top.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(50)
         }
         
@@ -137,6 +134,12 @@ class SubLoginViewController: UIViewController {
         forgetPassLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(passTextField.snp.bottom).offset(8)
+        }
+        
+        signInButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(forgetPassLabel.snp.bottom).offset(28)
+            make.height.equalTo(52)
         }
         
     }
