@@ -92,7 +92,7 @@ class SubLoginViewController: UIViewController {
         return button
     }()
     
-    var confidencialLabelTop: UILabel = {
+    var privacyLabelTop: UILabel = {
         var label = UILabel()
         label.text = "Нажимая кнопку «Войти», вы принимаете условия"
         label.numberOfLines = 2
@@ -102,7 +102,7 @@ class SubLoginViewController: UIViewController {
         return label
     }()
     
-    var confidencialLabelBottom: UILabel = {
+    var privacyLabelBottom: UILabel = {
         var label = UILabel()
         label.text = "Политики конфиденциальности"
         label.font = label.font.withSize(13)
@@ -134,8 +134,8 @@ class SubLoginViewController: UIViewController {
         view.addSubview(passTextField)
         view.addSubview(forgetPassLabel)
         view.addSubview(signInButton)
-        view.addSubview(confidencialLabelTop)
-        view.addSubview(confidencialLabelBottom)
+        view.addSubview(privacyLabelTop)
+        view.addSubview(privacyLabelBottom)
     }
     
     private func doLayout() {
@@ -163,14 +163,14 @@ class SubLoginViewController: UIViewController {
             make.height.equalTo(52)
         }
         
-        confidencialLabelTop.snp.makeConstraints { make in
+        privacyLabelTop.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(signInButton.snp.bottom).offset(16)
         }
         
-        confidencialLabelBottom.snp.makeConstraints { make in
+        privacyLabelBottom.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(confidencialLabelTop.snp.bottom)
+            make.top.equalTo(privacyLabelTop.snp.bottom)
         }
         
     }
