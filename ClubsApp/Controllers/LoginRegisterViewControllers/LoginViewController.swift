@@ -79,6 +79,13 @@ class LoginViewController: UIViewController {
         vc.didMove(toParent: self)
         return vc
     }()
+    
+    lazy var subRegisterViewController: UIViewController = {
+        let vc = SubRegisterViewController()
+        addChild(vc)
+        vc.didMove(toParent: self)
+        return vc
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +114,6 @@ class LoginViewController: UIViewController {
         signUpStackView.addArrangedSubview(signUpLabel)
         signUpStackView.addArrangedSubview(signUpUnderscore)
         scrollView.addSubview(subLoginViewController.view)
-//        signInContentStackView.addArrangedSubview(subLoginViewController.view)
     }
     
     private func doLayout() {
@@ -115,7 +121,7 @@ class LoginViewController: UIViewController {
         let width = view.frame.size.width
         
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.trailing.top.bottom.equalToSuperview()
         }
         
         signInOrUpStackView.snp.makeConstraints { make in
@@ -142,17 +148,11 @@ class LoginViewController: UIViewController {
             make.width.equalTo((width / 2) - leadingAndTrailingOffset)
         }
         
-//        signInContentStackView.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().offset(leadingAndTrailingOffset)
-//            make.trailing.equalToSuperview().offset(-leadingAndTrailingOffset)
-//            make.top.equalTo(signInOrUpStackView.snp.bottom).offset(24)
-//        }
-        
         subLoginViewController.view.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(leadingAndTrailingOffset)
             make.trailing.equalToSuperview().offset(-leadingAndTrailingOffset)
             make.top.equalTo(signInOrUpStackView.snp.bottom).offset(24)
-            make.bottom.greaterThanOrEqualTo(view.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         
     }
@@ -182,6 +182,17 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
+//    private func removeController(controller: UIViewController) {
+//        controller.willMove(toParent: nil)
+//        controller.view.removeFromSuperview()
+//        controller.removeFromParent()
+//    }
+//    
+//    private func addController(controller: UIViewController) {
+//        addChild(controller)
+//        view.addSubview(<#T##view: UIView##UIView#>)
+//    }
     
     private func dismissKeyboardByTapOnView() {
         let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))

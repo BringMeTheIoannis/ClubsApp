@@ -1,14 +1,13 @@
 //
-//  SubLoginViewController.swift
+//  SubRegisterViewController.swift
 //  ClubsApp
 //
-//  Created by Ivan Kuzmenkov on 5.02.23.
+//  Created by Ivan Kuzmenkov on 6.02.23.
 //
 
 import UIKit
-import SnapKit
 
-class SubLoginViewController: UIViewController {
+class SubRegisterViewController: UIViewController {
     
     let passRightViewWidth = 40
     let passRightViewHight = 40
@@ -52,6 +51,25 @@ class SubLoginViewController: UIViewController {
         return textField
     }()
     
+    lazy var repeatPassTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "Повторите пароль",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
+        )
+        textField.leftView = leftViewRepeatPassField
+        textField.rightView = rightViewForRepeatPassword
+        textField.leftViewMode = .always
+        textField.rightViewMode = .always
+        textField.backgroundColor = .systemGray6
+        textField.tintColor = .black
+        textField.isSecureTextEntry = true
+        textField.keyboardType = .emailAddress
+        textField.returnKeyType = .done
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
     var leftViewForPassField: UIView = {
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         return leftView
@@ -62,7 +80,18 @@ class SubLoginViewController: UIViewController {
         return leftView
     }()
     
+    var leftViewRepeatPassField: UIView = {
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        return leftView
+    }()
+    
     lazy var rightViewForPassword: UIView = {
+        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: passRightViewWidth, height: passRightViewHight))
+        rightView.addSubview(passRightViewImageView)
+        return rightView
+    }()
+    
+    lazy var rightViewForRepeatPassword: UIView = {
         let rightView = UIView(frame: CGRect(x: 0, y: 0, width: passRightViewWidth, height: passRightViewHight))
         rightView.addSubview(passRightViewImageView)
         return rightView
@@ -87,7 +116,7 @@ class SubLoginViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 127/255, green: 5/255, blue: 249/255, alpha: 1.0)
         button.tintColor = .white
-        button.setTitle("Войти", for: .normal)
+        button.setTitle("Создать аккаунт", for: .normal)
         button.layer.cornerRadius = 8
         return button
     }()
@@ -132,6 +161,7 @@ class SubLoginViewController: UIViewController {
     private func addSubViews() {
         view.addSubview(emailTextField)
         view.addSubview(passTextField)
+        view.addSubview(repeatPassTextField)
         view.addSubview(forgetPassLabel)
         view.addSubview(signInButton)
         view.addSubview(privacyLabelTop)
@@ -141,7 +171,8 @@ class SubLoginViewController: UIViewController {
     private func doLayout() {
         
         emailTextField.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
+            // TODO: добавить top к superview!
+            make.leading.trailing.top.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(50)
         }
         
@@ -151,10 +182,15 @@ class SubLoginViewController: UIViewController {
             make.height.equalTo(50)
         }
         
+        repeatPassTextField.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(passTextField.snp.bottom).offset(16)
+            make.height.equalTo(50)
+        }
+        
         forgetPassLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(passTextField.snp.bottom).offset(8)
-            make.height.equalTo(16)
+            make.top.equalTo(repeatPassTextField.snp.bottom).offset(8)
         }
         
         signInButton.snp.makeConstraints { make in
@@ -166,14 +202,11 @@ class SubLoginViewController: UIViewController {
         privacyLabelTop.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(signInButton.snp.bottom).offset(16)
-            make.height.equalTo(16)
         }
         
         privacyLabelBottom.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(privacyLabelTop.snp.bottom)
-            make.height.equalTo(16)
-            make.bottom.equalToSuperview()
         }
         
     }
@@ -207,7 +240,7 @@ class SubLoginViewController: UIViewController {
     }
 }
 
-extension SubLoginViewController: UITextFieldDelegate {
+extension SubRegisterViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .white
