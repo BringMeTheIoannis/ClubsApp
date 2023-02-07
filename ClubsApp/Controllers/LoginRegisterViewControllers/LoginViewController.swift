@@ -11,6 +11,8 @@ import SnapKit
 class LoginViewController: UIViewController {
     
     var isSignInSelected: Bool = true
+    let leadingAndTrailingOffset: CGFloat = 16.0
+    lazy var width = view.frame.size.width
     
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -117,8 +119,6 @@ class LoginViewController: UIViewController {
     }
     
     private func doLayout() {
-        let leadingAndTrailingOffset: CGFloat = 16.0
-        let width = view.frame.size.width
         
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()
@@ -154,7 +154,6 @@ class LoginViewController: UIViewController {
             make.top.equalTo(signInOrUpStackView.snp.bottom).offset(24)
             make.bottom.equalToSuperview()
         }
-        
     }
     
     private func addTargetToLabels() {
@@ -167,6 +166,8 @@ class LoginViewController: UIViewController {
     @objc private func switchSigninOrSignup (_ recognizer: UIGestureRecognizer) {
         recognizer.view == signInStackView ? (isSignInSelected = true) : (isSignInSelected = false)
         if isSignInSelected {
+            removeController(controller: subRegisterViewController)
+            addController(controller: subLoginViewController)
             UIView.animate(withDuration: 0.2) {
                 self.signInUnderscore.backgroundColor = .black
                 self.signUpUnderscore.backgroundColor = .clear
@@ -174,6 +175,8 @@ class LoginViewController: UIViewController {
                 self.signUpLabel.textColor = .systemGray2
             }
         } else {
+            removeController(controller: subLoginViewController)
+            addController(controller: subRegisterViewController)
             UIView.animate(withDuration: 0.2) {
                 self.signInUnderscore.backgroundColor = .clear
                 self.signUpUnderscore.backgroundColor = .black
@@ -183,16 +186,25 @@ class LoginViewController: UIViewController {
         }
     }
     
-//    private func removeController(controller: UIViewController) {
-//        controller.willMove(toParent: nil)
-//        controller.view.removeFromSuperview()
-//        controller.removeFromParent()
-//    }
-//    
-//    private func addController(controller: UIViewController) {
-//        addChild(controller)
-//        view.addSubview(<#T##view: UIView##UIView#>)
-//    }
+    private func removeController(controller: UIViewController) {
+        controller.willMove(toParent: nil)
+        controller.view.removeFromSuperview()
+        controller.removeFromParent()
+    }
+    
+    private func addController(controller: UIViewController) {
+        addChild(controller)
+        UIView.transition(with: self.view, duration: 0.3, options: [.transitionCrossDissolve]) {
+            self.scrollView.addSubview(controller.view)
+        }
+        controller.didMove(toParent: self)
+        controller.view.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(leadingAndTrailingOffset)
+            make.trailing.equalToSuperview().offset(-leadingAndTrailingOffset)
+            make.top.equalTo(signInOrUpStackView.snp.bottom).offset(24)
+            make.bottom.equalToSuperview()
+        }
+    }
     
     private func dismissKeyboardByTapOnView() {
         let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))

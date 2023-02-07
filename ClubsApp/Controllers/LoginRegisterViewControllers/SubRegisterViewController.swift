@@ -14,6 +14,7 @@ class SubRegisterViewController: UIViewController {
     let passRightViewImageHeight = 24
     let passRightViewImageWidth = 24
     var isPassHide: Bool = true
+    var isRepeatPassHide: Bool = true
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -45,7 +46,6 @@ class SubRegisterViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
         textField.isSecureTextEntry = true
-        textField.keyboardType = .emailAddress
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
@@ -64,7 +64,6 @@ class SubRegisterViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
         textField.isSecureTextEntry = true
-        textField.keyboardType = .emailAddress
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
@@ -93,11 +92,17 @@ class SubRegisterViewController: UIViewController {
     
     lazy var rightViewForRepeatPassword: UIView = {
         let rightView = UIView(frame: CGRect(x: 0, y: 0, width: passRightViewWidth, height: passRightViewHight))
-        rightView.addSubview(passRightViewImageView)
+        rightView.addSubview(repeatPassRightViewImageView)
         return rightView
     }()
     
     lazy var passRightViewImageView: UIImageView = {
+        let rightImageView = UIImageView(frame: CGRect(x: 0, y: (passRightViewHight - passRightViewImageHeight) / 2, width: passRightViewImageWidth, height: passRightViewImageHeight))
+        rightImageView.image = UIImage(named: "hidePassImage")
+        return rightImageView
+    }()
+    
+    lazy var repeatPassRightViewImageView: UIImageView = {
         let rightImageView = UIImageView(frame: CGRect(x: 0, y: (passRightViewHight - passRightViewImageHeight) / 2, width: passRightViewImageWidth, height: passRightViewImageHeight))
         rightImageView.image = UIImage(named: "hidePassImage")
         return rightImageView
@@ -156,6 +161,7 @@ class SubRegisterViewController: UIViewController {
     private func setDelegates() {
         emailTextField.delegate = self
         passTextField.delegate = self
+        repeatPassTextField.delegate = self
     }
     
     private func addSubViews() {
@@ -171,8 +177,7 @@ class SubRegisterViewController: UIViewController {
     private func doLayout() {
         
         emailTextField.snp.makeConstraints { make in
-            // TODO: добавить top к superview!
-            make.leading.trailing.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.top.equalToSuperview()
             make.height.equalTo(50)
         }
         
@@ -191,6 +196,7 @@ class SubRegisterViewController: UIViewController {
         forgetPassLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(repeatPassTextField.snp.bottom).offset(8)
+            make.height.equalTo(16)
         }
         
         signInButton.snp.makeConstraints { make in
@@ -202,19 +208,24 @@ class SubRegisterViewController: UIViewController {
         privacyLabelTop.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(signInButton.snp.bottom).offset(16)
+            make.height.equalTo(16)
         }
         
         privacyLabelBottom.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(privacyLabelTop.snp.bottom)
+            make.height.equalTo(16)
+            make.bottom.equalToSuperview()
         }
-        
     }
     
     private func addTargetToPassRightView() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(showHidePass))
+        let gestureForPass = UITapGestureRecognizer(target: self, action: #selector(showHidePass))
+        let gestureForPassRepeat = UITapGestureRecognizer(target: self, action: #selector(showHideRepeatPass))
         rightViewForPassword.isUserInteractionEnabled = true
-        rightViewForPassword.addGestureRecognizer(gesture)
+        rightViewForRepeatPassword.isUserInteractionEnabled = true
+        rightViewForPassword.addGestureRecognizer(gestureForPass)
+        rightViewForRepeatPassword.addGestureRecognizer(gestureForPassRepeat)
     }
     
     @objc private func showHidePass () {
@@ -235,6 +246,28 @@ class SubRegisterViewController: UIViewController {
             passRightViewImageView.contentMode = .scaleAspectFit
             UIView.animate(withDuration: 0.5) {
                 self.passRightViewImageView.alpha = 1.0
+            }
+        }
+    }
+    
+    @objc private func showHideRepeatPass () {
+        isRepeatPassHide.toggle()
+        if isRepeatPassHide {
+            self.repeatPassRightViewImageView.alpha = 0.0
+            repeatPassTextField.isSecureTextEntry = true
+            self.repeatPassRightViewImageView.image = UIImage(named: "hidePassImage")
+            UIView.animate(withDuration: 0.5) {
+                self.repeatPassRightViewImageView.alpha = 1.0
+            }
+            
+        } else {
+            self.repeatPassRightViewImageView.alpha = 0.0
+            repeatPassTextField.isSecureTextEntry = false
+            self.repeatPassRightViewImageView.image = UIImage(systemName: "eye.slash")
+            self.repeatPassRightViewImageView.tintColor = .systemGray
+            repeatPassRightViewImageView.contentMode = .scaleAspectFit
+            UIView.animate(withDuration: 0.5) {
+                self.repeatPassRightViewImageView.alpha = 1.0
             }
         }
     }

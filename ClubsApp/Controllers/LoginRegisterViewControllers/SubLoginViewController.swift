@@ -46,7 +46,6 @@ class SubLoginViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
         textField.isSecureTextEntry = true
-        textField.keyboardType = .emailAddress
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
