@@ -290,28 +290,27 @@ class SubRegisterViewController: UIViewController {
     }
     
     @objc private func createUser() {
-        if passTextField.text != repeatPassTextField.text {
-            addErrorTextWithAnimation(errorText: "Ошибка: пароли не одинаковы")
-            errorAlertAnimation(on: errorLabel)
-            return
-        }
         guard let password = passTextField.text,
               let email = emailTextField.text else {
             addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
-            errorAlertAnimation(on: errorLabel)
             return
         }
         if password.isEmpty || email.isEmpty {
             addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
-            errorAlertAnimation(on: errorLabel)
             return
         }
+        if passTextField.text != repeatPassTextField.text {
+            addErrorTextWithAnimation(errorText: "Ошибка: пароли не одинаковы")
+            return
+        }
+        createFirebaseUser(email: email, password: password)
     }
     
-    private func addErrorTextWithAnimation(errorText: String) {
+    private func addErrorTextWithAnimation(errorText: String?) {
         UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {
             self.errorLabel.text = errorText
         }
+        errorAlertAnimation(on: errorLabel)
     }
     
     private func errorAlertAnimation(on view: UIView) {
@@ -324,9 +323,16 @@ class SubRegisterViewController: UIViewController {
         view.layer.add(animation, forKey: "position")
     }
     
-//    private func createFirebaseUser() {
-//        FirebaseAuth.Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passTextField.text)
-//    }
+    private func createFirebaseUser(email: String, password: String) {
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            guard let result = result, error == nil else {
+                self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
+                return
+            }
+            let user = result.user
+            print(user)
+        }
+    }
     
 }
 
