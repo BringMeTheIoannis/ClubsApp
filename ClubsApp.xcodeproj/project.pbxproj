@@ -10,6 +10,7 @@
 		593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593799DA298D4AAA007845F5 /* LoginViewController.swift */; };
 		595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */; };
 		597CDBCC299159C100DDF16E /* SubRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */; };
+		597CDBCE2992680200DDF16E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 597CDBCD2992680200DDF16E /* GoogleService-Info.plist */; };
 		598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E6298D1B1000EFCA0C /* AppDelegate.swift */; };
 		598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */; };
 		598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77EA298D1B1000EFCA0C /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 		593799DA298D4AAA007845F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubLoginViewController.swift; sourceTree = "<group>"; };
 		597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRegisterViewController.swift; sourceTree = "<group>"; };
+		597CDBCD2992680200DDF16E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		598A77E3298D1B1000EFCA0C /* ClubsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClubsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598A77E6298D1B1000EFCA0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 		598A77E5298D1B1000EFCA0C /* ClubsApp */ = {
 			isa = PBXGroup;
 			children = (
+				597CDBCD2992680200DDF16E /* GoogleService-Info.plist */,
 				593799D9298D4A5C007845F5 /* Controllers */,
 				598A77E6298D1B1000EFCA0C /* AppDelegate.swift */,
 				598A77EA298D1B1000EFCA0C /* ViewController.swift */,
@@ -177,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				598A77F3298D1B1400EFCA0C /* LaunchScreen.storyboard in Resources */,
+				597CDBCE2992680200DDF16E /* GoogleService-Info.plist in Resources */,
 				598A77F0298D1B1400EFCA0C /* Assets.xcassets in Resources */,
 				598A77EE298D1B1000EFCA0C /* Main.storyboard in Resources */,
 			);

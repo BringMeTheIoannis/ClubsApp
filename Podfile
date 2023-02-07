@@ -6,6 +6,9 @@ target 'ClubsApp' do
   use_frameworks!
 
   # Pods for ClubsApp
-pod 'SnapKit' 
+pod 'SnapKit'
+pod 'Firebase/AnalyticsWithoutAdIdSupport'
+pod 'FirebaseAuth'
+pod 'FirebaseFirestore'
 
 end

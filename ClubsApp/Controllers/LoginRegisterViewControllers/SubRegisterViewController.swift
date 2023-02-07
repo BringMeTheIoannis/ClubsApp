@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SubRegisterViewController: UIViewController {
     
@@ -117,12 +118,13 @@ class SubRegisterViewController: UIViewController {
         return label
     }()
     
-    var signInButton: UIButton = {
+    lazy var registerButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 127/255, green: 5/255, blue: 249/255, alpha: 1.0)
         button.tintColor = .white
         button.setTitle("Создать аккаунт", for: .normal)
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(createUser), for: .touchUpInside)
         return button
     }()
     
@@ -142,6 +144,14 @@ class SubRegisterViewController: UIViewController {
         label.font = label.font.withSize(13)
         label.textAlignment = .center
         label.textColor = .black
+        return label
+    }()
+    
+    var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = label.font.withSize(13)
+        label.textAlignment = .center
+        label.textColor = .systemRed
         return label
     }()
 
@@ -169,7 +179,8 @@ class SubRegisterViewController: UIViewController {
         view.addSubview(passTextField)
         view.addSubview(repeatPassTextField)
         view.addSubview(forgetPassLabel)
-        view.addSubview(signInButton)
+        view.addSubview(errorLabel)
+        view.addSubview(registerButton)
         view.addSubview(privacyLabelTop)
         view.addSubview(privacyLabelBottom)
     }
@@ -199,15 +210,21 @@ class SubRegisterViewController: UIViewController {
             make.height.equalTo(16)
         }
         
-        signInButton.snp.makeConstraints { make in
+        errorLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(forgetPassLabel.snp.bottom).offset(28)
+            make.top.equalTo(forgetPassLabel.snp.bottom).offset(4)
+            make.height.equalTo(16)
+        }
+        
+        registerButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(errorLabel.snp.bottom).offset(8)
             make.height.equalTo(52)
         }
         
         privacyLabelTop.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(signInButton.snp.bottom).offset(16)
+            make.top.equalTo(registerButton.snp.bottom).offset(16)
             make.height.equalTo(16)
         }
         
@@ -271,6 +288,46 @@ class SubRegisterViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func createUser() {
+        if passTextField.text != repeatPassTextField.text {
+            addErrorTextWithAnimation(errorText: "Ошибка: пароли не одинаковы")
+            errorAlertAnimation(on: errorLabel)
+            return
+        }
+        guard let password = passTextField.text,
+              let email = emailTextField.text else {
+            addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
+            errorAlertAnimation(on: errorLabel)
+            return
+        }
+        if password.isEmpty || email.isEmpty {
+            addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
+            errorAlertAnimation(on: errorLabel)
+            return
+        }
+    }
+    
+    private func addErrorTextWithAnimation(errorText: String) {
+        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {
+            self.errorLabel.text = errorText
+        }
+    }
+    
+    private func errorAlertAnimation(on view: UIView) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: view.center.x - 10, y: view.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: view.center.x + 10, y: view.center.y))
+        view.layer.add(animation, forKey: "position")
+    }
+    
+//    private func createFirebaseUser() {
+//        FirebaseAuth.Auth.auth().createUser(withEmail: emailTextField.text ?? "", password: passTextField.text)
+//    }
+    
 }
 
 extension SubRegisterViewController: UITextFieldDelegate {
