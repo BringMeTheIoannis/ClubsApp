@@ -11,6 +11,9 @@
 		595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */; };
 		597CDBCC299159C100DDF16E /* SubRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */; };
 		597CDBCE2992680200DDF16E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 597CDBCD2992680200DDF16E /* GoogleService-Info.plist */; };
+		597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC0F2993D93B00DDF16E /* Unwrappers.swift */; };
+		597CDC132993F10700DDF16E /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC122993F10700DDF16E /* MainScreenViewController.swift */; };
+		597CDC172993FC9000DDF16E /* ScendeDelegateEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC162993FC9000DDF16E /* ScendeDelegateEnvironment.swift */; };
 		598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E6298D1B1000EFCA0C /* AppDelegate.swift */; };
 		598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */; };
 		598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77EA298D1B1000EFCA0C /* ViewController.swift */; };
@@ -26,6 +29,9 @@
 		595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubLoginViewController.swift; sourceTree = "<group>"; };
 		597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRegisterViewController.swift; sourceTree = "<group>"; };
 		597CDBCD2992680200DDF16E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		597CDC0F2993D93B00DDF16E /* Unwrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unwrappers.swift; sourceTree = "<group>"; };
+		597CDC122993F10700DDF16E /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
+		597CDC162993FC9000DDF16E /* ScendeDelegateEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScendeDelegateEnvironment.swift; sourceTree = "<group>"; };
 		598A77E3298D1B1000EFCA0C /* ClubsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClubsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598A77E6298D1B1000EFCA0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +59,7 @@
 		593799D9298D4A5C007845F5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				597CDC112993F0DC00DDF16E /* MainViewControllers */,
 				595B5BC5298FCEBF00122B78 /* LoginRegisterViewControllers */,
 			);
 			path = Controllers;
@@ -66,6 +73,38 @@
 				597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */,
 			);
 			path = LoginRegisterViewControllers;
+			sourceTree = "<group>";
+		};
+		597CDC0D2993D52700DDF16E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				597CDC0E2993D92D00DDF16E /* Unwrappers */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		597CDC0E2993D92D00DDF16E /* Unwrappers */ = {
+			isa = PBXGroup;
+			children = (
+				597CDC0F2993D93B00DDF16E /* Unwrappers.swift */,
+			);
+			path = Unwrappers;
+			sourceTree = "<group>";
+		};
+		597CDC112993F0DC00DDF16E /* MainViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				597CDC122993F10700DDF16E /* MainScreenViewController.swift */,
+			);
+			path = MainViewControllers;
+			sourceTree = "<group>";
+		};
+		597CDC142993FC7300DDF16E /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				597CDC162993FC9000DDF16E /* ScendeDelegateEnvironment.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 		598A77DA298D1B1000EFCA0C = {
@@ -89,7 +128,8 @@
 		598A77E5298D1B1000EFCA0C /* ClubsApp */ = {
 			isa = PBXGroup;
 			children = (
-				597CDBCD2992680200DDF16E /* GoogleService-Info.plist */,
+				597CDC142993FC7300DDF16E /* Environment */,
+				597CDC0D2993D52700DDF16E /* Extensions */,
 				593799D9298D4A5C007845F5 /* Controllers */,
 				598A77E6298D1B1000EFCA0C /* AppDelegate.swift */,
 				598A77EA298D1B1000EFCA0C /* ViewController.swift */,
@@ -97,6 +137,7 @@
 				598A77EC298D1B1000EFCA0C /* Main.storyboard */,
 				598A77EF298D1B1400EFCA0C /* Assets.xcassets */,
 				598A77F1298D1B1400EFCA0C /* LaunchScreen.storyboard */,
+				597CDBCD2992680200DDF16E /* GoogleService-Info.plist */,
 				598A77F4298D1B1400EFCA0C /* Info.plist */,
 			);
 			path = ClubsApp;
@@ -238,7 +279,10 @@
 				593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */,
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
 				598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */,
+				597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */,
+				597CDC172993FC9000DDF16E /* ScendeDelegateEnvironment.swift in Sources */,
 				598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */,
+				597CDC132993F10700DDF16E /* MainScreenViewController.swift in Sources */,
 				597CDBCC299159C100DDF16E /* SubRegisterViewController.swift in Sources */,
 				595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */,
 			);

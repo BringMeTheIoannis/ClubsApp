@@ -16,6 +16,11 @@ class SubRegisterViewController: UIViewController {
     let passRightViewImageWidth = 24
     var isPassHide: Bool = true
     var isRepeatPassHide: Bool = true
+    var isRegistrationInProgress: Bool = false {
+        didSet {
+            showLoading()
+        }
+    }
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -154,6 +159,14 @@ class SubRegisterViewController: UIViewController {
         label.textColor = .systemRed
         return label
     }()
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+        indicator.alpha = 0.0
+        return indicator
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,6 +196,7 @@ class SubRegisterViewController: UIViewController {
         view.addSubview(registerButton)
         view.addSubview(privacyLabelTop)
         view.addSubview(privacyLabelBottom)
+        registerButton.addSubview(activityIndicator)
     }
     
     private func doLayout() {
@@ -233,6 +247,10 @@ class SubRegisterViewController: UIViewController {
             make.top.equalTo(privacyLabelTop.snp.bottom)
             make.height.equalTo(16)
             make.bottom.equalToSuperview()
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
         }
     }
     
@@ -290,11 +308,8 @@ class SubRegisterViewController: UIViewController {
     }
     
     @objc private func createUser() {
-        guard let password = passTextField.text,
-              let email = emailTextField.text else {
-            addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
-            return
-        }
+        let password = passTextField.text.unwrapped
+        let email = emailTextField.text.unwrapped
         if password.isEmpty || email.isEmpty {
             addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
             return
@@ -324,16 +339,31 @@ class SubRegisterViewController: UIViewController {
     }
     
     private func createFirebaseUser(email: String, password: String) {
+        isRegistrationInProgress = true
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            guard let result = result, error == nil else {
+            guard let _ = result, error == nil else {
+                self.isRegistrationInProgress = false
                 self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
                 return
             }
-            let user = result.user
-            print(user)
+            self.isRegistrationInProgress = false
+            SceneDelegateEnvironment.sceneDelegate?.setMainAsInitial()
         }
     }
     
+    private func showLoading() {
+        if isRegistrationInProgress {
+            registerButton.isEnabled = false
+            registerButton.titleLabel?.alpha = 0.0
+            activityIndicator.alpha = 1.0
+            activityIndicator.startAnimating()
+        } else {
+            registerButton.isEnabled = true
+            activityIndicator.alpha = 0.0
+            registerButton.titleLabel?.alpha = 1.0
+            activityIndicator.stopAnimating()
+        }
+    }
 }
 
 extension SubRegisterViewController: UITextFieldDelegate {
