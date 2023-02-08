@@ -14,6 +14,7 @@
 		597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC0F2993D93B00DDF16E /* Unwrappers.swift */; };
 		597CDC132993F10700DDF16E /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC122993F10700DDF16E /* MainScreenViewController.swift */; };
 		597CDC172993FC9000DDF16E /* ScendeDelegateEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC162993FC9000DDF16E /* ScendeDelegateEnvironment.swift */; };
+		597CDC1C29941FF500DDF16E /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC1B29941FF500DDF16E /* UserAuth.swift */; };
 		598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E6298D1B1000EFCA0C /* AppDelegate.swift */; };
 		598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */; };
 		598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A77EA298D1B1000EFCA0C /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		597CDC0F2993D93B00DDF16E /* Unwrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unwrappers.swift; sourceTree = "<group>"; };
 		597CDC122993F10700DDF16E /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		597CDC162993FC9000DDF16E /* ScendeDelegateEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScendeDelegateEnvironment.swift; sourceTree = "<group>"; };
+		597CDC1B29941FF500DDF16E /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
 		598A77E3298D1B1000EFCA0C /* ClubsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClubsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598A77E6298D1B1000EFCA0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,22 @@
 			path = Environment;
 			sourceTree = "<group>";
 		};
+		597CDC1929941FD700DDF16E /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				597CDC1A29941FE200DDF16E /* Auth */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		597CDC1A29941FE200DDF16E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				597CDC1B29941FF500DDF16E /* UserAuth.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		598A77DA298D1B1000EFCA0C = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +146,7 @@
 		598A77E5298D1B1000EFCA0C /* ClubsApp */ = {
 			isa = PBXGroup;
 			children = (
+				597CDC1929941FD700DDF16E /* Database */,
 				597CDC142993FC7300DDF16E /* Environment */,
 				597CDC0D2993D52700DDF16E /* Extensions */,
 				593799D9298D4A5C007845F5 /* Controllers */,
@@ -276,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				597CDC1C29941FF500DDF16E /* UserAuth.swift in Sources */,
 				593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */,
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
 				598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */,

@@ -21,6 +21,7 @@ class SubRegisterViewController: UIViewController {
             showLoading()
         }
     }
+    var auth: UserAuth = UserAuth()
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -272,7 +273,6 @@ class SubRegisterViewController: UIViewController {
             UIView.animate(withDuration: 0.5) {
                 self.passRightViewImageView.alpha = 1.0
             }
-            
         } else {
             passTextField.isSecureTextEntry = false
             self.passRightViewImageView.alpha = 0.0
@@ -340,14 +340,12 @@ class SubRegisterViewController: UIViewController {
     
     private func createFirebaseUser(email: String, password: String) {
         isRegistrationInProgress = true
-        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            guard let _ = result, error == nil else {
-                self.isRegistrationInProgress = false
-                self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
-                return
-            }
+        auth.registerUser(email: email, password: password) { result in
             self.isRegistrationInProgress = false
             SceneDelegateEnvironment.sceneDelegate?.setMainAsInitial()
+        } failure: { error in
+            self.isRegistrationInProgress = false
+            self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
         }
     }
     
