@@ -160,7 +160,6 @@ class SubRegisterViewController: UIViewController {
         return label
     }()
     
-    
     var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.color = .white
