@@ -15,6 +15,12 @@ class SubLoginViewController: UIViewController {
     let passRightViewImageHeight = 24
     let passRightViewImageWidth = 24
     var isPassHide: Bool = true
+    var isRegistrationInProgress: Bool = false {
+        didSet {
+            showLoading()
+        }
+    }
+    var auth: UserAuth = UserAuth()
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -82,12 +88,13 @@ class SubLoginViewController: UIViewController {
         return label
     }()
     
-    var signInButton: UIButton = {
+    lazy var signInButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 127/255, green: 5/255, blue: 249/255, alpha: 1.0)
         button.tintColor = .white
         button.setTitle("Войти", for: .normal)
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         return button
     }()
     
@@ -108,6 +115,23 @@ class SubLoginViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .black
         return label
+    }()
+    
+    var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = label.font.withSize(13)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.textColor = .systemRed
+        return label
+    }()
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+        indicator.alpha = 0.0
+        return indicator
     }()
 
     override func viewDidLoad() {
@@ -132,9 +156,11 @@ class SubLoginViewController: UIViewController {
         view.addSubview(emailTextField)
         view.addSubview(passTextField)
         view.addSubview(forgetPassLabel)
+        view.addSubview(errorLabel)
         view.addSubview(signInButton)
         view.addSubview(privacyLabelTop)
         view.addSubview(privacyLabelBottom)
+        signInButton.addSubview(activityIndicator)
     }
     
     private func doLayout() {
@@ -156,9 +182,15 @@ class SubLoginViewController: UIViewController {
             make.height.equalTo(16)
         }
         
+        errorLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(forgetPassLabel.snp.bottom).offset(4)
+            make.height.equalTo(32)
+        }
+        
         signInButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(forgetPassLabel.snp.bottom).offset(28)
+            make.top.equalTo(errorLabel.snp.bottom).offset(8)
             make.height.equalTo(52)
         }
         
@@ -173,6 +205,10 @@ class SubLoginViewController: UIViewController {
             make.top.equalTo(privacyLabelTop.snp.bottom)
             make.height.equalTo(16)
             make.bottom.equalToSuperview()
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
         }
         
     }
@@ -202,6 +238,59 @@ class SubLoginViewController: UIViewController {
             UIView.animate(withDuration: 0.5) {
                 self.passRightViewImageView.alpha = 1.0
             }
+        }
+    }
+    
+    @objc private func signIn() {
+        let password = passTextField.text.unwrapped
+        let email = emailTextField.text.unwrapped
+        if password.isEmpty || email.isEmpty {
+            addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
+            return
+        }
+        loginUser(email: email, password: password)
+    }
+    
+    private func loginUser(email: String, password: String) {
+        isRegistrationInProgress = true
+        auth.signIn(email: email, password: password) { result in
+            self.isRegistrationInProgress = false
+            SceneDelegateEnvironment.sceneDelegate?.setMainAsInitial()
+        } failure: { error in
+            self.isRegistrationInProgress = false
+            self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
+        }
+
+    }
+    
+    private func addErrorTextWithAnimation(errorText: String?) {
+        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {
+            self.errorLabel.text = errorText
+        }
+        errorAlertAnimation(on: errorLabel)
+    }
+    
+    private func errorAlertAnimation(on view: UIView) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: view.center.x - 10, y: view.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: view.center.x + 10, y: view.center.y))
+        view.layer.add(animation, forKey: "position")
+    }
+    
+    private func showLoading() {
+        if isRegistrationInProgress {
+            signInButton.isEnabled = false
+            signInButton.titleLabel?.alpha = 0.0
+            activityIndicator.alpha = 1.0
+            activityIndicator.startAnimating()
+        } else {
+            signInButton.isEnabled = true
+            activityIndicator.alpha = 0.0
+            signInButton.titleLabel?.alpha = 1.0
+            activityIndicator.stopAnimating()
         }
     }
 }

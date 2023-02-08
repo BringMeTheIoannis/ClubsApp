@@ -19,4 +19,15 @@ class UserAuth {
             success?(result)
         }
     }
+    
+    func signIn(email: String, password: String, success: ((AuthDataResult) -> Void)?, failure: ((Error?) -> Void)?) {
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            guard let result = result, error == nil else {
+                failure?(error)
+                return
+            }
+            success?(result)
+        }
+    }
+    
 }

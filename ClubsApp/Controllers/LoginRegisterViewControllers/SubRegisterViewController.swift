@@ -156,6 +156,7 @@ class SubRegisterViewController: UIViewController {
     var errorLabel: UILabel = {
         let label = UILabel()
         label.font = label.font.withSize(13)
+        label.numberOfLines = 2
         label.textAlignment = .center
         label.textColor = .systemRed
         return label
@@ -228,7 +229,7 @@ class SubRegisterViewController: UIViewController {
         errorLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(forgetPassLabel.snp.bottom).offset(4)
-            make.height.equalTo(16)
+            make.height.equalTo(32)
         }
         
         registerButton.snp.makeConstraints { make in
@@ -264,7 +265,7 @@ class SubRegisterViewController: UIViewController {
         rightViewForRepeatPassword.addGestureRecognizer(gestureForPassRepeat)
     }
     
-    @objc private func showHidePass () {
+    @objc private func showHidePass() {
         isPassHide.toggle()
         if isPassHide {
             self.passRightViewImageView.alpha = 0.0
@@ -285,7 +286,7 @@ class SubRegisterViewController: UIViewController {
         }
     }
     
-    @objc private func showHideRepeatPass () {
+    @objc private func showHideRepeatPass() {
         isRepeatPassHide.toggle()
         if isRepeatPassHide {
             self.repeatPassRightViewImageView.alpha = 0.0
