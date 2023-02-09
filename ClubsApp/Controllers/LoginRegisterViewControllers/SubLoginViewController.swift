@@ -260,7 +260,6 @@ class SubLoginViewController: UIViewController {
             self.isRegistrationInProgress = false
             self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
         }
-
     }
     
     private func addErrorTextWithAnimation(errorText: String?) {

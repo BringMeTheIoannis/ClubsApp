@@ -257,53 +257,39 @@ class SubRegisterViewController: UIViewController {
     }
     
     private func addTargetToPassRightView() {
-        let gestureForPass = UITapGestureRecognizer(target: self, action: #selector(showHidePass))
-        let gestureForPassRepeat = UITapGestureRecognizer(target: self, action: #selector(showHideRepeatPass))
+        let gestureForPass = UITapGestureRecognizer(target: self, action: #selector(showHide))
+        let gestureForPassRepeat = UITapGestureRecognizer(target: self, action: #selector(showHide))
         rightViewForPassword.isUserInteractionEnabled = true
         rightViewForRepeatPassword.isUserInteractionEnabled = true
         rightViewForPassword.addGestureRecognizer(gestureForPass)
         rightViewForRepeatPassword.addGestureRecognizer(gestureForPassRepeat)
     }
     
-    @objc private func showHidePass() {
-        isPassHide.toggle()
-        if isPassHide {
-            self.passRightViewImageView.alpha = 0.0
-            passTextField.isSecureTextEntry = true
-            self.passRightViewImageView.image = UIImage(named: "hidePassImage")
-            UIView.animate(withDuration: 0.5) {
-                self.passRightViewImageView.alpha = 1.0
-            }
-        } else {
-            passTextField.isSecureTextEntry = false
-            self.passRightViewImageView.alpha = 0.0
-            self.passRightViewImageView.image = UIImage(systemName: "eye.slash")
-            self.passRightViewImageView.tintColor = .systemGray
-            passRightViewImageView.contentMode = .scaleAspectFit
-            UIView.animate(withDuration: 0.5) {
-                self.passRightViewImageView.alpha = 1.0
-            }
+    @objc private func showHide(_ sender: UITapGestureRecognizer) {
+        if sender.view == rightViewForPassword {
+            showHidePassNew(isHide: &isPassHide, rightImageView: passRightViewImageView, textField: passTextField)
+        } else if sender.view == rightViewForRepeatPassword {
+            showHidePassNew(isHide: &isRepeatPassHide, rightImageView: repeatPassRightViewImageView, textField: repeatPassTextField)
         }
     }
     
-    @objc private func showHideRepeatPass() {
-        isRepeatPassHide.toggle()
-        if isRepeatPassHide {
-            self.repeatPassRightViewImageView.alpha = 0.0
-            repeatPassTextField.isSecureTextEntry = true
-            self.repeatPassRightViewImageView.image = UIImage(named: "hidePassImage")
+    private func showHidePassNew(isHide: inout Bool, rightImageView: UIImageView, textField: UITextField) {
+        isHide.toggle()
+        if isHide {
+            rightImageView.alpha = 0.0
+            textField.isSecureTextEntry = true
+            rightImageView.image = UIImage(named: "hidePassImage")
             UIView.animate(withDuration: 0.5) {
-                self.repeatPassRightViewImageView.alpha = 1.0
+                rightImageView.alpha = 1.0
             }
-            
         } else {
-            self.repeatPassRightViewImageView.alpha = 0.0
-            repeatPassTextField.isSecureTextEntry = false
-            self.repeatPassRightViewImageView.image = UIImage(systemName: "eye.slash")
-            self.repeatPassRightViewImageView.tintColor = .systemGray
-            repeatPassRightViewImageView.contentMode = .scaleAspectFit
+            rightImageView.alpha = 0.0
+            textField.isSecureTextEntry = false
+            rightImageView.image = UIImage(systemName: "eye.slash")
+            rightImageView.tintColor = .systemGray
+            rightImageView.contentMode = .scaleAspectFit
             UIView.animate(withDuration: 0.5) {
-                self.repeatPassRightViewImageView.alpha = 1.0
+                rightImageView.alpha = 1.0
             }
         }
     }
