@@ -9,9 +9,10 @@ import Foundation
 import FirebaseAuth
 
 class UserAuth {
+    let auth = FirebaseAuth.Auth.auth()
     
     func registerUser(email: String, password: String, success: ((AuthDataResult) -> Void)?, failure: ((Error?) -> Void)?) {
-        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { result, error in
+        auth.createUser(withEmail: email, password: password) { result, error in
             guard let result = result, error == nil else {
                 failure?(error)
                 return
@@ -21,7 +22,7 @@ class UserAuth {
     }
     
     func signIn(email: String, password: String, success: ((AuthDataResult) -> Void)?, failure: ((Error?) -> Void)?) {
-        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { result, error in
+        auth.signIn(withEmail: email, password: password) { result, error in
             guard let result = result, error == nil else {
                 failure?(error)
                 return
@@ -30,4 +31,13 @@ class UserAuth {
         }
     }
     
+    func resetPassword(email: String, success: ((String) -> Void)? , failure: ((Error) -> Void)?) {
+        auth.sendPasswordReset(withEmail: email) { error in
+            guard let error = error else {
+                success?("Успешно")
+                return
+            }
+            failure?(error)
+        }
+    }
 }

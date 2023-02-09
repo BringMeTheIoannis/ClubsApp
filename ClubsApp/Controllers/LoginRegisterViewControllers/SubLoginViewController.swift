@@ -17,7 +17,7 @@ class SubLoginViewController: UIViewController {
     var isPassHide: Bool = true
     var isRegistrationInProgress: Bool = false {
         didSet {
-            showLoading()
+            showLoadingInsideButton()
         }
     }
     var auth: UserAuth = UserAuth()
@@ -136,14 +136,15 @@ class SubLoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewAppearanceSetup()
+        controllerAppearanceSetup()
         addSubViews()
         doLayout()
         setDelegates()
         addTargetToPassRightView()
+        addTargetToForgotPass()
     }
     
-    private func viewAppearanceSetup() {
+    private func controllerAppearanceSetup() {
         view.backgroundColor = .white
     }
     
@@ -210,7 +211,19 @@ class SubLoginViewController: UIViewController {
         activityIndicator.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
         }
-        
+    }
+    
+    private func addTargetToForgotPass() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(pushToForgetPassScreen))
+        forgetPassLabel.isUserInteractionEnabled = true
+        forgetPassLabel.addGestureRecognizer(gesture)
+    }
+    
+    @objc private func pushToForgetPassScreen() {
+        let vc = ResetPassViewController()
+        let navController = UINavigationController(rootViewController: vc)
+        navController.navigationBar.prefersLargeTitles = true
+        self.present(navController, animated: true)
     }
     
     private func addTargetToPassRightView() {
@@ -284,7 +297,7 @@ class SubLoginViewController: UIViewController {
         view.layer.add(animation, forKey: "position")
     }
     
-    private func showLoading() {
+    private func showLoadingInsideButton() {
         if isRegistrationInProgress {
             signInButton.isEnabled = false
             signInButton.titleLabel?.alpha = 0.0

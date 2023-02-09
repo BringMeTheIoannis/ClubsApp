@@ -18,7 +18,7 @@ class SubRegisterViewController: UIViewController {
     var isRepeatPassHide: Bool = true
     var isRegistrationInProgress: Bool = false {
         didSet {
-            showLoading()
+            showLoadingInsideButton()
         }
     }
     var auth: UserAuth = UserAuth()
@@ -31,6 +31,23 @@ class SubRegisterViewController: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
         )
         textField.leftView = leftViewForEmailField
+        textField.leftViewMode = .always
+        textField.backgroundColor = .systemGray6
+        textField.tintColor = .black
+        textField.keyboardType = .emailAddress
+        textField.returnKeyType = .done
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
+    lazy var nicknameTextField: UITextField = {
+        let textField = UITextField()
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "Name or nickname",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
+        )
+        textField.leftView = leftViewForNicknameField
         textField.leftViewMode = .always
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
@@ -86,6 +103,11 @@ class SubRegisterViewController: UIViewController {
         return leftView
     }()
     
+    var leftViewForNicknameField: UIView = {
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        return leftView
+    }()
+    
     var leftViewRepeatPassField: UIView = {
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         return leftView
@@ -113,15 +135,6 @@ class SubRegisterViewController: UIViewController {
         let rightImageView = UIImageView(frame: CGRect(x: 0, y: (passRightViewHight - passRightViewImageHeight) / 2, width: passRightViewImageWidth, height: passRightViewImageHeight))
         rightImageView.image = UIImage(named: "hidePassImage")
         return rightImageView
-    }()
-    
-    var forgetPassLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Забыли пароль?"
-        label.textColor = .systemGray3
-        label.textAlignment = .right
-        label.font = label.font.withSize(13)
-        return label
     }()
     
     lazy var registerButton: UIButton = {
@@ -172,28 +185,29 @@ class SubRegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewAppearanceSetup()
+        controllerAppearanceSetup()
         addSubViews()
         doLayout()
         setDelegates()
         addTargetToPassRightView()
     }
     
-    private func viewAppearanceSetup() {
+    private func controllerAppearanceSetup() {
         view.backgroundColor = .white
     }
     
     private func setDelegates() {
         emailTextField.delegate = self
+        nicknameTextField.delegate = self
         passTextField.delegate = self
         repeatPassTextField.delegate = self
     }
     
     private func addSubViews() {
         view.addSubview(emailTextField)
+        view.addSubview(nicknameTextField)
         view.addSubview(passTextField)
         view.addSubview(repeatPassTextField)
-        view.addSubview(forgetPassLabel)
         view.addSubview(errorLabel)
         view.addSubview(registerButton)
         view.addSubview(privacyLabelTop)
@@ -208,9 +222,15 @@ class SubRegisterViewController: UIViewController {
             make.height.equalTo(50)
         }
         
-        passTextField.snp.makeConstraints { make in
+        nicknameTextField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(emailTextField.snp.bottom).offset(16)
+            make.height.equalTo(50)
+        }
+        
+        passTextField.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(nicknameTextField.snp.bottom).offset(16)
             make.height.equalTo(50)
         }
         
@@ -220,15 +240,9 @@ class SubRegisterViewController: UIViewController {
             make.height.equalTo(50)
         }
         
-        forgetPassLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(repeatPassTextField.snp.bottom).offset(8)
-            make.height.equalTo(16)
-        }
-        
         errorLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(forgetPassLabel.snp.bottom).offset(4)
+            make.top.equalTo(repeatPassTextField.snp.bottom).offset(8)
             make.height.equalTo(32)
         }
         
@@ -297,8 +311,9 @@ class SubRegisterViewController: UIViewController {
     @objc private func createUser() {
         let password = passTextField.text.unwrapped
         let email = emailTextField.text.unwrapped
-        if password.isEmpty || email.isEmpty {
-            addErrorTextWithAnimation(errorText: "Email и пароль не могут быть пустыми")
+        let nickname = nicknameTextField.text.unwrapped
+        if password.isEmpty || email.isEmpty || nickname.isEmpty {
+            addErrorTextWithAnimation(errorText: "Email, пароль или nickname не могут быть пустыми")
             return
         }
         if passTextField.text != repeatPassTextField.text {
@@ -336,7 +351,7 @@ class SubRegisterViewController: UIViewController {
         }
     }
     
-    private func showLoading() {
+    private func showLoadingInsideButton() {
         if isRegistrationInProgress {
             registerButton.isEnabled = false
             registerButton.titleLabel?.alpha = 0.0
