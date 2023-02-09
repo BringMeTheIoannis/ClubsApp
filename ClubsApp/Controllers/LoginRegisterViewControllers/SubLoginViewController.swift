@@ -219,24 +219,29 @@ class SubLoginViewController: UIViewController {
         rightViewForPassword.addGestureRecognizer(gesture)
     }
     
-    @objc private func showHidePass () {
-        isPassHide.toggle()
-        if isPassHide {
-            self.passRightViewImageView.alpha = 0.0
-            passTextField.isSecureTextEntry = true
-            self.passRightViewImageView.image = UIImage(named: "hidePassImage")
+    @objc private func showHidePass(_ sender: UITapGestureRecognizer) {
+        if sender.view == rightViewForPassword {
+            showHidePassAction(isHide: &isPassHide, rightImageView: passRightViewImageView, textField: passTextField)
+        }
+    }
+    
+    private func showHidePassAction(isHide: inout Bool, rightImageView: UIImageView, textField: UITextField) {
+        isHide.toggle()
+        if isHide {
+            rightImageView.alpha = 0.0
+            textField.isSecureTextEntry = true
+            rightImageView.image = UIImage(named: "hidePassImage")
             UIView.animate(withDuration: 0.5) {
-                self.passRightViewImageView.alpha = 1.0
+                rightImageView.alpha = 1.0
             }
-            
         } else {
-            passTextField.isSecureTextEntry = false
-            self.passRightViewImageView.alpha = 0.0
-            self.passRightViewImageView.image = UIImage(systemName: "eye.slash")
-            self.passRightViewImageView.tintColor = .systemGray
-            passRightViewImageView.contentMode = .scaleAspectFit
+            rightImageView.alpha = 0.0
+            textField.isSecureTextEntry = false
+            rightImageView.image = UIImage(systemName: "eye.slash")
+            rightImageView.tintColor = .systemGray
+            rightImageView.contentMode = .scaleAspectFit
             UIView.animate(withDuration: 0.5) {
-                self.passRightViewImageView.alpha = 1.0
+                rightImageView.alpha = 1.0
             }
         }
     }
