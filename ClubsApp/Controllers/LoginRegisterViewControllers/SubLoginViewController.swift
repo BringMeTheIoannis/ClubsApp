@@ -319,3 +319,21 @@ extension SubLoginViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
     }
 }
+
+//    TODO: addDoneButtonToKeyboard to viewDidLoad if needed
+extension SubLoginViewController {
+    private func addDoneButtonToKeyboard() {
+            let doneToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+            doneToolBar.barStyle = .default
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let doneToolBarItem = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(doneKeyboardButton))
+            doneToolBar.items = [flexSpace, doneToolBarItem]
+            doneToolBar.sizeToFit()
+            emailTextField.inputAccessoryView = doneToolBar
+            passTextField.inputAccessoryView = doneToolBar
+        }
+    
+        @objc private func doneKeyboardButton() {
+            view.endEditing(true)
+        }
+}
