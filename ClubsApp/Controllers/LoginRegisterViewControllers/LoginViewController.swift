@@ -97,6 +97,7 @@ class LoginViewController: UIViewController {
         doLayout()
         addTargetToLabels()
         dismissKeyboardByTapOnView()
+        addObserverForKeyboard()
     }
     
     
@@ -187,6 +188,11 @@ class LoginViewController: UIViewController {
         }
     }
     
+    private func addObserverForKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     private func removeController(controller: UIViewController) {
         controller.willMove(toParent: nil)
         controller.view.removeFromSuperview()
@@ -211,5 +217,28 @@ class LoginViewController: UIViewController {
     private func dismissKeyboardByTapOnView() {
         let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         self.view.addGestureRecognizer(gestureRecogn)
+    }
+}
+
+extension LoginViewController {
+    @objc private func keyBoardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let registerVC = subRegisterViewController as? SubRegisterViewController
+        else { return }
+        guard let activeTextField = registerVC.activeTextField else { return }
+        let bottomOfTextField = activeTextField.convert(activeTextField.bounds, to: view).maxY
+        let topOfKeyboard = view.frame.size.height - keyboardSize.height
+        if bottomOfTextField > topOfKeyboard {
+//            navigationController?.view.frame.origin.y = -keyboardSize.height
+            UIView.animate(withDuration: 0.5) {[weak self] in
+                guard let self else { return }
+                self.navigationController?.view.frame.origin.y = topOfKeyboard - (bottomOfTextField + 10)
+            }
+            
+        }
+    }
+    
+    @objc private func keyBoardWillHide(notification: NSNotification) {
+        navigationController?.view.frame.origin.y = 0
     }
 }

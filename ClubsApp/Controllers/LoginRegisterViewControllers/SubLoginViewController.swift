@@ -166,7 +166,6 @@ class SubLoginViewController: UIViewController {
     }
     
     private func doLayout() {
-        
         emailTextField.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
             make.height.equalTo(50)

@@ -240,7 +240,7 @@ class SubRegisterViewController: UIViewController {
         repeatPassTextField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(passTextField.snp.bottom).offset(16)
-            make.height.equalTo(50)
+            make.height.equalTo(300)
         }
         
         errorLabel.snp.makeConstraints { make in
