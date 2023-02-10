@@ -149,20 +149,23 @@ class ResetPassViewController: UIViewController {
     
     private func resetPassword(email: String) {
         isRegistrationInProgress = true
-        auth.resetPassword(email: email) { successString in
+        auth.resetPassword(email: email) {[weak self] successString in
+            guard let self else { return }
             self.isRegistrationInProgress = false
             self.errorLabel.textColor = .systemGreen
             self.errorLabel.text = successString
             self.addResultTextWithAnimation(errorText: successString)
             self.emailTextField.text = ""
-        } failure: { error in
+        } failure: {[weak self] error in
+            guard let self else { return }
             self.isRegistrationInProgress = false
             self.addResultTextWithAnimation(errorText: error.localizedDescription)
         }
     }
     
     private func addResultTextWithAnimation(errorText: String?) {
-        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {
+        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {[weak self] in
+            guard let self else { return }
             self.errorLabel.text = errorText
         }
         alertAnimation(on: errorLabel)

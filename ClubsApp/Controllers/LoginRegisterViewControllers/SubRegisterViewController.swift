@@ -22,6 +22,7 @@ class SubRegisterViewController: UIViewController {
         }
     }
     var auth: UserAuth = UserAuth()
+    var activeTextField: UITextField?
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -35,6 +36,7 @@ class SubRegisterViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
         textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
@@ -51,7 +53,8 @@ class SubRegisterViewController: UIViewController {
         textField.leftViewMode = .always
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
-        textField.keyboardType = .emailAddress
+        textField.keyboardType = .alphabet
+        textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
@@ -324,7 +327,8 @@ class SubRegisterViewController: UIViewController {
     }
     
     private func addErrorTextWithAnimation(errorText: String?) {
-        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {
+        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {[weak self] in
+            guard let self else { return }
             self.errorLabel.text = errorText
         }
         errorAlertAnimation(on: errorLabel)
@@ -342,10 +346,12 @@ class SubRegisterViewController: UIViewController {
     
     private func createFirebaseUser(email: String, password: String) {
         isRegistrationInProgress = true
-        auth.registerUser(email: email, password: password) { result in
+        auth.registerUser(email: email, password: password) {[weak self] result in
+            guard let self else { return }
             self.isRegistrationInProgress = false
             SceneDelegateEnvironment.sceneDelegate?.setMainAsInitial()
-        } failure: { error in
+        } failure: {[weak self] error in
+            guard let self else { return }
             self.isRegistrationInProgress = false
             self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
         }
@@ -368,6 +374,7 @@ class SubRegisterViewController: UIViewController {
 
 extension SubRegisterViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
         UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .white
             textField.layer.borderWidth = 1
@@ -376,6 +383,7 @@ extension SubRegisterViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        self.activeTextField = nil
         UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .systemGray6
             textField.layer.borderWidth = 0
@@ -383,6 +391,7 @@ extension SubRegisterViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        self.activeTextField = nil
+        return textField.resignFirstResponder()
     }
 }

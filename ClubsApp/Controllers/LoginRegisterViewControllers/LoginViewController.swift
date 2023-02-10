@@ -119,7 +119,6 @@ class LoginViewController: UIViewController {
     }
     
     private func doLayout() {
-        
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
@@ -168,7 +167,8 @@ class LoginViewController: UIViewController {
         if isSignInSelected {
             removeController(controller: subRegisterViewController)
             addController(controller: subLoginViewController)
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: 0.2) {[weak self] in
+                guard let self else { return }
                 self.signInUnderscore.backgroundColor = .black
                 self.signUpUnderscore.backgroundColor = .clear
                 self.signInLabel.textColor = .black
@@ -177,7 +177,8 @@ class LoginViewController: UIViewController {
         } else {
             removeController(controller: subLoginViewController)
             addController(controller: subRegisterViewController)
-            UIView.animate(withDuration: 0.2) {
+            UIView.animate(withDuration: 0.2) {[weak self] in
+                guard let self else { return }
                 self.signInUnderscore.backgroundColor = .clear
                 self.signUpUnderscore.backgroundColor = .black
                 self.signInLabel.textColor = .systemGray2
@@ -194,7 +195,8 @@ class LoginViewController: UIViewController {
     
     private func addController(controller: UIViewController) {
         addChild(controller)
-        UIView.transition(with: self.view, duration: 0.3, options: [.transitionCrossDissolve]) {
+        UIView.transition(with: self.view, duration: 0.3, options: [.transitionCrossDissolve]) {[weak self] in
+            guard let self else { return }
             self.scrollView.addSubview(controller.view)
         }
         controller.didMove(toParent: self)

@@ -34,6 +34,7 @@ class SubLoginViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.tintColor = .black
         textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         textField.layer.cornerRadius = 8
         return textField
@@ -271,17 +272,20 @@ class SubLoginViewController: UIViewController {
     
     private func loginUser(email: String, password: String) {
         isRegistrationInProgress = true
-        auth.signIn(email: email, password: password) { result in
+        auth.signIn(email: email, password: password) {[weak self] result in
+            guard let self else { return }
             self.isRegistrationInProgress = false
             SceneDelegateEnvironment.sceneDelegate?.setMainAsInitial()
-        } failure: { error in
+        } failure: {[weak self] error in
+            guard let self else { return }
             self.isRegistrationInProgress = false
             self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
         }
     }
     
     private func addErrorTextWithAnimation(errorText: String?) {
-        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {
+        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {[weak self] in
+            guard let self else { return }
             self.errorLabel.text = errorText
         }
         errorAlertAnimation(on: errorLabel)
