@@ -324,7 +324,7 @@ class SubRegisterViewController: UIViewController, ViewControllerWithActiveTextF
             addErrorTextWithAnimation(errorText: "Ошибка: пароли не одинаковы")
             return
         }
-        createFireBaseUserWithNicknameCheck(nickname: nickname, password: password, email: email)
+        createFireBaseUserWithNicknameCheckAndAddingUser(nickname: nickname, password: password, email: email)
     }
     
     private func addErrorTextWithAnimation(errorText: String?) {
@@ -345,30 +345,45 @@ class SubRegisterViewController: UIViewController, ViewControllerWithActiveTextF
         view.layer.add(animation, forKey: "position")
     }
     
-    private func createFireBaseUserWithNicknameCheck(nickname: String, password: String, email: String) {
+    private func createFireBaseUserWithNicknameCheckAndAddingUser(nickname: String, password: String, email: String) {
+        isRegistrationInProgress = true
         dbManager.checkIsUserNameExist(username: nickname) {[weak self] sameNames in
             guard let self else { return }
             if sameNames == 0 {
-                self.createFirebaseUser(email: email, password: password)
+                self.createFirebaseUser(email: email, password: password, nickname: nickname)
             } else {
+                self.isRegistrationInProgress = false
                 self.addErrorTextWithAnimation(errorText: "Такой nickname уже существует")
             }
         } failure: {[weak self] error in
             guard let self else { return }
+            self.isRegistrationInProgress = false
             self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
         }
     }
     
-    private func createFirebaseUser(email: String, password: String) {
-        isRegistrationInProgress = true
+    private func createFirebaseUser(email: String, password: String, nickname: String) {
+//        isRegistrationInProgress = true
         auth.registerUser(email: email, password: password) {[weak self] result in
+            guard let self else { return }
+            self.addUserToCollection(email: email, nickname: nickname, userID: result.user.uid)
+        } failure: {[weak self] error in
+            guard let self else { return }
+            self.isRegistrationInProgress = false
+            self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
+        }
+    }
+    
+    private func addUserToCollection (email: String, nickname: String, userID: String) {
+//        self.isRegistrationInProgress = true
+        self.dbManager.addUserToUsersCollection(email: email, username: nickname, userID: userID) {[weak self] in
             guard let self else { return }
             self.isRegistrationInProgress = false
             SceneDelegateEnvironment.sceneDelegate?.setMainAsInitial()
         } failure: {[weak self] error in
             guard let self else { return }
             self.isRegistrationInProgress = false
-            self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
+            self.addErrorTextWithAnimation(errorText: error.localizedDescription)
         }
     }
     

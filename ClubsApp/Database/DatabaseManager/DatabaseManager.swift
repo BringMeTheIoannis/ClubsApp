@@ -7,10 +7,12 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
 
 
 class DatabaseManager {
     let database = Firestore.firestore()
+    let currentUser = Auth.auth().currentUser?.uid
     
     func checkIsUserNameExist(username: String, success: ((Int) -> Void)?, failure: ((Error?) -> Void)?) {
         let querySetup = database.collection("users").whereField("username", isEqualTo: username)
@@ -21,5 +23,19 @@ class DatabaseManager {
             }
             success?(querySnapshot.count)
         }
+    }
+    
+    func addUserToUsersCollection(email: String, username: String, userID: String , success: (() -> Void)?, failure: ((Error) -> Void)?) {
+        let querySetup = database.collection("users").document(userID)
+        let dataToSet: [String: Any] = ["email": email,
+                                        "username": username,
+        ]
+        querySetup.setData(dataToSet, completion: { error in
+            guard let error else {
+                success?()
+                return
+            }
+            failure?(error)
+        })
     }
 }
