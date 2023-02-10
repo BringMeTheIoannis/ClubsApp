@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class SubRegisterViewController: UIViewController {
+class SubRegisterViewController: UIViewController, ViewControllerWithActiveTextFieldProtocol {
     
     let passRightViewWidth = 40
     let passRightViewHight = 40
@@ -240,7 +240,7 @@ class SubRegisterViewController: UIViewController {
         repeatPassTextField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(passTextField.snp.bottom).offset(16)
-            make.height.equalTo(300)
+            make.height.equalTo(50)
         }
         
         errorLabel.snp.makeConstraints { make in

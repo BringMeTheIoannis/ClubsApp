@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SubLoginViewController: UIViewController {
+class SubLoginViewController: UIViewController, ViewControllerWithActiveTextFieldProtocol {
     
     let passRightViewWidth = 40
     let passRightViewHight = 40
@@ -21,6 +21,7 @@ class SubLoginViewController: UIViewController {
         }
     }
     var auth: UserAuth = UserAuth()
+    var activeTextField: UITextField?
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -317,6 +318,7 @@ class SubLoginViewController: UIViewController {
 
 extension SubLoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
         UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .white
             textField.layer.borderWidth = 1
@@ -325,6 +327,7 @@ extension SubLoginViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        self.activeTextField = nil
         UIView.animate(withDuration: 0.6) {
             textField.backgroundColor = .systemGray6
             textField.layer.borderWidth = 0
@@ -332,7 +335,8 @@ extension SubLoginViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        self.activeTextField = nil
+        return textField.resignFirstResponder()
     }
 }
 

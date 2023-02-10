@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     var isSignInSelected: Bool = true
     let leadingAndTrailingOffset: CGFloat = 16.0
     lazy var width = view.frame.size.width
+    lazy var activeSubController: ViewControllerWithActiveTextFieldProtocol = subLoginViewController
     
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -75,14 +76,14 @@ class LoginViewController: UIViewController {
         return stack
     }()
     
-    lazy var subLoginViewController: UIViewController = {
+    lazy var subLoginViewController: SubLoginViewController = {
         let vc = SubLoginViewController()
         addChild(vc)
         vc.didMove(toParent: self)
         return vc
     }()
     
-    lazy var subRegisterViewController: UIViewController = {
+    lazy var subRegisterViewController: SubRegisterViewController = {
         let vc = SubRegisterViewController()
         addChild(vc)
         vc.didMove(toParent: self)
@@ -201,6 +202,8 @@ class LoginViewController: UIViewController {
     
     private func addController(controller: UIViewController) {
         addChild(controller)
+        guard let controllerWithSelectedActiveField = controller as? ViewControllerWithActiveTextFieldProtocol else { return }
+        activeSubController = controllerWithSelectedActiveField
         UIView.transition(with: self.view, duration: 0.3, options: [.transitionCrossDissolve]) {[weak self] in
             guard let self else { return }
             self.scrollView.addSubview(controller.view)
@@ -222,10 +225,9 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController {
     @objc private func keyBoardWillShow(notification: NSNotification) {
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-              let registerVC = subRegisterViewController as? SubRegisterViewController
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         else { return }
-        guard let activeTextField = registerVC.activeTextField else { return }
+        guard let activeTextField = activeSubController.activeTextField else { return }
         let bottomOfTextField = activeTextField.convert(activeTextField.bounds, to: view).maxY
         let topOfKeyboard = view.frame.size.height - keyboardSize.height
         if bottomOfTextField > topOfKeyboard {
@@ -234,7 +236,6 @@ extension LoginViewController {
                 guard let self else { return }
                 self.navigationController?.view.frame.origin.y = topOfKeyboard - (bottomOfTextField + 10)
             }
-            
         }
     }
     
