@@ -22,6 +22,7 @@ class SubRegisterViewController: UIViewController, ViewControllerWithActiveTextF
         }
     }
     var auth: UserAuth = UserAuth()
+    let dbManager: DatabaseManager = DatabaseManager()
     var activeTextField: UITextField?
     
     lazy var emailTextField: UITextField = {
@@ -323,7 +324,7 @@ class SubRegisterViewController: UIViewController, ViewControllerWithActiveTextF
             addErrorTextWithAnimation(errorText: "Ошибка: пароли не одинаковы")
             return
         }
-        createFirebaseUser(email: email, password: password)
+        createFireBaseUserWithNicknameCheck(nickname: nickname, password: password, email: email)
     }
     
     private func addErrorTextWithAnimation(errorText: String?) {
@@ -342,6 +343,20 @@ class SubRegisterViewController: UIViewController, ViewControllerWithActiveTextF
         animation.fromValue = NSValue(cgPoint: CGPoint(x: view.center.x - 10, y: view.center.y))
         animation.toValue = NSValue(cgPoint: CGPoint(x: view.center.x + 10, y: view.center.y))
         view.layer.add(animation, forKey: "position")
+    }
+    
+    private func createFireBaseUserWithNicknameCheck(nickname: String, password: String, email: String) {
+        dbManager.checkIsUserNameExist(username: nickname) {[weak self] sameNames in
+            guard let self else { return }
+            if sameNames == 0 {
+                self.createFirebaseUser(email: email, password: password)
+            } else {
+                self.addErrorTextWithAnimation(errorText: "Такой nickname уже существует")
+            }
+        } failure: {[weak self] error in
+            guard let self else { return }
+            self.addErrorTextWithAnimation(errorText: error?.localizedDescription)
+        }
     }
     
     private func createFirebaseUser(email: String, password: String) {

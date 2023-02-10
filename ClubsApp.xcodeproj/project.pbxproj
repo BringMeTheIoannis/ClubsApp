@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593799DA298D4AAA007845F5 /* LoginViewController.swift */; };
 		59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */; };
+		59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */; };
 		595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */; };
 		597CDBCC299159C100DDF16E /* SubRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */; };
 		597CDBCE2992680200DDF16E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 597CDBCD2992680200DDF16E /* GoogleService-Info.plist */; };
@@ -30,6 +31,7 @@
 		41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		593799DA298D4AAA007845F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWithActiveTextFieldProtocol.swift; sourceTree = "<group>"; };
+		59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubLoginViewController.swift; sourceTree = "<group>"; };
 		597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRegisterViewController.swift; sourceTree = "<group>"; };
 		597CDBCD2992680200DDF16E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -87,6 +89,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		59541C292996C28F00411ED5 /* DatabaseManager */ = {
+			isa = PBXGroup;
+			children = (
+				59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */,
+			);
+			path = DatabaseManager;
+			sourceTree = "<group>";
+		};
 		595B5BC5298FCEBF00122B78 /* LoginRegisterViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +143,7 @@
 		597CDC1929941FD700DDF16E /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				59541C292996C28F00411ED5 /* DatabaseManager */,
 				597CDC1A29941FE200DDF16E /* Auth */,
 			);
 			path = Database;
@@ -319,6 +330,7 @@
 			files = (
 				597CDC1C29941FF500DDF16E /* UserAuth.swift in Sources */,
 				593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */,
+				59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */,
 				59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */,
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
 				598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */,
