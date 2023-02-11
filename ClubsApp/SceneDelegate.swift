@@ -29,8 +29,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setMainAsInitial() {
-        window?.rootViewController = MainScreenViewController()
-        window?.makeKeyAndVisible()
+        guard let window else { return }
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+            window.rootViewController = MainScreenViewController()
+            window.makeKeyAndVisible()
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
