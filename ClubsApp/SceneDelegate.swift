@@ -25,13 +25,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setLoginAsInitial() {
-        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+//        window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+        window?.rootViewController = TabBarController()
     }
     
     func setMainAsInitial() {
         guard let window else { return }
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
-            window.rootViewController = MainScreenViewController()
+            window.rootViewController = TabBarController()
             window.makeKeyAndVisible()
         }
         

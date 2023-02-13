@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59280742299A39F500901448 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280741299A39F500901448 /* CreateEventViewController.swift */; };
+		59280745299A3FB100901448 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280744299A3FB100901448 /* ChatsViewController.swift */; };
+		59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280747299A3FD800901448 /* ProfileSettingsViewController.swift */; };
 		593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593799DA298D4AAA007845F5 /* LoginViewController.swift */; };
 		59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */; };
 		59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */; };
 		595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */; };
+		5964C957299A2F3F005346A6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5964C956299A2F3F005346A6 /* TabBarController.swift */; };
+		5964C95C299A35BA005346A6 /* AllEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5964C95B299A35BA005346A6 /* AllEventsViewController.swift */; };
+		5964C95F299A35F0005346A6 /* LikedInvitedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5964C95E299A35F0005346A6 /* LikedInvitedViewController.swift */; };
 		597CDBCC299159C100DDF16E /* SubRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */; };
 		597CDBCE2992680200DDF16E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 597CDBCD2992680200DDF16E /* GoogleService-Info.plist */; };
 		597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597CDC0F2993D93B00DDF16E /* Unwrappers.swift */; };
@@ -29,10 +35,16 @@
 
 /* Begin PBXFileReference section */
 		41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
+		59280741299A39F500901448 /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
+		59280744299A3FB100901448 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		59280747299A3FD800901448 /* ProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		593799DA298D4AAA007845F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWithActiveTextFieldProtocol.swift; sourceTree = "<group>"; };
 		59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		595B5BC6298FCF1200122B78 /* SubLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubLoginViewController.swift; sourceTree = "<group>"; };
+		5964C956299A2F3F005346A6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		5964C95B299A35BA005346A6 /* AllEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllEventsViewController.swift; sourceTree = "<group>"; };
+		5964C95E299A35F0005346A6 /* LikedInvitedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedInvitedViewController.swift; sourceTree = "<group>"; };
 		597CDBCB299159C100DDF16E /* SubRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRegisterViewController.swift; sourceTree = "<group>"; };
 		597CDBCD2992680200DDF16E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		597CDC0F2993D93B00DDF16E /* Unwrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unwrappers.swift; sourceTree = "<group>"; };
@@ -80,9 +92,38 @@
 			path = SelectedTextFieldProtocol;
 			sourceTree = "<group>";
 		};
+		59280743299A3F9B00901448 /* ChatsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				59280744299A3FB100901448 /* ChatsViewController.swift */,
+			);
+			path = ChatsViewController;
+			sourceTree = "<group>";
+		};
+		59280746299A3FC200901448 /* ProfileSettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				59280747299A3FD800901448 /* ProfileSettingsViewController.swift */,
+			);
+			path = ProfileSettingsViewController;
+			sourceTree = "<group>";
+		};
+		59280749299AA61E00901448 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		593799D9298D4A5C007845F5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5964C959299A3574005346A6 /* AllEventsViewController */,
+				5964C95D299A35C6005346A6 /* LikedInvitedViewController */,
+				5964C960299A3997005346A6 /* CreateEventViewController */,
+				59280743299A3F9B00901448 /* ChatsViewController */,
+				59280746299A3FC200901448 /* ProfileSettingsViewController */,
+				5964C955299A2F1E005346A6 /* TabBarConrtoller */,
 				597CDC112993F0DC00DDF16E /* MainViewControllers */,
 				595B5BC5298FCEBF00122B78 /* LoginRegisterViewControllers */,
 			);
@@ -106,6 +147,38 @@
 				59FF9826299516D0003F4573 /* ResetPassViewController.swift */,
 			);
 			path = LoginRegisterViewControllers;
+			sourceTree = "<group>";
+		};
+		5964C955299A2F1E005346A6 /* TabBarConrtoller */ = {
+			isa = PBXGroup;
+			children = (
+				5964C956299A2F3F005346A6 /* TabBarController.swift */,
+			);
+			path = TabBarConrtoller;
+			sourceTree = "<group>";
+		};
+		5964C959299A3574005346A6 /* AllEventsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5964C95B299A35BA005346A6 /* AllEventsViewController.swift */,
+			);
+			path = AllEventsViewController;
+			sourceTree = "<group>";
+		};
+		5964C95D299A35C6005346A6 /* LikedInvitedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5964C95E299A35F0005346A6 /* LikedInvitedViewController.swift */,
+			);
+			path = LikedInvitedViewController;
+			sourceTree = "<group>";
+		};
+		5964C960299A3997005346A6 /* CreateEventViewController */ = {
+			isa = PBXGroup;
+			children = (
+				59280741299A39F500901448 /* CreateEventViewController.swift */,
+			);
+			path = CreateEventViewController;
 			sourceTree = "<group>";
 		};
 		597CDC0D2993D52700DDF16E /* Extensions */ = {
@@ -178,6 +251,7 @@
 		598A77E5298D1B1000EFCA0C /* ClubsApp */ = {
 			isa = PBXGroup;
 			children = (
+				59280749299AA61E00901448 /* Enums */,
 				590E0A9C299684D7005001F0 /* Protocols */,
 				597CDC1929941FD700DDF16E /* Database */,
 				597CDC142993FC7300DDF16E /* Environment */,
@@ -334,12 +408,18 @@
 				59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */,
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
 				598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */,
+				5964C95C299A35BA005346A6 /* AllEventsViewController.swift in Sources */,
 				597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */,
 				597CDC172993FC9000DDF16E /* ScendeDelegateEnvironment.swift in Sources */,
 				598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */,
 				59FF9827299516D0003F4573 /* ResetPassViewController.swift in Sources */,
 				597CDC132993F10700DDF16E /* MainScreenViewController.swift in Sources */,
+				59280742299A39F500901448 /* CreateEventViewController.swift in Sources */,
+				5964C95F299A35F0005346A6 /* LikedInvitedViewController.swift in Sources */,
+				5964C957299A2F3F005346A6 /* TabBarController.swift in Sources */,
 				597CDBCC299159C100DDF16E /* SubRegisterViewController.swift in Sources */,
+				59280745299A3FB100901448 /* ChatsViewController.swift in Sources */,
+				59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */,
 				595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
