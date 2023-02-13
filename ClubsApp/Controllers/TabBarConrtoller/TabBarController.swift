@@ -29,7 +29,6 @@ class TabBarController: UITabBarController {
         configureTabBarIcons()
         setupDelegate()
         tabBar.itemPositioning = .centered
-        tabBar.itemWidth = 60
         addTabbarIndicatorInitCall()
     }
     
@@ -88,21 +87,3 @@ extension TabBarController: UITabBarControllerDelegate {
     }
 }
 
-
-// MARK: Working code for render underscore above (should call init in viewDidLoad and in didSelect)
-//    private func addTabbarIndicatorInitCall() {
-//        DispatchQueue.main.async {[weak self] in
-//            guard let self else { return }
-//            self.addTabbarIndicator(index: self.selectedIndex, isInitIndicator: true)
-//        }
-//    }
-    
-//    private func addTabbarIndicator(index: Int, isInitIndicator: Bool = false) {
-//        guard let tabView = tabBar.items?[index].value(forKey: "view") as? UIView else { return }
-//        if !isInitIndicator {
-//            tabBarIndicatorView.removeFromSuperview()
-//        }
-//        tabBarIndicatorView = UIView(frame: CGRect(x: tabView.frame.minX, y: tabView.frame.minY, width: tabView.frame.size.width, height: 4))
-//        tabBarIndicatorView.backgroundColor = tintColor
-//        tabBar.addSubview(tabBarIndicatorView)
-//    }
