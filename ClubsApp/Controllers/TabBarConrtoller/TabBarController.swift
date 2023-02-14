@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class TabBarController: UITabBarController {
     
@@ -20,7 +21,7 @@ class TabBarController: UITabBarController {
     }()
     let tintColor = UIColor(red: 127/255, green: 5/255, blue: 249/255, alpha: 1.0)
     let tabBarBackgroundColor = UIColor(red: 240/255, green: 232/255, blue: 248/255, alpha: 1.0)
-    var indicatorSpacing: CGFloat = 30
+    var indicatorSpacing: CGFloat = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +29,17 @@ class TabBarController: UITabBarController {
         configureControllers()
         configureTabBarIcons()
         setupDelegate()
-        tabBar.itemPositioning = .centered
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         addTabbarIndicatorInitCall()
     }
     
     private func tabBarBasicSetup() {
         tabBar.backgroundColor = tabBarBackgroundColor
         tabBar.tintColor = tintColor
+        tabBar.itemPositioning = .centered
         selectedIndex = 0
     }
     
@@ -43,11 +48,11 @@ class TabBarController: UITabBarController {
     }
     
     private func configureTabBarIcons() {
-        let bar1 = UITabBarItem(title: "", image: UIImage(systemName: "square.grid.2x2"), selectedImage: UIImage(systemName: "square.grid.2x2.fill"))
-        let bar2 = UITabBarItem(title: "", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
-        let bar3 = UITabBarItem(title: "", image: UIImage(systemName: "plus.square.fill"), selectedImage: UIImage(systemName: "plus.square.fill"))
-        let bar4 = UITabBarItem(title: "", image: UIImage(systemName: "bubble.middle.bottom"), selectedImage: UIImage(systemName: "bubble.middle.bottom.fill"))
-        let bar5 = UITabBarItem(title: "", image: UIImage(systemName: "person.circle"), selectedImage: UIImage(systemName: "person.circle.fill"))
+        let bar1 = UITabBarItem(title: nil, image: UIImage(systemName: "square.grid.2x2"), selectedImage: UIImage(systemName: "square.grid.2x2.fill"))
+        let bar2 = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        let bar3 = UITabBarItem(title: nil, image: UIImage(systemName: "plus.square.fill"), selectedImage: UIImage(systemName: "plus.square.fill"))
+        let bar4 = UITabBarItem(title: nil, image: UIImage(systemName: "bubble.middle.bottom"), selectedImage: UIImage(systemName: "bubble.middle.bottom.fill"))
+        let bar5 = UITabBarItem(title: nil, image: UIImage(systemName: "person.circle"), selectedImage: UIImage(systemName: "person.circle.fill"))
         allEventsViewController.tabBarItem = bar1
         likedInvitedViewController.tabBarItem = bar2
         createEventViewController.tabBarItem = bar3
@@ -75,7 +80,7 @@ class TabBarController: UITabBarController {
             if !isInitIndicator {
                 tabBarIndicatorView.removeFromSuperview()
             }
-            tabBarIndicatorView = UIView(frame: CGRect(x: tabView.frame.minX, y: tabView.frame.minY, width: tabView.frame.size.width, height: 4))
+            tabBarIndicatorView = UIView(frame: CGRect(x: tabView.frame.minX + indicatorSpacing, y: tabView.frame.minY - 1, width: tabView.frame.size.width - indicatorSpacing * 2, height: 4))
             tabBarIndicatorView.backgroundColor = tintColor
             tabBar.addSubview(tabBarIndicatorView)
         }
