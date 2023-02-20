@@ -92,6 +92,13 @@
 			path = SelectedTextFieldProtocol;
 			sourceTree = "<group>";
 		};
+		591E2CEF299BD42700D079D5 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		59280743299A3F9B00901448 /* ChatsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,16 +115,10 @@
 			path = ProfileSettingsViewController;
 			sourceTree = "<group>";
 		};
-		59280749299AA61E00901448 /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Enums;
-			sourceTree = "<group>";
-		};
 		593799D9298D4A5C007845F5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				598A77EA298D1B1000EFCA0C /* ViewController.swift */,
 				5964C959299A3574005346A6 /* AllEventsViewController */,
 				5964C95D299A35C6005346A6 /* LikedInvitedViewController */,
 				5964C960299A3997005346A6 /* CreateEventViewController */,
@@ -251,14 +252,13 @@
 		598A77E5298D1B1000EFCA0C /* ClubsApp */ = {
 			isa = PBXGroup;
 			children = (
-				59280749299AA61E00901448 /* Enums */,
+				591E2CEF299BD42700D079D5 /* Enums */,
 				590E0A9C299684D7005001F0 /* Protocols */,
 				597CDC1929941FD700DDF16E /* Database */,
 				597CDC142993FC7300DDF16E /* Environment */,
 				597CDC0D2993D52700DDF16E /* Extensions */,
 				593799D9298D4A5C007845F5 /* Controllers */,
 				598A77E6298D1B1000EFCA0C /* AppDelegate.swift */,
-				598A77EA298D1B1000EFCA0C /* ViewController.swift */,
 				598A77E8298D1B1000EFCA0C /* SceneDelegate.swift */,
 				598A77EC298D1B1000EFCA0C /* Main.storyboard */,
 				598A77EF298D1B1400EFCA0C /* Assets.xcassets */,

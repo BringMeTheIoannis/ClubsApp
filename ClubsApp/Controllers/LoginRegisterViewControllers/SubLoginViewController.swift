@@ -25,7 +25,6 @@ class SubLoginViewController: UIViewController, ViewControllerWithActiveTextFiel
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.attributedPlaceholder = NSAttributedString(
             string: "Email",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]

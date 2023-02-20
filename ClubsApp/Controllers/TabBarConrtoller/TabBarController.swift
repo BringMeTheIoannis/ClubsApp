@@ -68,27 +68,42 @@ class TabBarController: UITabBarController {
         viewControllers = [wNavigationAllEventsViewController, wNavigationLikedInvitedViewController, createEventViewController, wNavigationChatsViewController, wNavigationProfileSettingsViewController]
     }
     
-        private func addTabbarIndicatorInitCall() {
-            DispatchQueue.main.async {[weak self] in
-                guard let self else { return }
-                self.addTabbarIndicator(index: self.selectedIndex, isInitIndicator: true)
-            }
+    private func addTabbarIndicatorInitCall() {
+        DispatchQueue.main.async {[weak self] in
+            guard let self else { return }
+            self.addTabbarIndicator(index: self.selectedIndex, isInitIndicator: true)
         }
+    }
         
-        private func addTabbarIndicator(index: Int, isInitIndicator: Bool = false) {
-            guard let tabView = tabBar.items?[index].value(forKey: "view") as? UIView else { return }
-            if !isInitIndicator {
-                tabBarIndicatorView.removeFromSuperview()
-            }
-            tabBarIndicatorView = UIView(frame: CGRect(x: tabView.frame.minX + indicatorSpacing, y: tabView.frame.minY - 1, width: tabView.frame.size.width - indicatorSpacing * 2, height: 4))
-            tabBarIndicatorView.backgroundColor = tintColor
-            tabBar.addSubview(tabBarIndicatorView)
+    private func addTabbarIndicator(index: Int, isInitIndicator: Bool = false) {
+        guard let tabView = tabBar.items?[index].value(forKey: "view") as? UIView else { return }
+        if !isInitIndicator {
+            tabBarIndicatorView.removeFromSuperview()
         }
+        tabBarIndicatorView = UIView(frame: CGRect(x: tabView.frame.minX + indicatorSpacing, y: tabView.frame.minY - 1, width: tabView.frame.size.width - indicatorSpacing * 2, height: 4))
+        tabBarIndicatorView.backgroundColor = tintColor
+        tabBar.addSubview(tabBarIndicatorView)
+    }
+    
+    private func openCreateScreen() {
+        let vc = UINavigationController(rootViewController: CreateEventViewController())
+        vc.navigationBar.prefersLargeTitles = true
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
 }
 
 extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         addTabbarIndicator(index: selectedIndex)
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is CreateEventViewController {
+            openCreateScreen()
+            return false
+        }
+        return true
     }
 }
 
