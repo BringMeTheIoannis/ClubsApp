@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4AF75D018B63E12E5230DCA0 /* Pods_ClubsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB3557D7D67D081F655439A /* Pods_ClubsApp.framework */; };
 		59280742299A39F500901448 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280741299A39F500901448 /* CreateEventViewController.swift */; };
 		59280745299A3FB100901448 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280744299A3FB100901448 /* ChatsViewController.swift */; };
 		59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280747299A3FD800901448 /* ProfileSettingsViewController.swift */; };
@@ -30,11 +31,9 @@
 		598A77F0298D1B1400EFCA0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 598A77EF298D1B1400EFCA0C /* Assets.xcassets */; };
 		598A77F3298D1B1400EFCA0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 598A77F1298D1B1400EFCA0C /* LaunchScreen.storyboard */; };
 		59FF9827299516D0003F4573 /* ResetPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FF9826299516D0003F4573 /* ResetPassViewController.swift */; };
-		CA0B20B6D408F2F0765AD1D3 /* Pods_ClubsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CBB02AF501A57213D892F1 /* Pods_ClubsApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		59280741299A39F500901448 /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		59280744299A3FB100901448 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		59280747299A3FD800901448 /* ProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewController.swift; sourceTree = "<group>"; };
@@ -60,8 +59,9 @@
 		598A77F2298D1B1400EFCA0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		598A77F4298D1B1400EFCA0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59FF9826299516D0003F4573 /* ResetPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPassViewController.swift; sourceTree = "<group>"; };
-		61CBB02AF501A57213D892F1 /* Pods_ClubsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClubsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CCCA3A98D74A8756CABA274 /* Pods-ClubsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.release.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.release.xcconfig"; sourceTree = "<group>"; };
+		8AB3557D7D67D081F655439A /* Pods_ClubsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClubsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5182652994B8849FB9A3365 /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
+		FFEA9AA926A482CC8E397BCD /* Pods-ClubsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.release.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,13 +69,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA0B20B6D408F2F0765AD1D3 /* Pods_ClubsApp.framework in Frameworks */,
+				4AF75D018B63E12E5230DCA0 /* Pods_ClubsApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E44669FD044B03456F76E09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8AB3557D7D67D081F655439A /* Pods_ClubsApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		590E0A9C299684D7005001F0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,7 +245,7 @@
 				598A77E5298D1B1000EFCA0C /* ClubsApp */,
 				598A77E4298D1B1000EFCA0C /* Products */,
 				9E2C5AE59A5E681657CEA81D /* Pods */,
-				5F3EF8BEFA4BA0B297861796 /* Frameworks */,
+				4E44669FD044B03456F76E09 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -269,19 +277,11 @@
 			path = ClubsApp;
 			sourceTree = "<group>";
 		};
-		5F3EF8BEFA4BA0B297861796 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				61CBB02AF501A57213D892F1 /* Pods_ClubsApp.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		9E2C5AE59A5E681657CEA81D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */,
-				9CCCA3A98D74A8756CABA274 /* Pods-ClubsApp.release.xcconfig */,
+				D5182652994B8849FB9A3365 /* Pods-ClubsApp.debug.xcconfig */,
+				FFEA9AA926A482CC8E397BCD /* Pods-ClubsApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -293,11 +293,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 598A77F7298D1B1400EFCA0C /* Build configuration list for PBXNativeTarget "ClubsApp" */;
 			buildPhases = (
-				67E4FE26D29FC4C617ADCEC3 /* [CP] Check Pods Manifest.lock */,
+				5AB33CE996049B93967D6559 /* [CP] Check Pods Manifest.lock */,
 				598A77DF298D1B1000EFCA0C /* Sources */,
 				598A77E0298D1B1000EFCA0C /* Frameworks */,
 				598A77E1298D1B1000EFCA0C /* Resources */,
-				E4F111388D8AABB91D30F953 /* [CP] Embed Pods Frameworks */,
+				5A2FFFCA898D25702219E8EA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -356,7 +356,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		67E4FE26D29FC4C617ADCEC3 /* [CP] Check Pods Manifest.lock */ = {
+		5A2FFFCA898D25702219E8EA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ClubsApp/Pods-ClubsApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ClubsApp/Pods-ClubsApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClubsApp/Pods-ClubsApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5AB33CE996049B93967D6559 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,23 +393,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E4F111388D8AABB91D30F953 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClubsApp/Pods-ClubsApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClubsApp/Pods-ClubsApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClubsApp/Pods-ClubsApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -562,7 +562,7 @@
 		};
 		598A77F8298D1B1400EFCA0C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41EF63FC4A197405241F38BB /* Pods-ClubsApp.debug.xcconfig */;
+			baseConfigurationReference = D5182652994B8849FB9A3365 /* Pods-ClubsApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -592,7 +592,7 @@
 		};
 		598A77F9298D1B1400EFCA0C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CCCA3A98D74A8756CABA274 /* Pods-ClubsApp.release.xcconfig */;
+			baseConfigurationReference = FFEA9AA926A482CC8E397BCD /* Pods-ClubsApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
