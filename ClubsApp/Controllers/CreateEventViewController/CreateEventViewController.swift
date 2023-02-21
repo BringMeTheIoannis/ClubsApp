@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class CreateEventViewController: UIViewController {
-        
+    
     var topColorView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 0.94, green: 0.91, blue: 0.971, alpha: 1)
@@ -44,19 +44,29 @@ class CreateEventViewController: UIViewController {
         return view
     }()
     
+    var dateTimeContainerView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     var dateTimeVerticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         return stackView
     }()
     
-    var topViewForDateTimeStackView: UIView = {
+    lazy var topViewForDateTimeStackView: UIView = {
         let view = UIView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(showHideDateTimePicker))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(gesture)
         return view
     }()
     
     var bottomViewForDateAndTimeStackView: UIView = {
         let view = UIView()
+        view.clipsToBounds = true
+        view.isHidden = true
         return view
     }()
     
@@ -112,6 +122,18 @@ class CreateEventViewController: UIViewController {
         return button
     }()
     
+    var insideStackViewForDatePickerAndDoneButton: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    var testView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGreen
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         controllerSetup()
@@ -131,6 +153,7 @@ class CreateEventViewController: UIViewController {
         titleTextField.addSubview(bottomBorderForTitleLabel)
         scrollView.addSubview(dateTimeVerticalStackView)
         addViewsToDateTimeStack()
+        scrollView.addSubview(testView)
     }
     
     private func doLayout() {
@@ -164,10 +187,48 @@ class CreateEventViewController: UIViewController {
             make.height.equalTo(30)
         }
         
-        bottomViewForDateAndTimeStackView.snp.makeConstraints { make in
-            make.height.equalTo(430)
+        dateTimeStackTopViewInsideLayout()
+        
+        bottomViewForDateAndTimeStackView.snp.makeConstraints { make in }
+        
+        insideStackViewForDatePickerAndDoneButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
+        calendarPicker.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        
+        viewForTimePickerAndButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.centerX.equalToSuperview()
+//            make.height.equalTo(50)
+        }
+        
+        layoutInsideTimePickerView()
+        
+        testView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(dateTimeVerticalStackView.snp.bottom)
+            make.height.equalTo(50)
+        }
+    }
+    
+    private func addViewsToDateTimeStack() {
+        dateTimeVerticalStackView.addArrangedSubview(topViewForDateTimeStackView)
+        dateTimeVerticalStackView.addArrangedSubview(bottomViewForDateAndTimeStackView)
+        topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
+        topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
+        bottomViewForDateAndTimeStackView.addSubview(insideStackViewForDatePickerAndDoneButton)
+        insideStackViewForDatePickerAndDoneButton.addArrangedSubview(calendarPicker)
+        insideStackViewForDatePickerAndDoneButton.addArrangedSubview(viewForTimePickerAndButton)
+        viewForTimePickerAndButton.addSubview(timePicker)
+        viewForTimePickerAndButton.addSubview(timeLabelForTimeView)
+        viewForTimePickerAndButton.addSubview(doneButtonForDateTime)
+    }
+    
+    private func dateTimeStackTopViewInsideLayout() {
         labelForTopViewForDateTime.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview().inset(30)
@@ -180,28 +241,21 @@ class CreateEventViewController: UIViewController {
             make.width.equalTo(13)
             make.height.equalTo(24)
         }
-        
-        calendarPicker.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
-        }
-        
-        viewForTimePickerAndButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(40)
-            make.top.equalTo(calendarPicker.snp.bottom).inset(5)
-        }
-        
+    }
+    
+    private func layoutInsideTimePickerView() {
         timeLabelForTimeView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(calendarPicker.layoutMargins.left)
             make.centerY.equalToSuperview()
         }
-        
+
         timePicker.snp.makeConstraints { make in
             make.centerY.equalTo(timeLabelForTimeView.snp.centerY)
             make.width.equalTo(100)
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(timeLabelForTimeView.snp.trailing).offset(5)
         }
-        
+
         doneButtonForDateTime.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalTo(timePicker.snp.centerY)
@@ -210,15 +264,23 @@ class CreateEventViewController: UIViewController {
         }
     }
     
-    private func addViewsToDateTimeStack() {
-        dateTimeVerticalStackView.addArrangedSubview(topViewForDateTimeStackView)
-        dateTimeVerticalStackView.addArrangedSubview(bottomViewForDateAndTimeStackView)
-        topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
-        topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
-        bottomViewForDateAndTimeStackView.addSubview(calendarPicker)
-        bottomViewForDateAndTimeStackView.addSubview(viewForTimePickerAndButton)
-        viewForTimePickerAndButton.addSubview(timePicker)
-        viewForTimePickerAndButton.addSubview(timeLabelForTimeView)
-        viewForTimePickerAndButton.addSubview(doneButtonForDateTime)
+    
+    @objc private func showHideDateTimePicker() {
+        if bottomViewForDateAndTimeStackView.isHidden == true {
+            UIView.animate(withDuration: 0.5, animations: {[weak self] in
+                    guard let self else { return }
+                self.bottomViewForDateAndTimeStackView.isHidden = false
+//                self.bottomViewForDateAndTimeStackView.alpha = 1.0
+                    
+            })
+        } else {
+            UIView.animate(withDuration: 0.5) {[weak self] in
+                guard let self else { return }
+                self.bottomViewForDateAndTimeStackView.isHidden = true
+//                self.bottomViewForDateAndTimeStackView.alpha = 0.0
+//
+//                self.view.layoutIfNeeded()
+            }
+        }
     }
 }
