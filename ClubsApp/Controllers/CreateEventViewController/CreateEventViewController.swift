@@ -77,8 +77,39 @@ class CreateEventViewController: UIViewController {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .inline
+        picker.minimumDate = Date.now
         picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
         return picker
+    }()
+    
+    var timePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .time
+        picker.preferredDatePickerStyle = .inline
+        picker.locale = Locale(identifier: "en_GB")
+        picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
+        return picker
+    }()
+    
+    var viewForTimePickerAndButton: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    var timeLabelForTimeView: UILabel = {
+        let label = UILabel()
+        label.text = "Время"
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
+        return label
+    }()
+    
+    var doneButtonForDateTime: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
+        button.tintColor = .white
+        button.layer.cornerRadius = 4
+        button.setTitle("Готово", for: .normal)
+        return button
     }()
     
     override func viewDidLoad() {
@@ -134,7 +165,7 @@ class CreateEventViewController: UIViewController {
         }
         
         bottomViewForDateAndTimeStackView.snp.makeConstraints { make in
-            make.height.equalTo(500)
+            make.height.equalTo(430)
         }
         
         labelForTopViewForDateTime.snp.makeConstraints { make in
@@ -153,6 +184,30 @@ class CreateEventViewController: UIViewController {
         calendarPicker.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
         }
+        
+        viewForTimePickerAndButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(40)
+            make.top.equalTo(calendarPicker.snp.bottom).inset(5)
+        }
+        
+        timeLabelForTimeView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(calendarPicker.layoutMargins.left)
+            make.centerY.equalToSuperview()
+        }
+        
+        timePicker.snp.makeConstraints { make in
+            make.centerY.equalTo(timeLabelForTimeView.snp.centerY)
+            make.width.equalTo(100)
+            make.leading.equalTo(timeLabelForTimeView.snp.trailing).offset(5)
+        }
+        
+        doneButtonForDateTime.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(timePicker.snp.centerY)
+            make.height.equalTo(34)
+            make.width.equalTo(109)
+        }
     }
     
     private func addViewsToDateTimeStack() {
@@ -161,5 +216,9 @@ class CreateEventViewController: UIViewController {
         topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
         topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
         bottomViewForDateAndTimeStackView.addSubview(calendarPicker)
+        bottomViewForDateAndTimeStackView.addSubview(viewForTimePickerAndButton)
+        viewForTimePickerAndButton.addSubview(timePicker)
+        viewForTimePickerAndButton.addSubview(timeLabelForTimeView)
+        viewForTimePickerAndButton.addSubview(doneButtonForDateTime)
     }
 }
