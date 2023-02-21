@@ -25,7 +25,9 @@ class CreateEventViewController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
             string: "Название",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)
+                        ]
         )
         textField.borderStyle = .none
         textField.leftViewMode = .always
@@ -42,9 +44,41 @@ class CreateEventViewController: UIViewController {
         return view
     }()
     
-    var dateAndTimeView: UIView = {
+    var dateTimeVerticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    var topViewForDateTimeStackView: UIView = {
         let view = UIView()
         return view
+    }()
+    
+    var bottomViewForDateAndTimeStackView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    var labelForTopViewForDateTime: UILabel = {
+        let label = UILabel()
+        label.text = "Выбрать дату и время"
+        return label
+    }()
+    
+    var arrowForTopViewForDateTimeView: UIImageView = {
+        let image = UIImage(systemName: "chevron.right")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .black
+        return imageView
+    }()
+    
+    var calendarPicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .date
+        picker.preferredDatePickerStyle = .inline
+        picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
+        return picker
     }()
     
     override func viewDidLoad() {
@@ -64,6 +98,8 @@ class CreateEventViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(titleTextField)
         titleTextField.addSubview(bottomBorderForTitleLabel)
+        scrollView.addSubview(dateTimeVerticalStackView)
+        addViewsToDateTimeStack()
     }
     
     private func doLayout() {
@@ -77,8 +113,7 @@ class CreateEventViewController: UIViewController {
         }
         
         titleTextField.snp.makeConstraints { make in
-            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(16)
-            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-16)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.top.equalToSuperview().offset(32)
             make.height.equalTo(30)
         }
@@ -88,5 +123,43 @@ class CreateEventViewController: UIViewController {
             make.top.equalTo(titleTextField.snp.bottom).offset(3)
             make.height.equalTo(0.5)
         }
+        
+        dateTimeVerticalStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(bottomBorderForTitleLabel).inset(16)
+        }
+        
+        topViewForDateTimeStackView.snp.makeConstraints { make in
+            make.height.equalTo(30)
+        }
+        
+        bottomViewForDateAndTimeStackView.snp.makeConstraints { make in
+            make.height.equalTo(500)
+        }
+        
+        labelForTopViewForDateTime.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview().inset(30)
+            make.centerY.equalToSuperview()
+        }
+        
+        arrowForTopViewForDateTimeView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(13)
+            make.height.equalTo(24)
+        }
+        
+        calendarPicker.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+        }
+    }
+    
+    private func addViewsToDateTimeStack() {
+        dateTimeVerticalStackView.addArrangedSubview(topViewForDateTimeStackView)
+        dateTimeVerticalStackView.addArrangedSubview(bottomViewForDateAndTimeStackView)
+        topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
+        topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
+        bottomViewForDateAndTimeStackView.addSubview(calendarPicker)
     }
 }
