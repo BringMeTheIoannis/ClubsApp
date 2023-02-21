@@ -113,8 +113,9 @@ class CreateEventViewController: UIViewController {
         return label
     }()
     
-    var doneButtonForDateTime: UIButton = {
+    lazy var doneButtonForDateTime: UIButton = {
         let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(showHideDateTimePicker), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
         button.tintColor = .white
         button.layer.cornerRadius = 4
@@ -203,7 +204,6 @@ class CreateEventViewController: UIViewController {
         viewForTimePickerAndButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.centerX.equalToSuperview()
-//            make.height.equalTo(50)
         }
         
         layoutInsideTimePickerView()
@@ -217,6 +217,7 @@ class CreateEventViewController: UIViewController {
     
     private func addViewsToDateTimeStack() {
         dateTimeVerticalStackView.addArrangedSubview(topViewForDateTimeStackView)
+        dateTimeVerticalStackView.bringSubviewToFront(topViewForDateTimeStackView)
         dateTimeVerticalStackView.addArrangedSubview(bottomViewForDateAndTimeStackView)
         topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
         topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
@@ -264,23 +265,10 @@ class CreateEventViewController: UIViewController {
         }
     }
     
-    
     @objc private func showHideDateTimePicker() {
-        if bottomViewForDateAndTimeStackView.isHidden == true {
-            UIView.animate(withDuration: 0.5, animations: {[weak self] in
-                    guard let self else { return }
-                self.bottomViewForDateAndTimeStackView.isHidden = false
-//                self.bottomViewForDateAndTimeStackView.alpha = 1.0
-                    
-            })
-        } else {
-            UIView.animate(withDuration: 0.5) {[weak self] in
-                guard let self else { return }
-                self.bottomViewForDateAndTimeStackView.isHidden = true
-//                self.bottomViewForDateAndTimeStackView.alpha = 0.0
-//
-//                self.view.layoutIfNeeded()
-            }
+        UIView.animate(withDuration: 0.5) {[weak self] in
+            guard let self else { return }
+            self.bottomViewForDateAndTimeStackView.isHidden = !self.bottomViewForDateAndTimeStackView.isHidden
         }
     }
 }
