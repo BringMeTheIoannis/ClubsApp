@@ -83,7 +83,7 @@ class CreateEventViewController: UIViewController {
     }()
     
     var arrowForTopViewForDateTimeView: UIImageView = {
-        let image = UIImage(systemName: "chevron.right")
+        let image = UIImage(systemName: "chevron.down")
         let imageView = UIImageView(image: image)
         imageView.tintColor = .black
         return imageView
@@ -105,7 +105,7 @@ class CreateEventViewController: UIViewController {
         picker.datePickerMode = .time
         picker.locale = .current
         picker.preferredDatePickerStyle = .inline
-        picker.locale = Locale(identifier: "en_GB")
+        picker.locale = Locale(identifier: "be_BY")
         picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
         picker.addTarget(self, action: #selector(changeLabelAfterCalendarChanged), for: .valueChanged)
         return picker
@@ -196,7 +196,7 @@ class CreateEventViewController: UIViewController {
         }
         
         topViewForDateTimeStackView.snp.makeConstraints { make in
-            make.height.equalTo(30)
+            make.height.equalTo(40)
         }
         
         dateTimeStackTopViewInsideLayout()
@@ -242,22 +242,24 @@ class CreateEventViewController: UIViewController {
     }
     
     private func dateTimeStackTopViewInsideLayout() {
-        labelForTopViewForDateTime.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview().inset(30)
-            make.centerY.equalToSuperview()
-        }
         
         arrowForTopViewForDateTimeView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.equalTo(13)
-            make.height.equalTo(24)
+            make.width.equalTo(18.5)
+            make.height.equalTo(20)
+        }
+        
+        labelForTopViewForDateTime.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalTo(arrowForTopViewForDateTimeView.snp.leading)
+            make.centerY.equalToSuperview()
         }
         
         bottomBorderForDateTimeTopView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(1)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(labelForTopViewForDateTime.snp.bottom).offset(8)
+            make.height.equalTo(0.5)
         }
     }
     
@@ -287,12 +289,18 @@ class CreateEventViewController: UIViewController {
             guard let self else { return }
             self.bottomViewForDateAndTimeStackView.isHidden = !self.bottomViewForDateAndTimeStackView.isHidden
             self.changeLabelAfterCalendarChanged()
+            self.dateTimeChevronChange()
             self.view.layoutIfNeeded()
         }
     }
     
     private func addTopViewOfStackToFrontForNiceAnimation() {
         dateTimeVerticalStackView.bringSubviewToFront(topViewForDateTimeStackView)
+    }
+    
+    private func dateTimeChevronChange() {
+        self.bottomViewForDateAndTimeStackView.isHidden ? (arrowForTopViewForDateTimeView.image = UIImage(systemName: "chevron.down")) :
+        (arrowForTopViewForDateTimeView.image = UIImage(systemName: "chevron.up"))
     }
     
     @objc private func changeLabelAfterCalendarChanged() {
