@@ -38,6 +38,40 @@ class CreateEventViewController: UIViewController {
         return textField
     }()
     
+    lazy var placeTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "Введите адрес/название места",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)
+                        ]
+        )
+        textField.borderStyle = .none
+        textField.leftViewMode = .always
+        textField.tintColor = .black
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
+    lazy var aboutTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "Описание",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,
+                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)
+                        ]
+        )
+        textField.borderStyle = .none
+        textField.leftViewMode = .always
+        textField.tintColor = .black
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
     var bottomBorderForTitleLabel: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray
@@ -45,6 +79,18 @@ class CreateEventViewController: UIViewController {
     }()
     
     var bottomBorderForDateTimeTopView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray
+        return view
+    }()
+    
+    var bottomBorderForPlacesView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray
+        return view
+    }()
+    
+    var bottomBorderForAboutView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray
         return view
@@ -78,7 +124,7 @@ class CreateEventViewController: UIViewController {
     
     var labelForTopViewForDateTime: UILabel = {
         let label = UILabel()
-        label.text = "Выбрать дату и время"
+        label.text = "Выберите дату и время"
         return label
     }()
     
@@ -139,23 +185,23 @@ class CreateEventViewController: UIViewController {
         return stackView
     }()
     
-    var testView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGreen
-        return view
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         controllerSetup()
         addSubviews()
         doLayout()
         addTopViewOfStackToFrontForNiceAnimation()
+        dismissKeyboardByTapOnView()
+        setupDelegates()
     }
     
     private func controllerSetup() {
         view.backgroundColor = .white
         title = "Создать"
+    }
+    
+    private func setupDelegates() {
+        titleTextField.delegate = self
     }
     
     private func addSubviews() {
@@ -165,7 +211,10 @@ class CreateEventViewController: UIViewController {
         titleTextField.addSubview(bottomBorderForTitleLabel)
         scrollView.addSubview(dateTimeVerticalStackView)
         addViewsToDateTimeStack()
-        scrollView.addSubview(testView)
+        scrollView.addSubview(placeTextField)
+        placeTextField.addSubview(bottomBorderForPlacesView)
+        scrollView.addSubview(aboutTextField)
+        aboutTextField.addSubview(bottomBorderForAboutView)
     }
     
     private func doLayout() {
@@ -220,11 +269,30 @@ class CreateEventViewController: UIViewController {
         
         layoutInsideTimePickerView()
         
-        testView.snp.makeConstraints { make in
+        placeTextField.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(dateTimeVerticalStackView.snp.bottom)
-            make.height.equalTo(50)
+            make.top.equalTo(dateTimeVerticalStackView.snp.bottom).offset(16)
+            make.height.equalTo(30)
         }
+        
+        bottomBorderForPlacesView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(placeTextField.snp.bottom).offset(3)
+            make.height.equalTo(0.5)
+        }
+        
+        aboutTextField.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(placeTextField.snp.bottom).offset(16)
+            make.height.equalTo(30)
+        }
+        
+        bottomBorderForAboutView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(aboutTextField.snp.bottom).offset(3)
+            make.height.equalTo(0.5)
+        }
+        
     }
     
     private func addViewsToDateTimeStack() {
@@ -303,6 +371,12 @@ class CreateEventViewController: UIViewController {
         (arrowForTopViewForDateTimeView.image = UIImage(systemName: "chevron.up"))
     }
     
+    private func dismissKeyboardByTapOnView() {
+        let gestureRecogn = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        gestureRecogn.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(gestureRecogn)
+    }
+    
     @objc private func changeLabelAfterCalendarChanged() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.YYYY HH:mm"
@@ -315,5 +389,11 @@ class CreateEventViewController: UIViewController {
         let finalDate = Calendar.current.date(from: finalDateComponents) ?? Date.now
         let prettyDate = dateFormatter.string(from: finalDate)
         self.labelForTopViewForDateTime.text = "Дата: \(prettyDate)"
+    }
+}
+
+extension CreateEventViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textField.resignFirstResponder()
     }
 }
