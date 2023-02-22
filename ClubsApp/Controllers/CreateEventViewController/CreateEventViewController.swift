@@ -10,6 +10,8 @@ import SnapKit
 
 class CreateEventViewController: UIViewController {
     
+    lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
+    
     var topColorView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 0.94, green: 0.91, blue: 0.971, alpha: 1)
@@ -185,6 +187,16 @@ class CreateEventViewController: UIViewController {
         return stackView
     }()
     
+    lazy var closeControllerImageView: UIImageView = {
+        let image = UIImage(systemName: "xmark")
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(closeController))
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .black
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(recognizer)
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         controllerSetup()
@@ -207,6 +219,7 @@ class CreateEventViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(topColorView)
         view.addSubview(scrollView)
+        navBar?.addSubview(closeControllerImageView)
         scrollView.addSubview(titleTextField)
         titleTextField.addSubview(bottomBorderForTitleLabel)
         scrollView.addSubview(dateTimeVerticalStackView)
@@ -218,6 +231,12 @@ class CreateEventViewController: UIViewController {
     }
     
     private func doLayout() {
+        
+        closeControllerImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(16)
+        }
+        
         topColorView.snp.makeConstraints { make in
             make.leading.trailing.top.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -283,7 +302,7 @@ class CreateEventViewController: UIViewController {
         
         aboutTextField.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(placeTextField.snp.bottom).offset(16)
+            make.top.equalTo(bottomBorderForPlacesView.snp.bottom).offset(16)
             make.height.equalTo(30)
         }
         
@@ -292,7 +311,6 @@ class CreateEventViewController: UIViewController {
             make.top.equalTo(aboutTextField.snp.bottom).offset(3)
             make.height.equalTo(0.5)
         }
-        
     }
     
     private func addViewsToDateTimeStack() {
@@ -389,6 +407,10 @@ class CreateEventViewController: UIViewController {
         let finalDate = Calendar.current.date(from: finalDateComponents) ?? Date.now
         let prettyDate = dateFormatter.string(from: finalDate)
         self.labelForTopViewForDateTime.text = "Дата: \(prettyDate)"
+    }
+    
+    @objc private func closeController() {
+        self.dismiss(animated: true)
     }
 }
 
