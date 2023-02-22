@@ -44,6 +44,12 @@ class CreateEventViewController: UIViewController {
         return view
     }()
     
+    var bottomBorderForDateTimeTopView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray
+        return view
+    }()
+    
     var dateTimeContainerView: UIView = {
         let view = UIView()
         return view
@@ -83,21 +89,25 @@ class CreateEventViewController: UIViewController {
         return imageView
     }()
     
-    var calendarPicker: UIDatePicker = {
+    lazy var calendarPicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
+        picker.locale = .current
         picker.preferredDatePickerStyle = .inline
         picker.minimumDate = Date.now
         picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
+        picker.addTarget(self, action: #selector(changeLabelAfterCalendarChanged), for: .valueChanged)
         return picker
     }()
     
-    var timePicker: UIDatePicker = {
+    lazy var timePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .time
+        picker.locale = .current
         picker.preferredDatePickerStyle = .inline
         picker.locale = Locale(identifier: "en_GB")
         picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
+        picker.addTarget(self, action: #selector(changeLabelAfterCalendarChanged), for: .valueChanged)
         return picker
     }()
     
@@ -123,7 +133,7 @@ class CreateEventViewController: UIViewController {
         return button
     }()
     
-    var insideStackViewForDatePickerAndDoneButton: UIStackView = {
+    var insideStackViewForDatePickerAndTimePicker: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         return stackView
@@ -140,6 +150,7 @@ class CreateEventViewController: UIViewController {
         controllerSetup()
         addSubviews()
         doLayout()
+        addTopViewOfStackToFrontForNiceAnimation()
     }
     
     private func controllerSetup() {
@@ -192,8 +203,9 @@ class CreateEventViewController: UIViewController {
         
         bottomViewForDateAndTimeStackView.snp.makeConstraints { make in }
         
-        insideStackViewForDatePickerAndDoneButton.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        insideStackViewForDatePickerAndTimePicker.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalToSuperview().priority(.high)
         }
         
         calendarPicker.snp.makeConstraints { make in
@@ -217,13 +229,13 @@ class CreateEventViewController: UIViewController {
     
     private func addViewsToDateTimeStack() {
         dateTimeVerticalStackView.addArrangedSubview(topViewForDateTimeStackView)
-        dateTimeVerticalStackView.bringSubviewToFront(topViewForDateTimeStackView)
         dateTimeVerticalStackView.addArrangedSubview(bottomViewForDateAndTimeStackView)
         topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
         topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
-        bottomViewForDateAndTimeStackView.addSubview(insideStackViewForDatePickerAndDoneButton)
-        insideStackViewForDatePickerAndDoneButton.addArrangedSubview(calendarPicker)
-        insideStackViewForDatePickerAndDoneButton.addArrangedSubview(viewForTimePickerAndButton)
+        topViewForDateTimeStackView.addSubview(bottomBorderForDateTimeTopView)
+        bottomViewForDateAndTimeStackView.addSubview(insideStackViewForDatePickerAndTimePicker)
+        insideStackViewForDatePickerAndTimePicker.addArrangedSubview(calendarPicker)
+        insideStackViewForDatePickerAndTimePicker.addArrangedSubview(viewForTimePickerAndButton)
         viewForTimePickerAndButton.addSubview(timePicker)
         viewForTimePickerAndButton.addSubview(timeLabelForTimeView)
         viewForTimePickerAndButton.addSubview(doneButtonForDateTime)
@@ -241,6 +253,11 @@ class CreateEventViewController: UIViewController {
             make.centerY.equalToSuperview()
             make.width.equalTo(13)
             make.height.equalTo(24)
+        }
+        
+        bottomBorderForDateTimeTopView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(1)
         }
     }
     
@@ -269,6 +286,26 @@ class CreateEventViewController: UIViewController {
         UIView.animate(withDuration: 0.5) {[weak self] in
             guard let self else { return }
             self.bottomViewForDateAndTimeStackView.isHidden = !self.bottomViewForDateAndTimeStackView.isHidden
+            self.changeLabelAfterCalendarChanged()
+            self.view.layoutIfNeeded()
         }
+    }
+    
+    private func addTopViewOfStackToFrontForNiceAnimation() {
+        dateTimeVerticalStackView.bringSubviewToFront(topViewForDateTimeStackView)
+    }
+    
+    @objc private func changeLabelAfterCalendarChanged() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.YYYY HH:mm"
+        let calendarPickerDay = calendarPicker.calendar.component(.day, from: calendarPicker.date)
+        let calendarPickerMonth = calendarPicker.calendar.component(.month, from: calendarPicker.date)
+        let calendarPickerYear = calendarPicker.calendar.component(.year, from: calendarPicker.date)
+        let timePickerHours = timePicker.calendar.component(.hour, from: timePicker.date)
+        let timePickerMinutes = timePicker.calendar.component(.minute, from: timePicker.date)
+        let finalDateComponents = DateComponents(year: calendarPickerYear, month: calendarPickerMonth, day: calendarPickerDay, hour: timePickerHours, minute: timePickerMinutes)
+        let finalDate = Calendar.current.date(from: finalDateComponents) ?? Date.now
+        let prettyDate = dateFormatter.string(from: finalDate)
+        self.labelForTopViewForDateTime.text = "Дата: \(prettyDate)"
     }
 }
