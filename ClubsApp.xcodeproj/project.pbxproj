@@ -30,6 +30,9 @@
 		598A77EE298D1B1000EFCA0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 598A77EC298D1B1000EFCA0C /* Main.storyboard */; };
 		598A77F0298D1B1400EFCA0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 598A77EF298D1B1400EFCA0C /* Assets.xcassets */; };
 		598A77F3298D1B1400EFCA0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 598A77F1298D1B1400EFCA0C /* LaunchScreen.storyboard */; };
+		59D9715D29A7AF6500EC6D6F /* AddUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9715C29A7AF6400EC6D6F /* AddUsersViewController.swift */; };
+		59D9715F29A7C04700EC6D6F /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9715E29A7C04700EC6D6F /* SearchResultViewController.swift */; };
+		59D9716229A7C18A00EC6D6F /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9716129A7C18A00EC6D6F /* SearchResultTableViewCell.swift */; };
 		59FF9827299516D0003F4573 /* ResetPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FF9826299516D0003F4573 /* ResetPassViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +61,9 @@
 		598A77EF298D1B1400EFCA0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		598A77F2298D1B1400EFCA0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		598A77F4298D1B1400EFCA0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59D9715C29A7AF6400EC6D6F /* AddUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUsersViewController.swift; sourceTree = "<group>"; };
+		59D9715E29A7C04700EC6D6F /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		59D9716129A7C18A00EC6D6F /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		59FF9826299516D0003F4573 /* ResetPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPassViewController.swift; sourceTree = "<group>"; };
 		8AB3557D7D67D081F655439A /* Pods_ClubsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClubsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5182652994B8849FB9A3365 /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,7 +191,10 @@
 		5964C960299A3997005346A6 /* CreateEventViewController */ = {
 			isa = PBXGroup;
 			children = (
+				59D9716029A7C16E00EC6D6F /* Cells */,
 				59280741299A39F500901448 /* CreateEventViewController.swift */,
+				59D9715C29A7AF6400EC6D6F /* AddUsersViewController.swift */,
+				59D9715E29A7C04700EC6D6F /* SearchResultViewController.swift */,
 			);
 			path = CreateEventViewController;
 			sourceTree = "<group>";
@@ -275,6 +284,14 @@
 				598A77F4298D1B1400EFCA0C /* Info.plist */,
 			);
 			path = ClubsApp;
+			sourceTree = "<group>";
+		};
+		59D9716029A7C16E00EC6D6F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				59D9716129A7C18A00EC6D6F /* SearchResultTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		9E2C5AE59A5E681657CEA81D /* Pods */ = {
@@ -403,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				597CDC1C29941FF500DDF16E /* UserAuth.swift in Sources */,
+				59D9715F29A7C04700EC6D6F /* SearchResultViewController.swift in Sources */,
 				593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */,
 				59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */,
 				59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */,
@@ -411,7 +429,9 @@
 				5964C95C299A35BA005346A6 /* AllEventsViewController.swift in Sources */,
 				597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */,
 				597CDC172993FC9000DDF16E /* ScendeDelegateEnvironment.swift in Sources */,
+				59D9715D29A7AF6500EC6D6F /* AddUsersViewController.swift in Sources */,
 				598A77E9298D1B1000EFCA0C /* SceneDelegate.swift in Sources */,
+				59D9716229A7C18A00EC6D6F /* SearchResultTableViewCell.swift in Sources */,
 				59FF9827299516D0003F4573 /* ResetPassViewController.swift in Sources */,
 				597CDC132993F10700DDF16E /* MainScreenViewController.swift in Sources */,
 				59280742299A39F500901448 /* CreateEventViewController.swift in Sources */,

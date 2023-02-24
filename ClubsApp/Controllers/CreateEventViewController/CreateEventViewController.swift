@@ -98,6 +98,12 @@ class CreateEventViewController: UIViewController {
         return view
     }()
     
+    var bottomBorderForAddUsersView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray
+        return view
+    }()
+    
     var dateTimeContainerView: UIView = {
         let view = UIView()
         return view
@@ -117,6 +123,14 @@ class CreateEventViewController: UIViewController {
         return view
     }()
     
+    lazy var addUsersView: UIView = {
+        let view = UIView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(goToAddUsersVC))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(gesture)
+        return view
+    }()
+    
     var bottomViewForDateAndTimeStackView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -130,10 +144,25 @@ class CreateEventViewController: UIViewController {
         return label
     }()
     
+    var labelForAddUsersView: UILabel = {
+        let label = UILabel()
+        label.text = "Добавьте участников"
+        return label
+    }()
+    
     var arrowForTopViewForDateTimeView: UIImageView = {
         let image = UIImage(systemName: "chevron.down")
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .black
+        return imageView
+    }()
+    
+    lazy var plusAddUserImageView: UIImageView = {
+        let image = UIImage(systemName: "chevron.right")
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
         return imageView
     }()
     
@@ -214,6 +243,8 @@ class CreateEventViewController: UIViewController {
     
     private func setupDelegates() {
         titleTextField.delegate = self
+        placeTextField.delegate = self
+        aboutTextField.delegate = self
     }
     
     private func addSubviews() {
@@ -228,13 +259,18 @@ class CreateEventViewController: UIViewController {
         placeTextField.addSubview(bottomBorderForPlacesView)
         scrollView.addSubview(aboutTextField)
         aboutTextField.addSubview(bottomBorderForAboutView)
+        scrollView.addSubview(addUsersView)
+        addUsersView.addSubview(plusAddUserImageView)
+        addUsersView.addSubview(labelForAddUsersView)
+        addUsersView.addSubview(bottomBorderForAddUsersView)
     }
     
     private func doLayout() {
-        
-        closeControllerImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(16)
+        if navBar != nil {
+            closeControllerImageView.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(16)
+                make.bottom.equalToSuperview().inset(16)
+            }
         }
         
         topColorView.snp.makeConstraints { make in
@@ -260,11 +296,11 @@ class CreateEventViewController: UIViewController {
         
         dateTimeVerticalStackView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(bottomBorderForTitleLabel).inset(16)
+            make.top.equalTo(bottomBorderForTitleLabel.snp.bottom).offset(16)
         }
         
         topViewForDateTimeStackView.snp.makeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(30)
         }
         
         dateTimeStackTopViewInsideLayout()
@@ -290,7 +326,7 @@ class CreateEventViewController: UIViewController {
         
         placeTextField.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(dateTimeVerticalStackView.snp.bottom).offset(16)
+            make.top.equalTo(dateTimeVerticalStackView.snp.bottom).offset(19.5)
             make.height.equalTo(30)
         }
         
@@ -311,13 +347,21 @@ class CreateEventViewController: UIViewController {
             make.top.equalTo(aboutTextField.snp.bottom).offset(3)
             make.height.equalTo(0.5)
         }
+        
+        addUsersView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(bottomBorderForAboutView.snp.bottom).offset(16)
+            make.height.equalTo(30)
+        }
+        
+        addUsersViewLayout()
     }
     
     private func addViewsToDateTimeStack() {
         dateTimeVerticalStackView.addArrangedSubview(topViewForDateTimeStackView)
         dateTimeVerticalStackView.addArrangedSubview(bottomViewForDateAndTimeStackView)
-        topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
         topViewForDateTimeStackView.addSubview(arrowForTopViewForDateTimeView)
+        topViewForDateTimeStackView.addSubview(labelForTopViewForDateTime)
         topViewForDateTimeStackView.addSubview(bottomBorderForDateTimeTopView)
         bottomViewForDateAndTimeStackView.addSubview(insideStackViewForDatePickerAndTimePicker)
         insideStackViewForDatePickerAndTimePicker.addArrangedSubview(calendarPicker)
@@ -328,12 +372,10 @@ class CreateEventViewController: UIViewController {
     }
     
     private func dateTimeStackTopViewInsideLayout() {
-        
         arrowForTopViewForDateTimeView.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.equalTo(18.5)
-            make.height.equalTo(20)
+            make.height.width.equalTo(20)
         }
         
         labelForTopViewForDateTime.snp.makeConstraints { make in
@@ -344,7 +386,27 @@ class CreateEventViewController: UIViewController {
         
         bottomBorderForDateTimeTopView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(labelForTopViewForDateTime.snp.bottom).offset(8)
+            make.top.equalTo(topViewForDateTimeStackView.snp.bottom).offset(3)
+            make.height.equalTo(0.5)
+        }
+    }
+    
+    private func addUsersViewLayout() {
+        plusAddUserImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(20)
+        }
+        
+        labelForAddUsersView.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalTo(plusAddUserImageView.snp.leading)
+            make.centerY.equalToSuperview()
+        }
+        
+        bottomBorderForAddUsersView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(addUsersView.snp.bottom).offset(3)
             make.height.equalTo(0.5)
         }
     }
@@ -411,6 +473,12 @@ class CreateEventViewController: UIViewController {
     
     @objc private func closeController() {
         self.dismiss(animated: true)
+    }
+    
+    @objc private func goToAddUsersVC() {
+        let addUserVC = AddUsersViewController()
+        let vc = UINavigationController(rootViewController: addUserVC)
+        self.present(vc, animated: true)
     }
 }
 
