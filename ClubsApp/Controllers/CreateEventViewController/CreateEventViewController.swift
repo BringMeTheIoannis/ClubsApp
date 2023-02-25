@@ -10,6 +10,7 @@ import SnapKit
 
 class CreateEventViewController: UIViewController {
     
+    var addedUsers = [String]()
     lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
     
     var topColorView: UIView = {
@@ -478,6 +479,11 @@ class CreateEventViewController: UIViewController {
     @objc private func goToAddUsersVC() {
         let addUserVC = AddUsersViewController()
         let vc = UINavigationController(rootViewController: addUserVC)
+        addUserVC.addedUsersDataBringToCreateVC = {[weak self] addedUsersArray in
+            guard let self else { return }
+            self.addedUsers = addedUsersArray
+        }
+        addUserVC.addedUsersArray = addedUsers
         self.present(vc, animated: true)
     }
 }
