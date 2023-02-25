@@ -31,6 +31,17 @@ class AddUsersViewController: UIViewController {
         let tableView = UITableView()
         return tableView
     }()
+    
+    lazy var closeVCImage: UIImageView = {
+        let imageView = UIImageView()
+        let image = UIImage(systemName: "chevron.down")
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(closeVC))
+        imageView.image = image
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
+        imageView.addGestureRecognizer(gesture)
+        return imageView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +55,8 @@ class AddUsersViewController: UIViewController {
     private func controllerSetup() {
         view.backgroundColor = .white
         title = "Пригласите участников"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeVCImage)
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func searchControllerSetup() {
@@ -52,6 +65,7 @@ class AddUsersViewController: UIViewController {
     
     private func tableViewSetup() {
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
     }
     
@@ -64,6 +78,10 @@ class AddUsersViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    @objc private func closeVC() {
+        self.dismiss(animated: true)
     }
 }
 
@@ -91,5 +109,11 @@ extension AddUsersViewController: UITableViewDataSource {
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
         cell.nameLabel.text = addedUsersArray[indexPath.row]
         return cell
+    }
+}
+
+extension AddUsersViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

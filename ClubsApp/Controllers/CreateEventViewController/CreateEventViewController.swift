@@ -155,7 +155,7 @@ class CreateEventViewController: UIViewController {
         let image = UIImage(systemName: "chevron.down")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .black
+        imageView.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
         return imageView
     }()
     
@@ -436,6 +436,7 @@ class CreateEventViewController: UIViewController {
     @objc private func showHideDateTimePicker() {
         UIView.animate(withDuration: 0.5) {[weak self] in
             guard let self else { return }
+            self.view.endEditing(true)
             self.bottomViewForDateAndTimeStackView.isHidden = !self.bottomViewForDateAndTimeStackView.isHidden
             self.changeLabelAfterCalendarChanged()
             self.dateTimeChevronChange()
@@ -484,6 +485,7 @@ class CreateEventViewController: UIViewController {
             self.addedUsers = addedUsersArray
         }
         addUserVC.addedUsersArray = addedUsers
+        self.view.endEditing(true)
         self.present(vc, animated: true)
     }
 }
