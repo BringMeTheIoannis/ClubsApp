@@ -15,7 +15,7 @@ class SearchResultViewController: UIViewController {
             tableView.reloadData()
         }
     }
-    var dismissSearchController: (String) -> Void = {addedUser in }
+    var dismissSearchController: ((String) -> Void)?
     
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -65,6 +65,6 @@ extension SearchResultViewController: UITableViewDataSource {
 
 extension SearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dismissSearchController(searchResults[indexPath.row])
+        dismissSearchController?(searchResults[indexPath.row])
     }
 }

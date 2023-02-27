@@ -29,6 +29,7 @@ class DatabaseManager {
         let querySetup = database.collection("users").document(userID)
         let dataToSet: [String: Any] = ["email": email,
                                         "username": username,
+                                        "userID": userID,
         ]
         querySetup.setData(dataToSet, completion: { error in
             guard let error else {

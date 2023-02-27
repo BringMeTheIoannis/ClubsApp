@@ -13,11 +13,11 @@ class AddUsersViewController: UIViewController {
     var addedUsersArray = [String]() {
         didSet {
             tableView.reloadData()
-            addedUsersDataBringToCreateVC(addedUsersArray)
+            addedUsersDataBringToCreateVC?(addedUsersArray)
         }
     }
     var searchResultVC = SearchResultViewController()
-    var addedUsersDataBringToCreateVC: ([String]) -> Void = {addedUsersArray in }
+    var addedUsersDataBringToCreateVC: (([String]) -> Void)?
     
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: searchResultVC)

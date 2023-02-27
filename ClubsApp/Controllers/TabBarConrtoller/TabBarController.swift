@@ -16,7 +16,7 @@ class TabBarController: UITabBarController {
     let chatsViewController = ChatsViewController()
     let profileSettingsViewController = ProfileSettingsViewController()
     var tabBarIndicatorView: UIView = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     let tintColor = UIColor(red: 127/255, green: 5/255, blue: 249/255, alpha: 1.0)
@@ -71,15 +71,13 @@ class TabBarController: UITabBarController {
     private func addTabbarIndicatorInitCall() {
         DispatchQueue.main.async {[weak self] in
             guard let self else { return }
-            self.addTabbarIndicator(index: self.selectedIndex, isInitIndicator: true)
+            self.addTabbarIndicator(index: self.selectedIndex)
         }
     }
         
-    private func addTabbarIndicator(index: Int, isInitIndicator: Bool = false) {
+    private func addTabbarIndicator(index: Int) {
         guard let tabView = tabBar.items?[index].value(forKey: "view") as? UIView else { return }
-        if !isInitIndicator {
-            tabBarIndicatorView.removeFromSuperview()
-        }
+        tabBarIndicatorView.removeFromSuperview()
         tabBarIndicatorView = UIView(frame: CGRect(x: tabView.frame.minX + indicatorSpacing, y: tabView.frame.minY - 1, width: tabView.frame.size.width - indicatorSpacing * 2, height: 4))
         tabBarIndicatorView.backgroundColor = tintColor
         tabBar.addSubview(tabBarIndicatorView)
