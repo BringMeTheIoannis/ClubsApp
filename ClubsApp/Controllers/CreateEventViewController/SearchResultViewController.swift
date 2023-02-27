@@ -10,16 +10,24 @@ import SnapKit
 
 class SearchResultViewController: UIViewController {
     
-    var searchResults = [String]() {
+    var searchResults = [User]() {
         didSet {
             tableView.reloadData()
         }
     }
-    var dismissSearchController: ((String) -> Void)?
+    var dismissSearchController: ((User) -> Void)?
+    var errorOfGettingUsersText: String = ""
     
     var tableView: UITableView = {
         let tableView = UITableView()
         return tableView
+    }()
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
+        indicator.hidesWhenStopped = true
+        return indicator
     }()
 
     override func viewDidLoad() {
@@ -41,11 +49,16 @@ class SearchResultViewController: UIViewController {
     
     private func addSubviews() {
         view.addSubview(tableView)
+        view.addSubview(activityIndicator)
     }
     
     private func doLayout() {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(tableView)
         }
     }
 }
@@ -58,7 +71,7 @@ extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.id, for: indexPath)
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
-        cell.nameLabel.text = searchResults[indexPath.row]
+        cell.nameLabel.text = searchResults[indexPath.row].name
         return cell
     }
 }

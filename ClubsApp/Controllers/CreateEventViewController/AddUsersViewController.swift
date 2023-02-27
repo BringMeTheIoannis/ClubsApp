@@ -9,15 +9,17 @@ import UIKit
 
 class AddUsersViewController: UIViewController {
     
-    var users = ["Dima", "Kirill", "Klimnet", "Daryi"]
-    var addedUsersArray = [String]() {
+    var users = [User]()
+    var addedUsersArray = [User]() {
         didSet {
             tableView.reloadData()
             addedUsersDataBringToCreateVC?(addedUsersArray)
         }
     }
+    var database = DatabaseManager()
     var searchResultVC = SearchResultViewController()
-    var addedUsersDataBringToCreateVC: (([String]) -> Void)?
+    var addedUsersDataBringToCreateVC: (([User]) -> Void)?
+    var charsThatAlreadyBeenQueried = [String]()
     
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: searchResultVC)
@@ -90,7 +92,25 @@ extension AddUsersViewController: UISearchResultsUpdating {
         guard let text = searchController.searchBar.text,
               let resultVC = searchController.searchResultsController as? SearchResultViewController
         else { return }
-        resultVC.searchResults = users.filter({ $0.contains(text) })
+        if text.count == 1, !charsThatAlreadyBeenQueried.contains(text) {
+            charsThatAlreadyBeenQueried.append(text)
+            resultVC.activityIndicator.startAnimating()
+            database.getUsersByChars(name: text) {[weak self] arrayOfUsers in
+                guard let self else { return }
+                self.users.append(contentsOf: arrayOfUsers)
+                resultVC.searchResults = self.users.filter({ $0.name.contains(text) })
+                resultVC.activityIndicator.stopAnimating()
+                return
+            } failure: { failure in
+                resultVC.errorOfGettingUsersText = failure ?? ""
+                resultVC.activityIndicator.stopAnimating()
+                return
+            }
+        }
+//        if !charsThatAlreadyBeenQueried.contains(String(text.prefix(1))) {
+//           
+//        }
+        resultVC.searchResults = users.filter({ $0.name.contains(text) })
         resultVC.dismissSearchController = {[weak self] addedUser in
             guard let self else { return }
             self.addedUsersArray.append(addedUser)
@@ -107,7 +127,7 @@ extension AddUsersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.id, for: indexPath)
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
-        cell.nameLabel.text = addedUsersArray[indexPath.row]
+        cell.nameLabel.text = addedUsersArray[indexPath.row].name
         return cell
     }
 }

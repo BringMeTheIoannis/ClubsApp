@@ -33,6 +33,7 @@
 		59D9715D29A7AF6500EC6D6F /* AddUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9715C29A7AF6400EC6D6F /* AddUsersViewController.swift */; };
 		59D9715F29A7C04700EC6D6F /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9715E29A7C04700EC6D6F /* SearchResultViewController.swift */; };
 		59D9716229A7C18A00EC6D6F /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9716129A7C18A00EC6D6F /* SearchResultTableViewCell.swift */; };
+		59D9716529ACB69B00EC6D6F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D9716429ACB69B00EC6D6F /* UserModel.swift */; };
 		59FF9827299516D0003F4573 /* ResetPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FF9826299516D0003F4573 /* ResetPassViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		59D9715C29A7AF6400EC6D6F /* AddUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUsersViewController.swift; sourceTree = "<group>"; };
 		59D9715E29A7C04700EC6D6F /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		59D9716129A7C18A00EC6D6F /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		59D9716429ACB69B00EC6D6F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		59FF9826299516D0003F4573 /* ResetPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPassViewController.swift; sourceTree = "<group>"; };
 		8AB3557D7D67D081F655439A /* Pods_ClubsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClubsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5182652994B8849FB9A3365 /* Pods-ClubsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClubsApp.debug.xcconfig"; path = "Target Support Files/Pods-ClubsApp/Pods-ClubsApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 		598A77E5298D1B1000EFCA0C /* ClubsApp */ = {
 			isa = PBXGroup;
 			children = (
+				59D9716329ACB68600EC6D6F /* Models */,
 				591E2CEF299BD42700D079D5 /* Enums */,
 				590E0A9C299684D7005001F0 /* Protocols */,
 				597CDC1929941FD700DDF16E /* Database */,
@@ -292,6 +295,14 @@
 				59D9716129A7C18A00EC6D6F /* SearchResultTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		59D9716329ACB68600EC6D6F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				59D9716429ACB69B00EC6D6F /* UserModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		9E2C5AE59A5E681657CEA81D /* Pods */ = {
@@ -427,6 +438,7 @@
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
 				598A77E7298D1B1000EFCA0C /* AppDelegate.swift in Sources */,
 				5964C95C299A35BA005346A6 /* AllEventsViewController.swift in Sources */,
+				59D9716529ACB69B00EC6D6F /* UserModel.swift in Sources */,
 				597CDC102993D93B00DDF16E /* Unwrappers.swift in Sources */,
 				597CDC172993FC9000DDF16E /* ScendeDelegateEnvironment.swift in Sources */,
 				59D9715D29A7AF6500EC6D6F /* AddUsersViewController.swift in Sources */,

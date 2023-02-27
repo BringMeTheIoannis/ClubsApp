@@ -10,7 +10,7 @@ import SnapKit
 
 class CreateEventViewController: UIViewController {
     
-    var addedUsers = [String]()
+    var addedUsers = [User]()
     lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
     
     var topColorView: UIView = {
