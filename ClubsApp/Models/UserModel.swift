@@ -12,9 +12,11 @@ struct User: Codable {
         case name = "name"
         case email = "email"
         case id = "userID"
+        case lowercasedName = "lowercasedUserName"
     }
     
     var name: String
     var email: String?
     var id: String
+    var lowercasedName: String
 }

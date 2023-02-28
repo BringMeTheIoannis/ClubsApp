@@ -89,7 +89,7 @@ class AddUsersViewController: UIViewController {
 
 extension AddUsersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text,
+        guard let text = searchController.searchBar.text?.lowercased(),
               let resultVC = searchController.searchResultsController as? SearchResultViewController
         else { return }
         if text.count == 1, !charsThatAlreadyBeenQueried.contains(text) {
@@ -98,19 +98,19 @@ extension AddUsersViewController: UISearchResultsUpdating {
             database.getUsersByChars(name: text) {[weak self] arrayOfUsers in
                 guard let self else { return }
                 self.users.append(contentsOf: arrayOfUsers)
-                resultVC.searchResults = self.users.filter({ $0.name.contains(text) })
+                resultVC.errorLabel.isHidden = true
+                resultVC.searchResults = self.users.filter { $0.lowercasedName.contains(text) }
                 resultVC.activityIndicator.stopAnimating()
                 return
             } failure: { failure in
-                resultVC.errorOfGettingUsersText = failure ?? ""
+                resultVC.errorLabel.text = failure ?? ""
+                resultVC.errorLabel.isHidden = false
                 resultVC.activityIndicator.stopAnimating()
                 return
             }
         }
-//        if !charsThatAlreadyBeenQueried.contains(String(text.prefix(1))) {
-//           
-//        }
-        resultVC.searchResults = users.filter({ $0.name.contains(text) })
+        resultVC.errorLabel.isHidden = false
+        resultVC.searchResults = users.filter { $0.lowercasedName.contains(text) }
         resultVC.dismissSearchController = {[weak self] addedUser in
             guard let self else { return }
             self.addedUsersArray.append(addedUser)

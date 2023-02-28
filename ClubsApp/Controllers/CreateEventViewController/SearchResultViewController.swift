@@ -16,7 +16,13 @@ class SearchResultViewController: UIViewController {
         }
     }
     var dismissSearchController: ((User) -> Void)?
-    var errorOfGettingUsersText: String = ""
+    
+    var errorLabel: UILabel = {
+        let label = UILabel()
+        label.isHidden = true
+        label.textColor = .red
+        return label
+    }()
     
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -28,6 +34,14 @@ class SearchResultViewController: UIViewController {
         indicator.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
         indicator.hidesWhenStopped = true
         return indicator
+    }()
+    
+    var noDataLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Извините, ничего не найдено"
+        label.isHidden = true
+        label.textAlignment = .center
+        return label
     }()
 
     override func viewDidLoad() {
@@ -50,6 +64,8 @@ class SearchResultViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
+        view.addSubview(noDataLabel)
+        view.addSubview(errorLabel)
     }
     
     private func doLayout() {
@@ -59,6 +75,15 @@ class SearchResultViewController: UIViewController {
         
         activityIndicator.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(tableView)
+        }
+        
+        noDataLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+        
+        errorLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(50)
         }
     }
 }
