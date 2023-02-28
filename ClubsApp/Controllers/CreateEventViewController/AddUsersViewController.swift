@@ -26,11 +26,13 @@ class AddUsersViewController: UIViewController {
         searchController.searchBar.placeholder = "Добавить участников"
         searchController.searchBar.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
         searchController.searchBar.setValue("Отмена", forKey: "cancelButtonText")
+        searchController.searchBar.autocapitalizationType = .none
         return searchController
     }()
     
     var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         return tableView
     }()
     

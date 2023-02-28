@@ -26,6 +26,7 @@ class SearchResultViewController: UIViewController {
     
     var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
         return tableView
     }()
     
