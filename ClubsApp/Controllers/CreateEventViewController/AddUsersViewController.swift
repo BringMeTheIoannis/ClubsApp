@@ -102,6 +102,14 @@ extension AddUsersViewController: UISearchResultsUpdating {
                 guard let self else { return }
                 self.users.append(contentsOf: arrayOfUsers)
                 self.users = self.users.filter { !$0.id.contains(self.database.currentUser ?? "") }
+                self.users = self.users.filter { queryUser in
+                    for addedUser in self.addedUsersArray {
+                        if addedUser.id == queryUser.id {
+                            return false
+                        }
+                    }
+                    return true
+                }
                 resultVC.errorLabel.isHidden = true
                 resultVC.searchResults = self.users.filter { $0.lowercasedName.contains(text) }
                 resultVC.activityIndicator.stopAnimating()
@@ -114,6 +122,7 @@ extension AddUsersViewController: UISearchResultsUpdating {
             }
         }
         resultVC.errorLabel.isHidden = false
+        
         var filteredResult = users.filter { $0.lowercasedName.contains(text) }
         filteredResult = filteredResult.filter { queryUser in
             for addedUser in addedUsersArray {
