@@ -114,7 +114,16 @@ extension AddUsersViewController: UISearchResultsUpdating {
             }
         }
         resultVC.errorLabel.isHidden = false
-        resultVC.searchResults = users.filter { $0.lowercasedName.contains(text) }
+        var filteredResult = users.filter { $0.lowercasedName.contains(text) }
+        filteredResult = filteredResult.filter { queryUser in
+            for addedUser in addedUsersArray {
+                if addedUser.id == queryUser.id {
+                    return false
+                }
+            }
+            return true
+        }
+        resultVC.searchResults = filteredResult
         
         resultVC.dismissSearchController = {[weak self] addedUser in
             guard let self else { return }
@@ -132,8 +141,13 @@ extension AddUsersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.id, for: indexPath)
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
+        let color = UIColor(hex: addedUsersArray[indexPath.row].imageColor)
+        
+        addedUsersArray[indexPath.row].isUserAddedForEvent ? (cell.selectionIndicator.backgroundColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)) : (cell.selectionIndicator.backgroundColor = .clear)
+        cell.roundImage.backgroundColor = color
         cell.firstCharOfNameLabel.text = String(addedUsersArray[indexPath.row].name.prefix(1))
         cell.nameLabel.text = addedUsersArray[indexPath.row].name
+        
         return cell
     }
 }

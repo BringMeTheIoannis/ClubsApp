@@ -101,9 +101,12 @@ extension SearchResultViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.id, for: indexPath)
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
         let color = UIColor(hex: searchResults[indexPath.row].imageColor)
+        
+        searchResults[indexPath.row].isUserAddedForEvent ? (cell.selectionIndicator.backgroundColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)) : (cell.selectionIndicator.backgroundColor = .clear)
         cell.roundImage.backgroundColor = color
         cell.firstCharOfNameLabel.text = String(searchResults[indexPath.row].name.prefix(1))
         cell.nameLabel.text = searchResults[indexPath.row].name
+        
         return cell
     }
 }
@@ -111,6 +114,8 @@ extension SearchResultViewController: UITableViewDataSource {
 extension SearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        searchResults[indexPath.row].isUserAddedForEvent.toggle()
+        tableView.reloadData()
         dismissSearchController?(searchResults[indexPath.row])
     }
 }

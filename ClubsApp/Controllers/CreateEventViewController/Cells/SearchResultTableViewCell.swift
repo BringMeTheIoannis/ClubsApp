@@ -11,7 +11,6 @@ import SnapKit
 class SearchResultTableViewCell: UITableViewCell {
     static var id = String(describing: SearchResultTableViewCell.self)
     
-    
     var nameLabel: UILabel = {
         let label = UILabel()
         return label
@@ -22,7 +21,7 @@ class SearchResultTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    var isSelectedIndicator: UIView = {
+    var selectionIndicator: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1.0
         view.layer.borderColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1).cgColor
@@ -51,7 +50,7 @@ class SearchResultTableViewCell: UITableViewCell {
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
         roundImage.layer.cornerRadius = roundImage.frame.size.width / 2
-        isSelectedIndicator.layer.cornerRadius = isSelectedIndicator.frame.size.width / 2
+        selectionIndicator.layer.cornerRadius = selectionIndicator.frame.size.width / 2
     }
     
     private func cellSetup() {
@@ -61,7 +60,7 @@ class SearchResultTableViewCell: UITableViewCell {
     private func addSubviews() {
         contentView.addSubview(roundImage)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(isSelectedIndicator)
+        contentView.addSubview(selectionIndicator)
         roundImage.addSubview(firstCharOfNameLabel)
     }
     
@@ -69,19 +68,20 @@ class SearchResultTableViewCell: UITableViewCell {
         roundImage.snp.makeConstraints { make in
             make.height.width.equalTo(48)
             make.leading.equalToSuperview().offset(16)
-            make.top.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-16)
         }
         
-        isSelectedIndicator.snp.makeConstraints { make in
+        selectionIndicator.snp.makeConstraints { make in
             make.width.height.equalTo(20)
             make.trailing.equalToSuperview().offset(-16)
-            make.centerY.equalToSuperview()
+            make.centerY.equalTo(nameLabel)
         }
         
         nameLabel.snp.makeConstraints { make in
             make.leading.equalTo(roundImage.snp.trailing).offset(12)
             make.top.equalToSuperview().offset(4)
-            make.trailing.equalTo(isSelectedIndicator.snp.leading)
+            make.trailing.equalTo(selectionIndicator.snp.leading)
         }
         
         firstCharOfNameLabel.snp.makeConstraints { make in

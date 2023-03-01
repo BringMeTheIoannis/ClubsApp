@@ -26,7 +26,7 @@ class DatabaseManager {
     }
     
     func addUserToUsersCollection(email: String, username: String, userID: String , success: (() -> Void)?, failure: ((Error) -> Void)?) {
-        let colorsForImage: [UIColor] = [.systemOrange, .systemYellow, .systemGreen, .systemMint, .systemCyan, .systemBlue, .systemIndigo, .systemPurple, .systemPink]
+        let colorsForImage: [UIColor] = [.systemOrange, .systemRed, .systemGreen, .systemMint, .systemCyan, .systemBlue, .systemIndigo, .systemPurple, .systemPink]
         let randomColorIndex = Int.random(in: 0..<colorsForImage.count)
         let hexColor = colorsForImage[randomColorIndex].toHex()
         
