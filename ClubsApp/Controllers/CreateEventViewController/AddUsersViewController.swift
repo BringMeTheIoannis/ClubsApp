@@ -97,9 +97,11 @@ extension AddUsersViewController: UISearchResultsUpdating {
         if text.count == 1, !charsThatAlreadyBeenQueried.contains(text) {
             charsThatAlreadyBeenQueried.append(text)
             resultVC.activityIndicator.startAnimating()
+            
             database.getUsersByChars(name: text) {[weak self] arrayOfUsers in
                 guard let self else { return }
                 self.users.append(contentsOf: arrayOfUsers)
+                self.users = self.users.filter { !$0.id.contains(self.database.currentUser ?? "") }
                 resultVC.errorLabel.isHidden = true
                 resultVC.searchResults = self.users.filter { $0.lowercasedName.contains(text) }
                 resultVC.activityIndicator.stopAnimating()
@@ -113,6 +115,7 @@ extension AddUsersViewController: UISearchResultsUpdating {
         }
         resultVC.errorLabel.isHidden = false
         resultVC.searchResults = users.filter { $0.lowercasedName.contains(text) }
+        
         resultVC.dismissSearchController = {[weak self] addedUser in
             guard let self else { return }
             self.addedUsersArray.append(addedUser)
@@ -129,6 +132,7 @@ extension AddUsersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.id, for: indexPath)
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
+        cell.firstCharOfNameLabel.text = String(addedUsersArray[indexPath.row].name.prefix(1))
         cell.nameLabel.text = addedUsersArray[indexPath.row].name
         return cell
     }

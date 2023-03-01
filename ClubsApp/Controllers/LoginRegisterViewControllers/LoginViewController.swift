@@ -126,7 +126,7 @@ class LoginViewController: UIViewController {
         }
         
         signInOrUpStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(120)
+            make.top.equalToSuperview().offset(view.frame.height * 0.13)
             make.leading.equalToSuperview().offset(leadingAndTrailingOffset)
             make.trailing.equalToSuperview().offset(-leadingAndTrailingOffset)
         }

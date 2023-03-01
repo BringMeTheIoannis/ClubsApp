@@ -11,6 +11,7 @@
 		59280742299A39F500901448 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280741299A39F500901448 /* CreateEventViewController.swift */; };
 		59280745299A3FB100901448 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280744299A3FB100901448 /* ChatsViewController.swift */; };
 		59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280747299A3FD800901448 /* ProfileSettingsViewController.swift */; };
+		592C87C429AF4487006C9565 /* FromAndToHexCodeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592C87C329AF4487006C9565 /* FromAndToHexCodeColor.swift */; };
 		593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593799DA298D4AAA007845F5 /* LoginViewController.swift */; };
 		59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */; };
 		59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */; };
@@ -41,6 +42,7 @@
 		59280741299A39F500901448 /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		59280744299A3FB100901448 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		59280747299A3FD800901448 /* ProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewController.swift; sourceTree = "<group>"; };
+		592C87C329AF4487006C9565 /* FromAndToHexCodeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromAndToHexCodeColor.swift; sourceTree = "<group>"; };
 		593799DA298D4AAA007845F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWithActiveTextFieldProtocol.swift; sourceTree = "<group>"; };
 		59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 			path = ProfileSettingsViewController;
 			sourceTree = "<group>";
 		};
+		592C87C229AF4469006C9565 /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				592C87C329AF4487006C9565 /* FromAndToHexCodeColor.swift */,
+			);
+			path = UIColor;
+			sourceTree = "<group>";
+		};
 		593799D9298D4A5C007845F5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,17 +214,18 @@
 		597CDC0D2993D52700DDF16E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				597CDC0E2993D92D00DDF16E /* Unwrappers */,
+				592C87C229AF4469006C9565 /* UIColor */,
+				597CDC0E2993D92D00DDF16E /* Optional */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		597CDC0E2993D92D00DDF16E /* Unwrappers */ = {
+		597CDC0E2993D92D00DDF16E /* Optional */ = {
 			isa = PBXGroup;
 			children = (
 				597CDC0F2993D93B00DDF16E /* Unwrappers.swift */,
 			);
-			path = Unwrappers;
+			path = Optional;
 			sourceTree = "<group>";
 		};
 		597CDC112993F0DC00DDF16E /* MainViewControllers */ = {
@@ -453,6 +464,7 @@
 				59280745299A3FB100901448 /* ChatsViewController.swift in Sources */,
 				59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */,
 				595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */,
+				592C87C429AF4487006C9565 /* FromAndToHexCodeColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

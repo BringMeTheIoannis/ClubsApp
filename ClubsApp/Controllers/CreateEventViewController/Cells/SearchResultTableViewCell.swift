@@ -10,7 +10,7 @@ import SnapKit
 
 class SearchResultTableViewCell: UITableViewCell {
     static var id = String(describing: SearchResultTableViewCell.self)
-    var colorsForImage: [UIColor] = [.systemGreen, .systemBlue, .systemCyan, .systemMint, .systemPink, .systemGray, .systemOrange, .systemYellow, .systemPurple]
+    
     
     var nameLabel: UILabel = {
         let label = UILabel()
@@ -19,8 +19,6 @@ class SearchResultTableViewCell: UITableViewCell {
     
     lazy var roundImage: UIImageView = {
         let imageView = UIImageView()
-        let randomColorIndex = Int.random(in: 0..<colorsForImage.count)
-        imageView.backgroundColor = colorsForImage[randomColorIndex]
         return imageView
     }()
     
@@ -30,11 +28,24 @@ class SearchResultTableViewCell: UITableViewCell {
         view.layer.borderColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1).cgColor
         return view
     }()
+    
+    var firstCharOfNameLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.backgroundColor = .clear
+        label.textColor = .white
+        return label
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        cellSetup()
         addSubviews()
         doLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutIfNeeded() {
@@ -43,14 +54,15 @@ class SearchResultTableViewCell: UITableViewCell {
         isSelectedIndicator.layer.cornerRadius = isSelectedIndicator.frame.size.width / 2
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func cellSetup() {
+        self.selectionStyle = .none
     }
     
     private func addSubviews() {
         contentView.addSubview(roundImage)
         contentView.addSubview(nameLabel)
         contentView.addSubview(isSelectedIndicator)
+        roundImage.addSubview(firstCharOfNameLabel)
     }
     
     private func doLayout() {
@@ -70,6 +82,10 @@ class SearchResultTableViewCell: UITableViewCell {
             make.leading.equalTo(roundImage.snp.trailing).offset(12)
             make.top.equalToSuperview().offset(4)
             make.trailing.equalTo(isSelectedIndicator.snp.leading)
+        }
+        
+        firstCharOfNameLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

@@ -26,11 +26,16 @@ class DatabaseManager {
     }
     
     func addUserToUsersCollection(email: String, username: String, userID: String , success: (() -> Void)?, failure: ((Error) -> Void)?) {
+        let colorsForImage: [UIColor] = [.systemOrange, .systemYellow, .systemGreen, .systemMint, .systemCyan, .systemBlue, .systemIndigo, .systemPurple, .systemPink]
+        let randomColorIndex = Int.random(in: 0..<colorsForImage.count)
+        let hexColor = colorsForImage[randomColorIndex].toHex()
+        
         let querySetup = database.collection("users").document(userID)
         let dataToSet: [String: Any] = ["email": email,
                                         "name": username,
                                         "lowercasedUserName": username.lowercased(),
                                         "userID": userID,
+                                        "imageColor": hexColor ?? "34C759",
         ]
         querySetup.setData(dataToSet, completion: { error in
             guard let error else {
@@ -42,7 +47,8 @@ class DatabaseManager {
     }
     
     func getUsersByChars(name: String, success: (([User]) -> Void)?, failure: ((String?) -> Void)?) {
-        let querySetup = database.collection("users").whereField("lowercasedUserName", isGreaterThanOrEqualTo: name)
+        let querySetup = database.collection("users").whereField("lowercasedUserName", isGreaterThanOrEqualTo: name).whereField("lowercasedUserName", isLessThanOrEqualTo: name + "uf8ff")
+        
         querySetup.getDocuments { querySnapshot, error in
             guard let querySnapshot, error == nil else {
                 failure?(error?.localizedDescription)

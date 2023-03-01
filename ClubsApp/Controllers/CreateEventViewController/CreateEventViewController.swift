@@ -170,7 +170,8 @@ class CreateEventViewController: UIViewController {
     lazy var calendarPicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
-        picker.locale = .current
+        picker.locale = Locale(identifier: "ru_RU")
+        picker.calendar.firstWeekday = 2
         picker.preferredDatePickerStyle = .inline
         picker.minimumDate = Date.now
         picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
@@ -183,7 +184,7 @@ class CreateEventViewController: UIViewController {
         picker.datePickerMode = .time
         picker.locale = .current
         picker.preferredDatePickerStyle = .inline
-        picker.locale = Locale(identifier: "be_BY")
+        picker.locale = Locale(identifier: "ru_RU")
         picker.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1.0)
         picker.addTarget(self, action: #selector(changeLabelAfterCalendarChanged), for: .valueChanged)
         return picker

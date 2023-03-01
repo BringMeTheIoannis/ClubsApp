@@ -13,6 +13,7 @@ class SearchResultViewController: UIViewController {
     var searchResults = [User]() {
         didSet {
             tableView.reloadData()
+            searchResults.isEmpty ? (noDataLabel.isHidden = false) : (noDataLabel.isHidden = true)
         }
     }
     var dismissSearchController: ((User) -> Void)?
@@ -42,6 +43,7 @@ class SearchResultViewController: UIViewController {
         label.text = "Извините, ничего не найдено"
         label.isHidden = true
         label.textAlignment = .center
+        label.textColor = .lightGray
         return label
     }()
 
@@ -75,7 +77,8 @@ class SearchResultViewController: UIViewController {
         }
         
         activityIndicator.snp.makeConstraints { make in
-            make.centerX.centerY.equalTo(tableView)
+            make.centerX.equalTo(tableView)
+            make.centerY.equalTo(tableView).offset(-20)
         }
         
         noDataLabel.snp.makeConstraints { make in
@@ -97,6 +100,9 @@ extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.id, for: indexPath)
         guard let cell = cell as? SearchResultTableViewCell else { return cell }
+        let color = UIColor(hex: searchResults[indexPath.row].imageColor)
+        cell.roundImage.backgroundColor = color
+        cell.firstCharOfNameLabel.text = String(searchResults[indexPath.row].name.prefix(1))
         cell.nameLabel.text = searchResults[indexPath.row].name
         return cell
     }
@@ -104,6 +110,7 @@ extension SearchResultViewController: UITableViewDataSource {
 
 extension SearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         dismissSearchController?(searchResults[indexPath.row])
     }
 }
