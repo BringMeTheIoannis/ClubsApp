@@ -87,6 +87,31 @@ class AddUsersViewController: UIViewController {
     @objc private func closeVC() {
         self.dismiss(animated: true)
     }
+    
+    private func makeFilteringUserArrayFromDB() {
+        self.users = self.users.filter { !$0.id.contains(self.database.currentUser ?? "") }
+        self.users = self.users.filter { queryUser in
+            for addedUser in self.addedUsersArray {
+                if addedUser.id == queryUser.id {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+    
+    private func makeFilteringUserArrayExisting(text: String) -> [User] {
+        var filteredResult = users.filter { $0.lowercasedName.contains(text) }
+        filteredResult = filteredResult.filter { queryUser in
+            for addedUser in addedUsersArray {
+                if addedUser.id == queryUser.id {
+                    return false
+                }
+            }
+            return true
+        }
+        return filteredResult
+    }
 }
 
 extension AddUsersViewController: UISearchResultsUpdating {
@@ -101,15 +126,7 @@ extension AddUsersViewController: UISearchResultsUpdating {
             database.getUsersByChars(name: text) {[weak self] arrayOfUsers in
                 guard let self else { return }
                 self.users.append(contentsOf: arrayOfUsers)
-                self.users = self.users.filter { !$0.id.contains(self.database.currentUser ?? "") }
-                self.users = self.users.filter { queryUser in
-                    for addedUser in self.addedUsersArray {
-                        if addedUser.id == queryUser.id {
-                            return false
-                        }
-                    }
-                    return true
-                }
+                self.makeFilteringUserArrayFromDB()
                 resultVC.errorLabel.isHidden = true
                 resultVC.searchResults = self.users.filter { $0.lowercasedName.contains(text) }
                 resultVC.activityIndicator.stopAnimating()
@@ -122,17 +139,7 @@ extension AddUsersViewController: UISearchResultsUpdating {
             }
         }
         resultVC.errorLabel.isHidden = false
-        
-        var filteredResult = users.filter { $0.lowercasedName.contains(text) }
-        filteredResult = filteredResult.filter { queryUser in
-            for addedUser in addedUsersArray {
-                if addedUser.id == queryUser.id {
-                    return false
-                }
-            }
-            return true
-        }
-        resultVC.searchResults = filteredResult
+        resultVC.searchResults = makeFilteringUserArrayExisting(text: text)
         
         resultVC.dismissSearchController = {[weak self] addedUser in
             guard let self else { return }
@@ -164,5 +171,6 @@ extension AddUsersViewController: UITableViewDataSource {
 extension AddUsersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        //TODO: Remove on tap
     }
 }
