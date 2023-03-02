@@ -7,10 +7,12 @@
 
 import UIKit
 import SnapKit
+import EmojiPicker
 
 class CreateEventViewController: UIViewController {
     
     var addedUsers = [User]()
+    var isClosedEvent: Bool = false
     lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
     
     var topColorView: UIView = {
@@ -228,6 +230,70 @@ class CreateEventViewController: UIViewController {
         return imageView
     }()
     
+    var emojiView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    lazy var  emojiRoundView: UIView = {
+        let view = UIView()
+        let gesutre = UITapGestureRecognizer(target: self, action: #selector(openEmojiPickerModule))
+        view.backgroundColor = UIColor(red: 0.66, green: 0.553, blue: 0.767, alpha: 1)
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(gesutre)
+        return view
+    }()
+    
+    lazy var emojiExplainLabel: UILabel = {
+        let label = UILabel()
+        let gesutre = UITapGestureRecognizer(target: self, action: #selector(openEmojiPickerModule))
+        label.text = "Выберите картинку"
+        label.textColor = UIColor(red: 0.66, green: 0.553, blue: 0.767, alpha: 1)
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(gesutre)
+        return label
+    }()
+    
+    var emojiStringLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
+    
+    var isClosedEventView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var isClosedEventCheckMark: UIImageView = {
+        let imageView = UIImageView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(isClosedEventToggle))
+        imageView.layer.borderWidth = 1.0
+        imageView.layer.borderColor = UIColor(red: 0.66, green: 0.553, blue: 0.767, alpha: 1).cgColor
+        imageView.tintColor = UIColor(red: 0.66, green: 0.553, blue: 0.767, alpha: 1)
+        imageView.layer.cornerRadius = 2
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(gesture)
+        return imageView
+    }()
+    
+    var isClosedEventLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Закртая встреча"
+        return label
+    }()
+    
+    lazy var createButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
+        button.tintColor = .white
+        button.setTitle("Создать", for: .normal)
+        button.layer.cornerRadius = 8
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         controllerSetup()
@@ -236,6 +302,11 @@ class CreateEventViewController: UIViewController {
         addTopViewOfStackToFrontForNiceAnimation()
         dismissKeyboardByTapOnView()
         setupDelegates()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        makeViewsRounded()
     }
     
     private func controllerSetup() {
@@ -265,6 +336,14 @@ class CreateEventViewController: UIViewController {
         addUsersView.addSubview(plusAddUserImageView)
         addUsersView.addSubview(labelForAddUsersView)
         addUsersView.addSubview(bottomBorderForAddUsersView)
+        scrollView.addSubview(emojiView)
+        emojiView.addSubview(emojiRoundView)
+        emojiView.addSubview(emojiExplainLabel)
+        emojiRoundView.addSubview(emojiStringLabel)
+        scrollView.addSubview(isClosedEventView)
+        isClosedEventView.addSubview(isClosedEventCheckMark)
+        isClosedEventView.addSubview(isClosedEventLabel)
+        scrollView.addSubview(createButton)
     }
     
     private func doLayout() {
@@ -357,6 +436,50 @@ class CreateEventViewController: UIViewController {
         }
         
         addUsersViewLayout()
+        
+        emojiView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(bottomBorderForAddUsersView.snp.bottom).offset(16)
+        }
+        
+        emojiRoundView.snp.makeConstraints { make in
+            make.height.width.equalTo(48)
+            make.leading.top.bottom.equalToSuperview()
+        }
+        
+        emojiExplainLabel.snp.makeConstraints { make in
+            make.leading.equalTo(emojiRoundView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        emojiStringLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        isClosedEventView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(emojiView.snp.bottom).offset(18)
+        }
+        
+        isClosedEventCheckMark.snp.makeConstraints { make in
+            make.height.width.equalTo(18)
+            make.leading.top.bottom.equalToSuperview()
+        }
+        
+        isClosedEventLabel.snp.makeConstraints { make in
+            make.leading.equalTo(isClosedEventCheckMark.snp.trailing).offset(8)
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        createButton.snp.makeConstraints { make in
+            let bottomConstraint = view.frame.maxY-view.safeAreaInsets.bottom-isClosedEventView.frame.maxY
+            make.height.equalTo(52)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.greaterThanOrEqualTo(isClosedEventView.snp.bottom).offset(10).priority(.low)
+            make.bottom.equalToSuperview()
+        }
     }
     
     private func addViewsToDateTimeStack() {
@@ -460,6 +583,25 @@ class CreateEventViewController: UIViewController {
         self.view.addGestureRecognizer(gestureRecogn)
     }
     
+    private func makeViewsRounded() {
+        emojiRoundView.layer.cornerRadius = emojiRoundView.frame.size.width / 2
+    }
+    
+    @objc private func isClosedEventToggle() {
+        isClosedEvent.toggle()
+        if isClosedEvent {
+            UIView.transition(with: isClosedEventCheckMark, duration: 0.3, options: .transitionCrossDissolve) {[weak self] in
+                guard let self else { return }
+                self.isClosedEventCheckMark.image = UIImage(systemName: "checkmark")
+            }
+        } else {
+            UIView.transition(with: isClosedEventCheckMark, duration: 0.3, options: .transitionCrossDissolve) {[weak self] in
+                guard let self else { return }
+                self.isClosedEventCheckMark.image = nil
+            }
+        }
+    }
+    
     @objc private func changeLabelAfterCalendarChanged() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.YYYY HH:mm"
@@ -490,6 +632,15 @@ class CreateEventViewController: UIViewController {
         self.view.endEditing(true)
         self.present(vc, animated: true)
     }
+    
+    @objc private func openEmojiPickerModule() {
+        let emojiVC = EmojiPickerViewController()
+        emojiVC.sourceView = emojiRoundView
+        emojiVC.delegate = self
+        emojiVC.horizontalInset = 16
+        emojiVC.isDismissedAfterChoosing = true
+        present(emojiVC, animated: true)
+    }
 }
 
 extension CreateEventViewController: UITextFieldDelegate {
@@ -502,5 +653,11 @@ extension CreateEventViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return textField.resignFirstResponder()
+    }
+}
+
+extension CreateEventViewController: EmojiPickerDelegate{
+    func didGetEmoji(emoji: String) {
+        emojiStringLabel.text = emoji
     }
 }

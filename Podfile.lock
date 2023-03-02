@@ -602,6 +602,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
+  - EmojiPicker (3.0.9)
   - Firebase/AnalyticsWithoutAdIdSupport (10.4.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics/WithoutAdIdSupport (~> 10.4.0)
@@ -738,6 +739,7 @@ PODS:
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
+  - EmojiPicker (from `https://github.com/htmlprogrammist/EmojiPicker`)
   - Firebase/AnalyticsWithoutAdIdSupport
   - FirebaseAuth
   - FirebaseFirestore
@@ -765,9 +767,19 @@ SPEC REPOS:
     - PromisesObjC
     - SnapKit
 
+EXTERNAL SOURCES:
+  EmojiPicker:
+    :git: https://github.com/htmlprogrammist/EmojiPicker
+
+CHECKOUT OPTIONS:
+  EmojiPicker:
+    :commit: 1cba68ef26e9d23d04239e79927f612b032e3d14
+    :git: https://github.com/htmlprogrammist/EmojiPicker
+
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
+  EmojiPicker: 67fa5a3cf1b32885248388087cc5ebeebc7de647
   Firebase: ba3501b5142a57747eac74d27c96d2b313bdec90
   FirebaseAnalytics: 0be84b933ca3222bca03e8cccf020ad9b1c3c6ff
   FirebaseAuth: 5608282535d6f2dc902b2b88a379aaf6912fb837
@@ -786,6 +798,6 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: e42cadac6910a9d7484703c871a9b80becbe2dfb
+PODFILE CHECKSUM: 363fa6c4d1f00fbb924887e60d80530cbee63c50
 
 COCOAPODS: 1.11.3
