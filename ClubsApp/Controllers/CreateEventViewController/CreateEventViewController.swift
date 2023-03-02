@@ -486,12 +486,20 @@ class CreateEventViewController: UIViewController {
             self.addedUsers = addedUsersArray
         }
         addUserVC.addedUsersArray = addedUsers
+        addUserVC.tableView.reloadData()
         self.view.endEditing(true)
         self.present(vc, animated: true)
     }
 }
 
 extension CreateEventViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField != titleTextField, !bottomViewForDateAndTimeStackView.isHidden {
+            showHideDateTimePicker()
+            textField.becomeFirstResponder()
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return textField.resignFirstResponder()
     }

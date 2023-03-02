@@ -12,7 +12,6 @@ class AddUsersViewController: UIViewController {
     var users = [User]()
     var addedUsersArray = [User]() {
         didSet {
-            tableView.reloadData()
             addedUsersDataBringToCreateVC?(addedUsersArray)
         }
     }
@@ -89,9 +88,9 @@ class AddUsersViewController: UIViewController {
     }
     
     private func makeFilteringUserArrayFromDB() {
-        self.users = self.users.filter { !$0.id.contains(self.database.currentUser ?? "") }
-        self.users = self.users.filter { queryUser in
-            for addedUser in self.addedUsersArray {
+        users = users.filter { !$0.id.contains(database.currentUser ?? "") }
+        users = users.filter { queryUser in
+            for addedUser in addedUsersArray {
                 if addedUser.id == queryUser.id {
                     return false
                 }
@@ -144,6 +143,7 @@ extension AddUsersViewController: UISearchResultsUpdating {
         resultVC.dismissSearchController = {[weak self] addedUser in
             guard let self else { return }
             self.addedUsersArray.append(addedUser)
+            self.tableView.reloadData()
             searchController.isActive = false
         }
     }
@@ -170,7 +170,9 @@ extension AddUsersViewController: UITableViewDataSource {
 
 extension AddUsersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        //TODO: Remove on tap
+        if addedUsersArray[indexPath.row].isUserAddedForEvent {
+            addedUsersArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
