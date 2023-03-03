@@ -280,7 +280,7 @@ class CreateEventViewController: UIViewController {
     
     var isClosedEventLabel: UILabel = {
         let label = UILabel()
-        label.text = "Закртая встреча"
+        label.text = "Закрытая встреча"
         return label
     }()
     
@@ -292,6 +292,11 @@ class CreateEventViewController: UIViewController {
         button.layer.cornerRadius = 8
         
         return button
+    }()
+    
+    lazy var scrollViewContentContainer: UIView = {
+        let view = UIView()
+        return view
     }()
     
     override func viewDidLoad() {
@@ -323,27 +328,28 @@ class CreateEventViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(topColorView)
         view.addSubview(scrollView)
+        scrollView.addSubview(scrollViewContentContainer)
         navBar?.addSubview(closeControllerImageView)
-        scrollView.addSubview(titleTextField)
+        scrollViewContentContainer.addSubview(titleTextField)
         titleTextField.addSubview(bottomBorderForTitleLabel)
-        scrollView.addSubview(dateTimeVerticalStackView)
+        scrollViewContentContainer.addSubview(dateTimeVerticalStackView)
         addViewsToDateTimeStack()
-        scrollView.addSubview(placeTextField)
+        scrollViewContentContainer.addSubview(placeTextField)
         placeTextField.addSubview(bottomBorderForPlacesView)
-        scrollView.addSubview(aboutTextField)
+        scrollViewContentContainer.addSubview(aboutTextField)
         aboutTextField.addSubview(bottomBorderForAboutView)
-        scrollView.addSubview(addUsersView)
+        scrollViewContentContainer.addSubview(addUsersView)
         addUsersView.addSubview(plusAddUserImageView)
         addUsersView.addSubview(labelForAddUsersView)
         addUsersView.addSubview(bottomBorderForAddUsersView)
-        scrollView.addSubview(emojiView)
+        scrollViewContentContainer.addSubview(emojiView)
         emojiView.addSubview(emojiRoundView)
         emojiView.addSubview(emojiExplainLabel)
         emojiRoundView.addSubview(emojiStringLabel)
-        scrollView.addSubview(isClosedEventView)
+        scrollViewContentContainer.addSubview(isClosedEventView)
         isClosedEventView.addSubview(isClosedEventCheckMark)
         isClosedEventView.addSubview(isClosedEventLabel)
-        scrollView.addSubview(createButton)
+        scrollViewContentContainer.addSubview(createButton)
     }
     
     private func doLayout() {
@@ -361,6 +367,12 @@ class CreateEventViewController: UIViewController {
 
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.bottom.top.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        scrollViewContentContainer.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(view.safeAreaLayoutGuide).priority(.low)
         }
         
         titleTextField.snp.makeConstraints { make in
@@ -474,11 +486,10 @@ class CreateEventViewController: UIViewController {
         }
         
         createButton.snp.makeConstraints { make in
-            let bottomConstraint = view.frame.maxY-view.safeAreaInsets.bottom-isClosedEventView.frame.maxY
             make.height.equalTo(52)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.top.greaterThanOrEqualTo(isClosedEventView.snp.bottom).offset(10).priority(.low)
-            make.bottom.equalToSuperview()
+            make.top.greaterThanOrEqualTo(isClosedEventView.snp.bottom).offset(50)
+            make.bottom.equalToSuperview().offset(-5).priority(.high)
         }
     }
     
@@ -639,6 +650,7 @@ class CreateEventViewController: UIViewController {
         emojiVC.delegate = self
         emojiVC.horizontalInset = 16
         emojiVC.isDismissedAfterChoosing = true
+        emojiVC.arrowDirection = .down
         present(emojiVC, animated: true)
     }
 }
