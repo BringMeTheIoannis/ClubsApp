@@ -725,22 +725,24 @@ class CreateEventViewController: UIViewController {
             guard let self else { return }
             self.activityIndicator.stopAnimating()
             self.createButton.titleLabel?.alpha = 1.0
-
+            self.showDonePopUp()
         } failure: {[weak self] error in
             guard let self else { return }
             self.activityIndicator.stopAnimating()
             self.createButton.titleLabel?.alpha = 1.0
             self.addErrorTextWithAnimation(errorText: error)
         }
-        
+    }
+    
+    private func showDonePopUp() {
         let donePopUpVC = DonePopUpViewController()
+        donePopUpVC.modalPresentationStyle = .overCurrentContext
+        donePopUpVC.modalTransitionStyle = .crossDissolve
+        self.present(donePopUpVC, animated: true)
         donePopUpVC.dismiss = {[weak self] in
             guard let self else { return }
             self.dismiss(animated: true)
         }
-        donePopUpVC.modalPresentationStyle = .overCurrentContext
-        donePopUpVC.modalTransitionStyle = .crossDissolve
-        present(donePopUpVC, animated: true)
     }
     
     private func addErrorTextWithAnimation(errorText: String?) {
