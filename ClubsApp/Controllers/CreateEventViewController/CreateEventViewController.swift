@@ -718,20 +718,26 @@ class CreateEventViewController: UIViewController {
         }
         addErrorTextWithAnimation(errorText: "")
         let eventModel = EventModel(title: titleText, date: eventDate, place: placeLocationText, about: aboutText, invitedUsers: addedUsers, picture: pictureText, isClosedEvent: isClosedEvent)
+        
         createButton.titleLabel?.alpha = 0.0
-//        activityIndicator.startAnimating()
-//        database.createEvent(eventModel: eventModel) {[weak self] in
-//            guard let self else { return }
-//            self.activityIndicator.stopAnimating()
-//            self.createButton.titleLabel?.alpha = 1.0
-//
-//        } failure: {[weak self] error in
-//            guard let self else { return }
-//            self.activityIndicator.stopAnimating()
-//            self.createButton.titleLabel?.alpha = 1.0
-//            self.addErrorTextWithAnimation(errorText: error)
-//        }
-        var donePopUpVC = DonePopUpViewController()
+        activityIndicator.startAnimating()
+        database.createEvent(eventModel: eventModel) {[weak self] in
+            guard let self else { return }
+            self.activityIndicator.stopAnimating()
+            self.createButton.titleLabel?.alpha = 1.0
+
+        } failure: {[weak self] error in
+            guard let self else { return }
+            self.activityIndicator.stopAnimating()
+            self.createButton.titleLabel?.alpha = 1.0
+            self.addErrorTextWithAnimation(errorText: error)
+        }
+        
+        let donePopUpVC = DonePopUpViewController()
+        donePopUpVC.dismiss = {[weak self] in
+            guard let self else { return }
+            self.dismiss(animated: true)
+        }
         donePopUpVC.modalPresentationStyle = .overCurrentContext
         donePopUpVC.modalTransitionStyle = .crossDissolve
         present(donePopUpVC, animated: true)

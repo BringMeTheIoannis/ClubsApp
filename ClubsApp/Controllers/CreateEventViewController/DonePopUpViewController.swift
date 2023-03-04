@@ -9,6 +9,7 @@ import UIKit
 
 class DonePopUpViewController: UIViewController {
     
+    var dismiss: (() -> Void)?
     var doneView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -45,6 +46,15 @@ class DonePopUpViewController: UIViewController {
         view.backgroundColor = .black.withAlphaComponent(0.3)
         addSubviews()
         doLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {[weak self] in
+            guard let self else { return }
+            self.dismiss(animated: true)
+            self.dismiss?()
+        }
     }
     
     private func addSubviews() {
