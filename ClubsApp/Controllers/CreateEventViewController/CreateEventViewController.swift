@@ -14,6 +14,7 @@ class CreateEventViewController: UIViewController {
     var addedUsers = [User]()
     var isClosedEvent: Bool = false
     lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
+    var eventDate: Date = Date()
     
     var topColorView: UIView = {
         let view = UIView()
@@ -286,17 +287,37 @@ class CreateEventViewController: UIViewController {
     
     lazy var createButton: UIButton = {
         let button = UIButton(type: .system)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(createEvent))
         button.backgroundColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
         button.tintColor = .white
         button.setTitle("Создать", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17)
         button.layer.cornerRadius = 8
-        
+        button.isUserInteractionEnabled = true
+        button.addGestureRecognizer(gesture)
         return button
     }()
     
     lazy var scrollViewContentContainer: UIView = {
         let view = UIView()
         return view
+    }()
+    
+    var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = label.font.withSize(13)
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.textColor = .systemRed
+        return label
+    }()
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+//        indicator.alpha = 0.0
+        return indicator
     }()
     
     override func viewDidLoad() {
@@ -349,7 +370,9 @@ class CreateEventViewController: UIViewController {
         scrollViewContentContainer.addSubview(isClosedEventView)
         isClosedEventView.addSubview(isClosedEventCheckMark)
         isClosedEventView.addSubview(isClosedEventLabel)
+        scrollViewContentContainer.addSubview(errorLabel)
         scrollViewContentContainer.addSubview(createButton)
+        createButton.addSubview(activityIndicator)
     }
     
     private func doLayout() {
@@ -485,11 +508,21 @@ class CreateEventViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
+        errorLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(isClosedEventView.snp.bottom).offset(20)
+            make.height.equalTo(32)
+        }
+        
         createButton.snp.makeConstraints { make in
             make.height.equalTo(52)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.top.greaterThanOrEqualTo(isClosedEventView.snp.bottom).offset(50)
+            make.top.greaterThanOrEqualTo(errorLabel.snp.bottom).offset(50)
             make.bottom.equalToSuperview().offset(-5).priority(.high)
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
         }
     }
     
@@ -623,6 +656,7 @@ class CreateEventViewController: UIViewController {
         let timePickerMinutes = timePicker.calendar.component(.minute, from: timePicker.date)
         let finalDateComponents = DateComponents(year: calendarPickerYear, month: calendarPickerMonth, day: calendarPickerDay, hour: timePickerHours, minute: timePickerMinutes)
         let finalDate = Calendar.current.date(from: finalDateComponents) ?? Date.now
+        eventDate = finalDate
         let prettyDate = dateFormatter.string(from: finalDate)
         self.labelForTopViewForDateTime.text = "Дата: \(prettyDate)"
     }
@@ -650,8 +684,72 @@ class CreateEventViewController: UIViewController {
         emojiVC.delegate = self
         emojiVC.horizontalInset = 16
         emojiVC.isDismissedAfterChoosing = true
-        emojiVC.arrowDirection = .down
+        view.safeAreaLayoutGuide.layoutFrame.maxY - emojiView.frame.maxY > 270 ? (emojiVC.arrowDirection = .up) : (emojiVC.arrowDirection = .down)
         present(emojiVC, animated: true)
+    }
+    
+    @objc private func createEvent() {
+        let database = DatabaseManager()
+        let titleText = titleTextField.text.unwrapped
+        let dateTimeLabelText = labelForTopViewForDateTime.text.unwrapped
+        let placeLocationText = placeTextField.text.unwrapped
+        let aboutText = aboutTextField.text.unwrapped
+        let pictureText = emojiStringLabel.text.unwrapped
+        
+        if titleText.isEmpty {
+            addErrorTextWithAnimation(errorText: "Поле название не может быть пустым")
+            return
+        }
+        if dateTimeLabelText == "Выберите дату и время" {
+            addErrorTextWithAnimation(errorText: "Выберите дату и время")
+            return
+        }
+        if placeLocationText.isEmpty {
+            addErrorTextWithAnimation(errorText: "Поле c местоположением не может быть пустым")
+            return
+        }
+        if aboutText.isEmpty {
+            addErrorTextWithAnimation(errorText: "Поле с описанием не может быть пустым")
+            return
+        }
+        if pictureText.isEmpty {
+            addErrorTextWithAnimation(errorText: "Выберите эмодзи, наиболее соотвествующее событию")
+            return
+        }
+        addErrorTextWithAnimation(errorText: "")
+        let eventModel = EventModel(title: titleText, date: eventDate, place: placeLocationText, about: aboutText, invitedUsers: addedUsers, picture: pictureText, isClosedEvent: isClosedEvent)
+        createButton.titleLabel?.alpha = 0.0
+        activityIndicator.startAnimating()
+        database.createEvent(eventModel: eventModel) {[weak self] in
+            guard let self else { return }
+            self.activityIndicator.stopAnimating()
+            self.createButton.titleLabel?.alpha = 1.0
+            
+        } failure: {[weak self] error in
+            guard let self else { return }
+            self.activityIndicator.stopAnimating()
+            self.createButton.titleLabel?.alpha = 1.0
+            self.addErrorTextWithAnimation(errorText: error)
+        }
+
+    }
+    
+    private func addErrorTextWithAnimation(errorText: String?) {
+        UIView.transition(with: errorLabel, duration: 0.3, options: [.transitionCrossDissolve]) {[weak self] in
+            guard let self else { return }
+            self.errorLabel.text = errorText
+        }
+        errorAlertAnimation(on: errorLabel)
+    }
+    
+    private func errorAlertAnimation(on view: UIView) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: view.center.x - 10, y: view.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: view.center.x + 10, y: view.center.y))
+        view.layer.add(animation, forKey: "position")
     }
 }
 

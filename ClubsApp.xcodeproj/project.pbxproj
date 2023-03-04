@@ -12,6 +12,8 @@
 		59280745299A3FB100901448 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280744299A3FB100901448 /* ChatsViewController.swift */; };
 		59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280747299A3FD800901448 /* ProfileSettingsViewController.swift */; };
 		592C87C429AF4487006C9565 /* FromAndToHexCodeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592C87C329AF4487006C9565 /* FromAndToHexCodeColor.swift */; };
+		592C87D029B362A1006C9565 /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592C87CF29B362A1006C9565 /* EventModel.swift */; };
+		592C87D229B3BE6C006C9565 /* DonePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592C87D129B3BE6C006C9565 /* DonePopUpViewController.swift */; };
 		593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593799DA298D4AAA007845F5 /* LoginViewController.swift */; };
 		59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */; };
 		59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */; };
@@ -43,6 +45,8 @@
 		59280744299A3FB100901448 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		59280747299A3FD800901448 /* ProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewController.swift; sourceTree = "<group>"; };
 		592C87C329AF4487006C9565 /* FromAndToHexCodeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromAndToHexCodeColor.swift; sourceTree = "<group>"; };
+		592C87CF29B362A1006C9565 /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
+		592C87D129B3BE6C006C9565 /* DonePopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonePopUpViewController.swift; sourceTree = "<group>"; };
 		593799DA298D4AAA007845F5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		59541C272996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWithActiveTextFieldProtocol.swift; sourceTree = "<group>"; };
 		59541C2B2996C2DA00411ED5 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 				59280741299A39F500901448 /* CreateEventViewController.swift */,
 				59D9715C29A7AF6400EC6D6F /* AddUsersViewController.swift */,
 				59D9715E29A7C04700EC6D6F /* SearchResultViewController.swift */,
+				592C87D129B3BE6C006C9565 /* DonePopUpViewController.swift */,
 			);
 			path = CreateEventViewController;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				59D9716429ACB69B00EC6D6F /* UserModel.swift */,
+				592C87CF29B362A1006C9565 /* EventModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -444,6 +450,7 @@
 				597CDC1C29941FF500DDF16E /* UserAuth.swift in Sources */,
 				59D9715F29A7C04700EC6D6F /* SearchResultViewController.swift in Sources */,
 				593799DB298D4AAA007845F5 /* LoginViewController.swift in Sources */,
+				592C87D229B3BE6C006C9565 /* DonePopUpViewController.swift in Sources */,
 				59541C2C2996C2DA00411ED5 /* DatabaseManager.swift in Sources */,
 				59541C282996855000411ED5 /* ViewControllerWithActiveTextFieldProtocol.swift in Sources */,
 				598A77EB298D1B1000EFCA0C /* ViewController.swift in Sources */,
@@ -464,6 +471,7 @@
 				59280745299A3FB100901448 /* ChatsViewController.swift in Sources */,
 				59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */,
 				595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */,
+				592C87D029B362A1006C9565 /* EventModel.swift in Sources */,
 				592C87C429AF4487006C9565 /* FromAndToHexCodeColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -66,4 +66,32 @@ class DatabaseManager {
             success?(users)
         }
     }
+    
+    func createEvent(eventModel: EventModel, success: (() -> Void)?, failure: ((String) -> Void)?) {
+        let querySetup = database.collection("events").document()
+        let usersArray: [[String:Any]] = eventModel.invitedUsers.compactMap { user in
+            guard let user else { return ["":""]}
+            let userMap: [String: Any] = ["name": user.name,
+                                          "id": user.id,
+                                          "lowercasedName": user.lowercasedName,
+                                          "imageColor": user.imageColor,
+            ]
+            return userMap
+        }
+        let dataToSet: [String: Any] = ["title": eventModel.title,
+                                        "date": Timestamp(date: eventModel.date),
+                                        "place": eventModel.place,
+                                        "about": eventModel.about,
+                                        "invitedUsers": usersArray,
+                                        "picture": eventModel.picture,
+                                        "isClosedEvent": eventModel.isClosedEvent,
+        ]
+        querySetup.setData(dataToSet) { error in
+            guard let error else {
+                success?()
+                return
+            }
+            failure?(error.localizedDescription)
+        }
+    }
 }
