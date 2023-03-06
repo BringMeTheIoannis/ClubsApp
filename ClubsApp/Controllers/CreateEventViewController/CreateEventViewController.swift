@@ -11,7 +11,13 @@ import EmojiPicker
 
 class CreateEventViewController: UIViewController {
     
-    var addedUsers = [User]()
+    var addedUsers = [User]() {
+        didSet {
+            if addedUsers.count > 0 {
+                labelForAddUsersView.text = "Добавьте участников (+\(addedUsers.count))"
+            }
+        }
+    }
     var isClosedEvent: Bool = false
     lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
     var eventDate: Date = Date()
@@ -151,6 +157,7 @@ class CreateEventViewController: UIViewController {
     var labelForAddUsersView: UILabel = {
         let label = UILabel()
         label.text = "Добавьте участников"
+        label.numberOfLines = 2
         return label
     }()
     
