@@ -180,7 +180,8 @@ class CreateEventViewController: UIViewController {
     lazy var calendarPicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .date
-        picker.locale = Locale(identifier: "ru_RU")
+//        picker.locale = Locale(identifier: "ru_RU")
+        picker.locale = Locale.autoupdatingCurrent
         picker.calendar.firstWeekday = 2
         picker.preferredDatePickerStyle = .inline
         picker.minimumDate = Date.now

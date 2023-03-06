@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseFirestoreSwift
 
 
 class DatabaseManager {
@@ -70,10 +71,9 @@ class DatabaseManager {
     func createEvent(eventModel: EventModel, success: (() -> Void)?, failure: ((String) -> Void)?) {
         let querySetup = database.collection("events").document()
         let usersArray: [[String:Any]] = eventModel.invitedUsers.compactMap { user in
-            guard let user else { return ["":""]}
             let userMap: [String: Any] = ["name": user.name,
-                                          "id": user.id,
-                                          "lowercasedName": user.lowercasedName,
+                                          "userID": user.id,
+                                          "lowercasedUserName": user.lowercasedName,
                                           "imageColor": user.imageColor,
             ]
             return userMap
@@ -92,6 +92,31 @@ class DatabaseManager {
                 return
             }
             failure?(error.localizedDescription)
+        }
+    }
+    
+    func getAllEvents(success: (([EventModel]) -> Void)?, failure: ((String?) -> Void)?) {
+        let startOfAccessDate = Calendar.current.startOfDay(for: Date.now)
+        let querySetup = database.collection("events").whereField("date", isGreaterThanOrEqualTo: startOfAccessDate).order(by: "date", descending: true)
+        querySetup.getDocuments { querySnapshot, error in
+            guard let querySnapshot, error == nil else {
+                failure?(error?.localizedDescription)
+                return
+            }
+            let arrayOfDocuments = querySnapshot.documents
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .secondsSince1970
+            let events: [EventModel] = arrayOfDocuments.compactMap { document in
+                var mutableDocument = document.data()
+                let seconds = (document.data()["date"] as? Timestamp)?.seconds
+                mutableDocument["date"] = seconds
+                if let jsonObject = try? JSONSerialization.data(withJSONObject: mutableDocument),
+                   let eventObject = try? decoder.decode(EventModel.self, from: jsonObject) {
+                    return eventObject
+                }
+                return nil
+            }
+            success?(events)
         }
     }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4AF75D018B63E12E5230DCA0 /* Pods_ClubsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB3557D7D67D081F655439A /* Pods_ClubsApp.framework */; };
+		591FFE8029B5F23C003F91DF /* AllEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591FFE7F29B5F23C003F91DF /* AllEventsTableViewCell.swift */; };
 		59280742299A39F500901448 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280741299A39F500901448 /* CreateEventViewController.swift */; };
 		59280745299A3FB100901448 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280744299A3FB100901448 /* ChatsViewController.swift */; };
 		59280748299A3FD800901448 /* ProfileSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59280747299A3FD800901448 /* ProfileSettingsViewController.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		591FFE7F29B5F23C003F91DF /* AllEventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllEventsTableViewCell.swift; sourceTree = "<group>"; };
 		59280741299A39F500901448 /* CreateEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		59280744299A3FB100901448 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		59280747299A3FD800901448 /* ProfileSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,14 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
+		591FFE7E29B5F21D003F91DF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				591FFE7F29B5F23C003F91DF /* AllEventsTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		59280743299A3F9B00901448 /* ChatsViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +201,7 @@
 		5964C959299A3574005346A6 /* AllEventsViewController */ = {
 			isa = PBXGroup;
 			children = (
+				591FFE7E29B5F21D003F91DF /* Cells */,
 				5964C95B299A35BA005346A6 /* AllEventsViewController.swift */,
 			);
 			path = AllEventsViewController;
@@ -473,6 +484,7 @@
 				595B5BC7298FCF1200122B78 /* SubLoginViewController.swift in Sources */,
 				592C87D029B362A1006C9565 /* EventModel.swift in Sources */,
 				592C87C429AF4487006C9565 /* FromAndToHexCodeColor.swift in Sources */,
+				591FFE8029B5F23C003F91DF /* AllEventsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

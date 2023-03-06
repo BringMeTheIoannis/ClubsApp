@@ -6,17 +6,19 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
-class EventModel: Decodable {
+struct EventModel: Decodable {
     var title: String
     var date: Date
     var place: String
     var about: String
-    var invitedUsers: [User?]
+    var invitedUsers: [User]
     var picture: String
     var isClosedEvent: Bool
     
-    init(title: String, date: Date, place: String, about: String, invitedUsers: [User?], picture: String, isClosedEvent: Bool) {
+    
+    init(title: String, date: Date, place: String, about: String, invitedUsers: [User], picture: String, isClosedEvent: Bool) {
         self.title = title
         self.date = date
         self.place = place
@@ -24,5 +26,15 @@ class EventModel: Decodable {
         self.invitedUsers = invitedUsers
         self.picture = picture
         self.isClosedEvent = isClosedEvent
+    }
+    
+    enum CodingKeys: CodingKey {
+        case title
+        case date
+        case place
+        case about
+        case invitedUsers
+        case picture
+        case isClosedEvent
     }
 }
