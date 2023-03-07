@@ -10,5 +10,7 @@ pod 'SnapKit'
 pod 'Firebase/AnalyticsWithoutAdIdSupport'
 pod 'FirebaseAuth'
 pod 'FirebaseFirestore'
+pod 'EmojiPicker', :git => 'https://github.com/htmlprogrammist/EmojiPicker'
+pod 'FirebaseFirestoreSwift'
 
 end

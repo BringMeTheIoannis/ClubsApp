@@ -31,7 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func setLoginAsInitial() {
         window?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-//        window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()
     }
     
@@ -41,7 +40,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = TabBarController()
             window.makeKeyAndVisible()
         }
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
