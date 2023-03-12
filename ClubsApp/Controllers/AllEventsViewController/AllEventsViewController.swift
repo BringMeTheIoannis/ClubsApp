@@ -56,8 +56,18 @@ class AllEventsViewController: UIViewController {
     
     private func controllerSetup() {
         view.backgroundColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Мероприятия"
+        navigationBarSetup()
+    }
+    
+    private func navigationBarSetup() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = UIColor(red: 0.94, green: 0.91, blue: 0.971, alpha: 1)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.compactAppearance = navBarAppearance
     }
     
     private func tableViewSetup() {
@@ -67,19 +77,19 @@ class AllEventsViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubview(topColorView)
+//        view.addSubview(topColorView)
         view.addSubview(tableView)
         view.addSubview(noDataErrorLabel)
         view.addSubview(activityIndicator)
     }
     
     private func doLayout() {
-        topColorView.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
-        }
+//        topColorView.snp.makeConstraints { make in
+//            make.leading.trailing.top.equalToSuperview()
+//            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
+//        }
         
-        view.bringSubviewToFront(topColorView)
+//        view.bringSubviewToFront(topColorView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -106,6 +116,7 @@ class AllEventsViewController: UIViewController {
             self.activityIndicator.stopAnimating()
         } failure: {[weak self] error in
             guard let self else { return }
+            self.activityIndicator.stopAnimating()
             self.noDataErrorLabel.isHidden = false
             self.noDataErrorLabel.text = error
         }
