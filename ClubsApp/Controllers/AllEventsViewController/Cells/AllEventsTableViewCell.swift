@@ -31,7 +31,7 @@ class AllEventsTableViewCell: UITableViewCell {
     
     private func doLayout() {
         label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalToSuperview().inset(10)
         }
     }
     

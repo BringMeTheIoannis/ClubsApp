@@ -7,8 +7,14 @@
 
 import UIKit
 import SnapKit
+import FirebaseFirestore
 
 class AllEventsViewController: UIViewController {
+    
+    var isNeedToFetchMore: Bool = false
+    var endOfDataToFetchReached: Bool = false
+    let multiplierSpaceToStartBatching: CGFloat = 1.0
+    
     
     var allEventsFromDB = [EventModel]() {
         didSet {
@@ -16,13 +22,9 @@ class AllEventsViewController: UIViewController {
         }
     }
     
-    var filteredEventsToShowInTable = [EventModel]()
+    var queryDocuments = [DocumentSnapshot]()
     
-    var topColorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0.94, green: 0.91, blue: 0.971, alpha: 1)
-        return view
-    }()
+    var filteredEventsToShowInTable = [EventModel]()
     
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -31,6 +33,7 @@ class AllEventsViewController: UIViewController {
     
     var noDataErrorLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.text = "Пока что тут пусто"
         label.isHidden = true
         label.textAlignment = .center
@@ -44,7 +47,7 @@ class AllEventsViewController: UIViewController {
         indicator.hidesWhenStopped = true
         return indicator
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         controllerSetup()
@@ -77,20 +80,12 @@ class AllEventsViewController: UIViewController {
     }
     
     private func addSubviews() {
-//        view.addSubview(topColorView)
         view.addSubview(tableView)
         view.addSubview(noDataErrorLabel)
         view.addSubview(activityIndicator)
     }
     
     private func doLayout() {
-//        topColorView.snp.makeConstraints { make in
-//            make.leading.trailing.top.equalToSuperview()
-//            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
-//        }
-        
-//        view.bringSubviewToFront(topColorView)
-        
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -108,19 +103,32 @@ class AllEventsViewController: UIViewController {
         let dbManager = DatabaseManager()
         activityIndicator.startAnimating()
         noDataErrorLabel.isHidden = true
-        dbManager.getAllEvents {[weak self] eventsArray in
+
+        dbManager.getAllEvents(eventsDocumentSnapshots: queryDocuments) {[weak self] eventsArray in
             guard let self else { return }
-            self.allEventsFromDB = eventsArray
-            self.filteredEventsToShowInTable = eventsArray
+            self.isNeedToFetchMore = false
+            self.endOfDataToFetchReached = eventsArray.count == 0
+            self.allEventsFromDB.append(contentsOf: eventsArray)
+            self.filteredEventsToShowInTable.append(contentsOf: eventsArray)
             self.tableView.reloadData()
             self.activityIndicator.stopAnimating()
         } failure: {[weak self] error in
             guard let self else { return }
+            self.isNeedToFetchMore = false
             self.activityIndicator.stopAnimating()
             self.noDataErrorLabel.isHidden = false
             self.noDataErrorLabel.text = error
+        } querySnapshotForPagination: { [weak self] documentsArray in
+            guard let self else { return }
+            self.queryDocuments.append(contentsOf: documentsArray)
         }
     }
+    
+    private func startToFetch() {
+        isNeedToFetchMore = true
+        getEvents()
+    }
+    
 }
 
 extension AllEventsViewController: UITableViewDataSource {
@@ -131,13 +139,24 @@ extension AllEventsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AllEventsTableViewCell.id, for: indexPath)
         guard let cell = cell as? AllEventsTableViewCell else { return cell }
-        cell.label.text = filteredEventsToShowInTable[indexPath.row].title
+        cell.label.text = "\(indexPath.row) \(filteredEventsToShowInTable[indexPath.row].title)"
         return cell
     }
-    
     
 }
 
 extension AllEventsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        if offsetY > contentHeight - scrollView.frame.size.height * multiplierSpaceToStartBatching {
+            if !isNeedToFetchMore && !endOfDataToFetchReached {
+                startToFetch()
+            }
+        }
+    }
 }

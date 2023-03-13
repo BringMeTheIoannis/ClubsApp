@@ -15,6 +15,8 @@ class CreateEventViewController: UIViewController {
         didSet {
             if addedUsers.count > 0 {
                 labelForAddUsersView.text = "Добавьте участников (+\(addedUsers.count))"
+            } else {
+                labelForAddUsersView.text = "Добавьте участников"
             }
         }
     }
