@@ -74,6 +74,8 @@ class AllEventsViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         navigationController?.navigationBar.compactAppearance = navBarAppearance
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.extendedLayoutIncludesOpaqueBars = true
     }
     
     private func tableViewSetup() {
@@ -91,7 +93,8 @@ class AllEventsViewController: UIViewController {
     
     private func doLayout() {
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view)
         }
         
         noDataErrorLabel.snp.makeConstraints { make in
@@ -211,15 +214,13 @@ extension AllEventsViewController: UITableViewDataSource {
         if let firstInvitedPerson {
             let personName = firstInvitedPerson.name
             let invitedUsersCount = allEventsFromDB[indexPath.row].invitedUsers.count
-            var personNameToShow = slicePersonNameBy15CharIfNeeded(name: personName)
-            var quantityTextToShow = participationTextDependsOfQuantity(quantity: invitedUsersCount)
+            let personNameToShow = slicePersonNameBy15CharIfNeeded(name: personName)
+            let quantityTextToShow = participationTextDependsOfQuantity(quantity: invitedUsersCount)
             cell.quantityOfParticipantsLabel.text = ("\(personNameToShow) \(quantityTextToShow)")
         } else {
             cell.quantityOfParticipantsLabel.text = "Участников пока нет"
         }
-        
         cell.dateLabel.text = dateFormatter.string(from: allEventsFromDB[indexPath.row].date)
-        
         return cell
     }
     

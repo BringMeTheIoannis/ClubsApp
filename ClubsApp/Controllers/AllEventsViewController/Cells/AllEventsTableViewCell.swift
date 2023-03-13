@@ -29,6 +29,7 @@ class AllEventsTableViewCell: UITableViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 2
         label.font = .systemFont(ofSize: 17, weight: .semibold)
         return label
     }()
