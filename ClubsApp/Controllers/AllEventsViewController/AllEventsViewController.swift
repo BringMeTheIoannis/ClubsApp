@@ -106,31 +106,30 @@ class AllEventsViewController: UIViewController {
     
     private func getEvents(isInitCall: Bool = false) {
         let dbManager = DatabaseManager()
-        if isRefreshControlActive {
-            return
-        }
         if isInitCall {
-            activityIndicator.startAnimating()
+            if !isRefreshControlActive {
+                activityIndicator.startAnimating()
+            }
             endOfDataToFetchReached = false
-            isRefreshControlActive = true
             queryDocuments.removeAll()
-            allEventsFromDB.removeAll()
         }
         noDataErrorLabel.isHidden = true
         
         dbManager.getAllEvents(eventsDocumentSnapshots: queryDocuments) {[weak self] eventsArray in
             guard let self else { return }
             self.isNeedToFetchMore = false
-            self.isRefreshControlActive = false
             self.endOfDataToFetchReached = eventsArray.count == 0
-            self.allEventsFromDB += eventsArray
-            self.tableView.reloadData()
             if isInitCall {
+                self.allEventsFromDB = eventsArray
                 self.activityIndicator.stopAnimating()
+                
+            } else {
+                self.allEventsFromDB += eventsArray
             }
-            
             self.tableView.tableFooterView = nil
             self.refreshControl.endRefreshing()
+            self.tableView.reloadData()
+            self.isRefreshControlActive = false
         } failure: {[weak self] error in
             guard let self else { return }
             self.isNeedToFetchMore = false
@@ -148,6 +147,10 @@ class AllEventsViewController: UIViewController {
     }
     
     @objc private func callGetEvents(sender: UIRefreshControl) {
+        if isRefreshControlActive {
+            return
+        }
+        isRefreshControlActive = true
         getEvents(isInitCall: true)
     }
     
