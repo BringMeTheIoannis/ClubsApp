@@ -174,6 +174,21 @@ class AllEventsViewController: UIViewController {
         return footerView
     }
     
+    private func slicePersonNameBy15CharIfNeeded(name: String) -> String {
+        if name.count > 15 {
+            return String(name.prefix(15))
+        } else {
+            return name
+        }
+    }
+    
+    private func participationTextDependsOfQuantity(quantity: Int) -> String {
+        if quantity == 1 {
+            return "учавствует"
+        } else {
+            return "+ \(quantity - 1) участников(-а)"
+        }
+    }
 }
 
 extension AllEventsViewController: UITableViewDataSource {
@@ -184,7 +199,27 @@ extension AllEventsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AllEventsTableViewCell.id, for: indexPath)
         guard let cell = cell as? AllEventsTableViewCell else { return cell }
-        cell.label.text = "\(indexPath.row) \(allEventsFromDB[indexPath.row].title)"
+        let firstInvitedPerson = allEventsFromDB[indexPath.row].invitedUsers.first
+        let firstUserColor = UIColor(hex: firstInvitedPerson?.imageColor ?? "")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy HH:mm"
+        
+        cell.eventEmojiLabel.text = allEventsFromDB[indexPath.row].picture
+        cell.titleLabel.text = allEventsFromDB[indexPath.row].title
+        cell.participantImageView.backgroundColor = firstUserColor ?? .white
+        cell.firstCharOnImageLabel.text = String(firstInvitedPerson?.name.prefix(1) as? Substring ?? "")
+        if let firstInvitedPerson {
+            let personName = firstInvitedPerson.name
+            let invitedUsersCount = allEventsFromDB[indexPath.row].invitedUsers.count
+            var personNameToShow = slicePersonNameBy15CharIfNeeded(name: personName)
+            var quantityTextToShow = participationTextDependsOfQuantity(quantity: invitedUsersCount)
+            cell.quantityOfParticipantsLabel.text = ("\(personNameToShow) \(quantityTextToShow)")
+        } else {
+            cell.quantityOfParticipantsLabel.text = "Участников пока нет"
+        }
+        
+        cell.dateLabel.text = dateFormatter.string(from: allEventsFromDB[indexPath.row].date)
+        
         return cell
     }
     
@@ -205,4 +240,5 @@ extension AllEventsViewController: UITableViewDelegate {
             }
         }
     }
+    
 }

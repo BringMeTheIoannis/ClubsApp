@@ -262,7 +262,6 @@ class CreateEventViewController: UIViewController {
     
     var emojiStringLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
         label.font = UIFont(name: "Apple color emoji", size: 30)
         label.textAlignment = .center
         return label
