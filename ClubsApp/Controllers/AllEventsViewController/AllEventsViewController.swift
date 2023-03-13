@@ -33,6 +33,7 @@ class AllEventsViewController: UIViewController {
     
     var noDataErrorLabel: UILabel = {
         let label = UILabel()
+        label.backgroundColor = .white
         label.numberOfLines = 0
         label.text = "Пока что тут пусто"
         label.isHidden = true
@@ -54,7 +55,7 @@ class AllEventsViewController: UIViewController {
         addSubviews()
         doLayout()
         tableViewSetup()
-        getEvents()
+        getEvents(isInitCall: true)
     }
     
     private func controllerSetup() {
@@ -99,11 +100,13 @@ class AllEventsViewController: UIViewController {
         }
     }
     
-    private func getEvents() {
+    private func getEvents(isInitCall: Bool = false) {
         let dbManager = DatabaseManager()
-        activityIndicator.startAnimating()
+        if isInitCall {
+            activityIndicator.startAnimating()
+        }
         noDataErrorLabel.isHidden = true
-
+        
         dbManager.getAllEvents(eventsDocumentSnapshots: queryDocuments) {[weak self] eventsArray in
             guard let self else { return }
             self.isNeedToFetchMore = false
@@ -111,11 +114,17 @@ class AllEventsViewController: UIViewController {
             self.allEventsFromDB.append(contentsOf: eventsArray)
             self.filteredEventsToShowInTable.append(contentsOf: eventsArray)
             self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
+            if isInitCall {
+                self.activityIndicator.stopAnimating()
+            }
+            self.tableView.tableFooterView = nil
         } failure: {[weak self] error in
             guard let self else { return }
             self.isNeedToFetchMore = false
-            self.activityIndicator.stopAnimating()
+            if isInitCall {
+                self.activityIndicator.stopAnimating()
+            }
+            self.tableView.tableFooterView = nil
             self.noDataErrorLabel.isHidden = false
             self.noDataErrorLabel.text = error
         } querySnapshotForPagination: { [weak self] documentsArray in
@@ -127,6 +136,16 @@ class AllEventsViewController: UIViewController {
     private func startToFetch() {
         isNeedToFetchMore = true
         getEvents()
+    }
+    
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+        let inCellActivityIndicator = UIActivityIndicatorView()
+        footerView.addSubview(inCellActivityIndicator)
+        inCellActivityIndicator.snp.makeConstraints { make in
+            make.center.equalTo(footerView.snp.center)
+        }
+        return footerView
     }
     
 }
@@ -155,6 +174,7 @@ extension AllEventsViewController: UITableViewDelegate {
         let contentHeight = scrollView.contentSize.height
         if offsetY > contentHeight - scrollView.frame.size.height * multiplierSpaceToStartBatching {
             if !isNeedToFetchMore && !endOfDataToFetchReached {
+                tableView.tableFooterView = createSpinnerFooter()
                 startToFetch()
             }
         }

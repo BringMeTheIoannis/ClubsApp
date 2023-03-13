@@ -98,6 +98,7 @@ class DatabaseManager {
     func getAllEvents(eventsDocumentSnapshots: [DocumentSnapshot], success: (([EventModel]) -> Void)?, failure: ((String?) -> Void)?, querySnapshotForPagination: (([DocumentSnapshot]) -> Void)?) {
         let startOfAccessDate = Calendar.current.startOfDay(for: Date.now)
         var querySetup = database.collection("events").whereField("date", isGreaterThanOrEqualTo: startOfAccessDate).whereField("isClosedEvent", isEqualTo: false).order(by: "date", descending: true).limit(to: 20)
+        
         if eventsDocumentSnapshots.count == 0 {
             querySetup = database.collection("events").whereField("date", isGreaterThanOrEqualTo: startOfAccessDate).whereField("isClosedEvent", isEqualTo: false).order(by: "date", descending: true).limit(to: 20)
         } else {
@@ -105,7 +106,6 @@ class DatabaseManager {
             guard let lastEventInArray else { return }
             querySetup = database.collection("events").whereField("date", isGreaterThanOrEqualTo: startOfAccessDate).whereField("isClosedEvent", isEqualTo: false).order(by: "date", descending: true).start(afterDocument: lastEventInArray).limit(to: 20)
         }
-        
         
         querySetup.getDocuments { querySnapshot, error in
             guard let querySnapshot, error == nil else {
