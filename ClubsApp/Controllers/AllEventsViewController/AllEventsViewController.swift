@@ -13,18 +13,14 @@ class AllEventsViewController: UIViewController {
     
     var isNeedToFetchMore: Bool = false
     var endOfDataToFetchReached: Bool = false
+    var isRefreshControlActive: Bool = false
     let multiplierSpaceToStartBatching: CGFloat = 1.0
-    
-    
     var allEventsFromDB = [EventModel]() {
         didSet {
             allEventsFromDB.count == 0 ? (noDataErrorLabel.isHidden = false) : (noDataErrorLabel.isHidden = true)
         }
     }
-    
     var queryDocuments = [DocumentSnapshot]()
-    
-    var filteredEventsToShowInTable = [EventModel]()
     
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -47,6 +43,12 @@ class AllEventsViewController: UIViewController {
         indicator.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
         indicator.hidesWhenStopped = true
         return indicator
+    }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(callGetEvents(sender:)), for: .valueChanged)
+        return refreshControl
     }()
     
     override func viewDidLoad() {
@@ -77,6 +79,7 @@ class AllEventsViewController: UIViewController {
     private func tableViewSetup() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = refreshControl
         tableView.register(AllEventsTableViewCell.self, forCellReuseIdentifier: AllEventsTableViewCell.id)
     }
     
@@ -92,7 +95,8 @@ class AllEventsViewController: UIViewController {
         }
         
         noDataErrorLabel.snp.makeConstraints { make in
-            make.center.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(10)
+            make.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
         }
         
         activityIndicator.snp.makeConstraints { make in
@@ -102,25 +106,35 @@ class AllEventsViewController: UIViewController {
     
     private func getEvents(isInitCall: Bool = false) {
         let dbManager = DatabaseManager()
+        if isRefreshControlActive {
+            return
+        }
         if isInitCall {
             activityIndicator.startAnimating()
+            endOfDataToFetchReached = false
+            isRefreshControlActive = true
+            queryDocuments.removeAll()
+            allEventsFromDB.removeAll()
         }
         noDataErrorLabel.isHidden = true
         
         dbManager.getAllEvents(eventsDocumentSnapshots: queryDocuments) {[weak self] eventsArray in
             guard let self else { return }
             self.isNeedToFetchMore = false
+            self.isRefreshControlActive = false
             self.endOfDataToFetchReached = eventsArray.count == 0
-            self.allEventsFromDB.append(contentsOf: eventsArray)
-            self.filteredEventsToShowInTable.append(contentsOf: eventsArray)
+            self.allEventsFromDB += eventsArray
             self.tableView.reloadData()
             if isInitCall {
                 self.activityIndicator.stopAnimating()
             }
+            
             self.tableView.tableFooterView = nil
+            self.refreshControl.endRefreshing()
         } failure: {[weak self] error in
             guard let self else { return }
             self.isNeedToFetchMore = false
+            self.isRefreshControlActive = false
             if isInitCall {
                 self.activityIndicator.stopAnimating()
             }
@@ -133,6 +147,10 @@ class AllEventsViewController: UIViewController {
         }
     }
     
+    @objc private func callGetEvents(sender: UIRefreshControl) {
+        getEvents(isInitCall: true)
+    }
+    
     private func startToFetch() {
         isNeedToFetchMore = true
         getEvents()
@@ -141,10 +159,15 @@ class AllEventsViewController: UIViewController {
     private func createSpinnerFooter() -> UIView {
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
         let inCellActivityIndicator = UIActivityIndicatorView()
+        inCellActivityIndicator.tintColor = UIColor(red: 0.498, green: 0.02, blue: 0.976, alpha: 1)
+        inCellActivityIndicator.hidesWhenStopped = true
+        
         footerView.addSubview(inCellActivityIndicator)
         inCellActivityIndicator.snp.makeConstraints { make in
             make.center.equalTo(footerView.snp.center)
         }
+        
+        inCellActivityIndicator.startAnimating()
         return footerView
     }
     
@@ -152,13 +175,13 @@ class AllEventsViewController: UIViewController {
 
 extension AllEventsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredEventsToShowInTable.count
+        return allEventsFromDB.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: AllEventsTableViewCell.id, for: indexPath)
         guard let cell = cell as? AllEventsTableViewCell else { return cell }
-        cell.label.text = "\(indexPath.row) \(filteredEventsToShowInTable[indexPath.row].title)"
+        cell.label.text = "\(indexPath.row) \(allEventsFromDB[indexPath.row].title)"
         return cell
     }
     
