@@ -15,18 +15,14 @@ class CreateEventViewController: UIViewController {
         didSet {
             if addedUsers.count > 0 {
                 labelForAddUsersView.text = "Добавьте участников (+\(addedUsers.count))"
+            } else {
+                labelForAddUsersView.text = "Добавьте участников"
             }
         }
     }
     var isClosedEvent: Bool = false
     lazy var navBar: UINavigationBar? = self.navigationController?.navigationBar
     var eventDate: Date = Date()
-    
-    var topColorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0.94, green: 0.91, blue: 0.971, alpha: 1)
-        return view
-    }()
     
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -266,7 +262,6 @@ class CreateEventViewController: UIViewController {
     
     var emojiStringLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
         label.font = UIFont(name: "Apple color emoji", size: 30)
         label.textAlignment = .center
         return label
@@ -348,6 +343,17 @@ class CreateEventViewController: UIViewController {
     private func controllerSetup() {
         view.backgroundColor = .white
         title = "Создать"
+        navBarSetup()
+    }
+    
+    private func navBarSetup() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = UIColor(red: 0.94, green: 0.91, blue: 0.971, alpha: 1)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.compactAppearance = navBarAppearance
     }
     
     private func setupDelegates() {
@@ -357,7 +363,6 @@ class CreateEventViewController: UIViewController {
     }
     
     private func addSubviews() {
-        view.addSubview(topColorView)
         view.addSubview(scrollView)
         scrollView.addSubview(scrollViewContentContainer)
         navBar?.addSubview(closeControllerImageView)
@@ -391,11 +396,6 @@ class CreateEventViewController: UIViewController {
                 make.trailing.equalToSuperview().inset(16)
                 make.bottom.equalToSuperview().inset(16)
             }
-        }
-        
-        topColorView.snp.makeConstraints { make in
-            make.leading.trailing.top.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
 
         scrollView.snp.makeConstraints { make in
